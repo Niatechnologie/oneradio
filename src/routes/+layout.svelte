@@ -1017,7 +1017,7 @@
 <nav id="navbar" class="navbar">
   <a href="/" id="logo_bureau"><img  style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
   <div class="menu-desktop">
-    <a class:active={isActiveRoute('/news')} href="/news">Live <i class="bi bi-movie"></i></a>
+    <a class:active={isActiveRoute('/news')} href="/news"><i class="bi bi-play-btn-fill"></i> Live</a>
     <a class:active={isActiveRoute('/podcasts')}  href="/podcasts">Podcasts</a>
        <a class:active={isActiveRoute('/webradio')}  href="/webradio">web Radios</a>
 
