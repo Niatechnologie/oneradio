@@ -40,7 +40,7 @@ function getAbbreviatedDay(day) {
 }
 </script>
 <svelte:head>
-  <title>Radio Treichville - Programme</title>
+  <title>One Radio - Emissions</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </svelte:head>
@@ -49,16 +49,16 @@ function getAbbreviatedDay(day) {
     <!-- Header -->
     <header style="background:#fff !important;" class="header">
       <div class="header-content">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#03800a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="radio-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="radio-icon">
           <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path>
           <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.4"></path>
           <circle cx="12" cy="12" r="2"></circle>
           <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4"></path>
           <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path>
         </svg>
-        <h1>Programme</h1>
+        <h1>Emissions</h1>
       </div>
-      <p>Guide de programme hebdomadaire</p>
+      <p>Guide des Emissions hebdomadaires</p>
     </header>
   
     <!-- Day Navigation -->

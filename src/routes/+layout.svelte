@@ -1023,8 +1023,8 @@
 
     <a class="logo" href="/" id="logo"><img style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
     <a class:active={isActiveRoute('/events')} href="/events">Events</a>
-    <a class:active={isActiveRoute('/programme')} href="/programme">Programmes</a>
-    <a class:active={isActiveRoute('/parieur')} href="/parieur">Super parieur</a>
+    <a class:active={isActiveRoute('/programme')} href="/programme">Nos Emissions</a>
+    <a class:active={isActiveRoute('/parieur')} href="/parieur">Super Parieur</a>
 
   </div>
    <div class="bars" id="bars">
