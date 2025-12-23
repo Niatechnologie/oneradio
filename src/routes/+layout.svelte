@@ -789,7 +789,7 @@
 
   .volume-fill {
     height: 100%;
-    background-color: #ff7f2a;
+    background-color: #ff2a2a;
     width: 100%; /* This will be set dynamically based on volume */
     transition: width 0.2s ease;
   }
@@ -829,7 +829,7 @@
 
   .equalizer-bar {
     width: 3px;
-    background-color: #ff7f2a;
+    background-color: #ff2a2a;
     margin: 0 1px;
     height: 30%;
     animation-duration: 0.8s;
@@ -895,9 +895,9 @@
   .buffer-spinner {
     width: 45px;
     height: 45px;
-    border: 4px solid rgba(255, 127, 42, 0.3);
+    border: 4px solid rgba(255, 42, 42, 0.3);
     border-radius: 50%;
-    border-top-color: #ff7f2a;
+    border-top-color: #ff2a2a;
     animation: spin 1s linear infinite;
 	/* position: absolute; */
 	top: 50px;
@@ -910,7 +910,7 @@
     top: -18px;
     left: -5px;
     font-size: 10px;
-    color: #ff7f2a;
+    color: #ff2a2a;
     white-space: nowrap;
   }
   
@@ -930,9 +930,9 @@
 		width: 100%;
     margin-top: 100px;
 		height: 40px;
-		background: #16213e;
-		border-top: 3px solid #0f3460;
-		border-bottom: 3px solid #e94560;
+		background: #000000;
+		border-top: 3px solid #000000;
+		border-bottom: 3px solid #ff2222;
 		overflow: hidden;
 		position: relative;
 	}
