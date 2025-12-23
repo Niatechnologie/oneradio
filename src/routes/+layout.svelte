@@ -1071,9 +1071,9 @@
   <div class="player-left">
     <img src="{freq}" alt="Current Song" class="current-song-image">
     <div class="current-song-info">
-      <span class="song-title">Radio Treichville</span>
+      <span class="song-title">One Radio</span>
       <!-- svelte-ignore a11y_distracting_elements -->
-      <span class="song-artist"><marquee scrollamount="3">Le passé toujours présent</marquee></span>
+      <span class="song-artist"><marquee scrollamount="3">One People, One Radio</marquee></span>
     </div>
   </div>
   
