@@ -1017,7 +1017,7 @@
 <nav id="navbar" class="navbar">
   <a href="/" id="logo_bureau"><img  style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
   <div class="menu-desktop">
-    <a class:active={isActiveRoute('/news')} href="/news">Live <i class="fa fa-movie"></i></a>
+    <a class:active={isActiveRoute('/news')} href="/news">Live <i class="bi bi-movie"></i></a>
     <a class:active={isActiveRoute('/podcasts')}  href="/podcasts">Podcasts</a>
        <a class:active={isActiveRoute('/webradio')}  href="/webradio">web Radios</a>
 
@@ -1046,7 +1046,7 @@
 </div>
   <div class="menu-mobile">
   <a href="/" id="logo"><img  style="border-radius: 10px;"width="190" src="{logo}" alt=""></a>
-  <a href="/news">Actualités <i class="bi bi-chevron-right"></i></a>
+  <a href="/news">Live <i class="bi bi-chevron-right"></i></a>
   <a href="/podcasts">Podcasts <i class="bi bi-chevron-right"></i></a>
   <a target="_blank" href="https://www.mairietreichville.com">Mairie de Treichville <i class="bi bi-box-arrow-up-right"></i></a>
   <a href="/events">Events <i class="bi bi-chevron-right"></i></a>
