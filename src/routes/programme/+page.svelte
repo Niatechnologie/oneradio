@@ -201,7 +201,7 @@ function getAbbreviatedDay(day) {
     .tab-button.active {
       color: #fff;
       font-weight: 600;
-      background: #ff7f2a;
+      background: #ff2a2a;
     }
   
     /* Programs styles */
