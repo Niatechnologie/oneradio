@@ -17,7 +17,7 @@
    */
 
   /** @type {Props} */
-  let { src = "https://oneradioweb.oneradio.ci/radiotreich", title = "Audio Player", children } = $props();
+  let { src = "https://oneradioweb.oneradio.ci/streamone", title = "Audio Player", children } = $props();
    
     // Variables pour gérer les transitions
     let currentKey = $state(null);
