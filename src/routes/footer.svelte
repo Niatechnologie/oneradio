@@ -91,7 +91,7 @@
       bottom: -0.5rem;
       width: 50px;
       height: 2px;
-      background-color: #ff8119;
+      background-color: #ff1919;
     }
     
     .contact-info p {
@@ -103,7 +103,7 @@
     
     .contact-info i {
       font-size: 1.2rem;
-      color: #ff8119;
+      color: #ff1919;
     }
     
     ul {
@@ -116,7 +116,7 @@
     
     ul li i {
       margin-right: 0.5rem;
-      color: #ff8119;
+      color: #ff1919;
     }
     
     a {
@@ -150,7 +150,7 @@
     }
     
     .social-link:hover {
-      background-color: #ff8119;
+      background-color: #ff1919;
       color: white;
     }
     
