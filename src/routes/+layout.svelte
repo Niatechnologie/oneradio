@@ -623,7 +623,7 @@
 
     .navbar.scrolled {
         padding: 0.5rem 0;
-        background: rgba(0, 131, 83, 0.98) !important;
+        background: rgba(8, 10, 9, 0.98) !important;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
@@ -660,14 +660,14 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgb(41, 180, 20), #18630c);
+              background: linear-gradient(45deg, rgb(0, 0, 0), #3a0404);
             transition: left 0.3s ease;
             z-index: -1;
             border-radius: 25px;
         }
          .active {
            
-            background: linear-gradient(45deg, rgb(41, 180, 20), #18630c);
+            background: linear-gradient(45deg, rgb(0, 0, 0), #3a0404);
             transition: left 0.3s ease;
       
         }
