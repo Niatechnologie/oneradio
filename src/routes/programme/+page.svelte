@@ -83,6 +83,9 @@ function getAbbreviatedDay(day) {
         {#each scheduleData[selectedDay] as program}
           <div class="program-card">
             <div class="program-content">
+              <div class="pochette">
+                <img src="https://adminradio.oneradio.ci/emissions/{program.photo}"  alt={program.designation} width="100" height="100" style="border-radius: 0.5rem;">
+              </div>
               <div class="program-info">
                 <h3 class="program-title">{program.designation}</h3>
                 <p class="program-host">Par {program.presentateur}</p>
