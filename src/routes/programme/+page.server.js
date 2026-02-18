@@ -3,7 +3,7 @@ export async function load({ fetch, params }) {
     try {
        
       // Appel à l'API pour récupérer les détails du produit
-      const response = await fetch(`https://adminradio.oneradio.ci/radio_one/programme.php`);
+      const response = await fetch(`https://adminradio.oneradio.ci/radio_one/programmes.php`);
       
       if (!response.ok) {
         if (response.status === 404) {
