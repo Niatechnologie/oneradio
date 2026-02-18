@@ -88,11 +88,8 @@ function getAbbreviatedDay(day) {
               </div>
               <div class="program-info">
                 <h3 class="program-title">{program.designation}</h3>
-                <p class="program-host">Par {program.presentateur}</p>
-                <div class="program-type">
-                  {@html icons[program.categorie]}
-                  <span>{program.categorie}</span>
-                </div>
+                <p class="program-host">Par {program.presentateur} | <span class="program-type">{@html icons[program.categorie]}  <span>{program.categorie}</span></span></p>
+                
                 <p class="program-description">{@html program.description}</p>
               </div>
               <div class="program-time">
@@ -110,7 +107,7 @@ function getAbbreviatedDay(day) {
     /* Base styles */
     :root {
       --color-indigo-50: #eef2ff;
-      --color-indigo-600: #4f46e5;
+      --color-indigo-600: #ff0000;
       --color-purple-50: #faf5ff;
       --color-gray-500: #6b7280;
       --color-gray-600: #4b5563;
