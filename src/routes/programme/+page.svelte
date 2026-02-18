@@ -258,10 +258,7 @@ function getAbbreviatedDay(day) {
     }
   
     .program-type {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
+        margin-bottom: 0.75rem;
     }
   
     .program-type :global(svg) {
