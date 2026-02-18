@@ -302,8 +302,8 @@ function getAbbreviatedDay(day) {
     }
   
     .program-time span {
-      font-size: 0.875rem;
+      font-size: 1.875rem;
       font-weight: 500;
-      color: #6f7278;
+      color: #343538;
     }
   </style>
