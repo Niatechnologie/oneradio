@@ -15,7 +15,7 @@
 	const pochettePath = $derived(
 		radio.repertoire 
 			? `pochettes/${radio.repertoire}/${radio.pochette}` 
-			: `pochettes/${radio.pochette}`
+			: `https://oneradiomobile.oneradio.ci/image/${radio.pochette}`
 	);
 
 	// Configuration des événements audio
