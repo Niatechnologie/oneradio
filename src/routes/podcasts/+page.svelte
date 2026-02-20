@@ -20,10 +20,9 @@
     
     try {
       // Récupération parallèle des données
-      const timestamp = Date.now();
       const [paginatedResponse, allNewsResponse] = await Promise.all([
-        fetch(`https://adminradio.oneradio.ci/radio_one/podcasts.php?page=${currentPage}&limit=${itemsPerPage}&_t=${timestamp}`, { cache: 'no-store' }),
-        fetch(`https://adminradio.oneradio.ci/radio_one/allpodcasts.php?_t=${timestamp}`, { cache: 'no-store' })
+        fetch(`https://adminradio.oneradio.ci/radio_one/podcasts.php?page=${currentPage}&limit=${itemsPerPage}`),
+        fetch(`https://adminradio.oneradio.ci/radio_one/allpodcasts.php`)
       ]);
 
       if (!paginatedResponse.ok) {
@@ -90,12 +89,12 @@
                 {#each podcasts as podcast}
                     <div class="podcast-card" data-id={podcast.id}>
                         <div class="podcast-image-container">
-                           <a href="/podcasts/{podcast.id}">
-                            <img src="https://adminradio.oneradio.ci/podcasts/img/{podcast.photo}" alt={podcast.designation} class="podcast-image">
+                           <a href="/podcasts/{podcast.idscat}">
+                            <img src="https://adminradio.oneradio.ci/podcasts/img/{podcast.photo}" alt={podcast.categorie} class="podcast-image">
                             </a> 
                         </div>
                         <div class="podcast-content">
-                            <h3 class="podcast-title">{podcast.designation}</h3>
+                            <h3 class="podcast-title">{podcast.categorie}</h3>
                             <!-- <p class="podcast-host">Animé par {podcast.host}</p> -->
                             <div class="podcast-meta">
                                 <span class="duration">
@@ -104,9 +103,9 @@
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <polyline points="12 6 12 12 16 14"></polyline>
                                     </svg>
-                                    {podcast.duration}
+                                    {podcast.date_emission}
                                 </span>
-                                <span class="category">{podcast.category}</span>
+                                <span class="category">{podcast.titre}</span>
                             </div>
                         </div>
                     </div>
