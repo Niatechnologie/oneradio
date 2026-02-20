@@ -123,6 +123,35 @@
     carouselRef.style.transform = `translateX(${carouselPosition}px)`;
   }
 
+  // Lightbox
+  let lightboxOpen = $state(false);
+  let lightboxIndex = $state(0);
+
+  function openLightbox(index) {
+    // Map back to original artist index (since duplicatedArtists repeats)
+    lightboxIndex = index % artists.length;
+    lightboxOpen = true;
+  }
+
+  function closeLightbox() {
+    lightboxOpen = false;
+  }
+
+  function lightboxPrev() {
+    lightboxIndex = (lightboxIndex - 1 + artists.length) % artists.length;
+  }
+
+  function lightboxNext() {
+    lightboxIndex = (lightboxIndex + 1) % artists.length;
+  }
+
+  function handleLightboxKeydown(e) {
+    if (!lightboxOpen) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lightboxPrev();
+    if (e.key === 'ArrowRight') lightboxNext();
+  }
+
   // Autoplay
   let autoplayInterval;
   function startAutoplaySel() {
@@ -378,6 +407,8 @@
 
 </script>
 
+<svelte:window onkeydown={handleLightboxKeydown} />
+
 <svelte:head>
   <title>One radio - Bienvenue</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -432,6 +463,10 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }
 
+  .artist-card:hover .zoom-btn {
+    opacity: 1;
+  }
+
   .artist-image {
     display: block;
     width: 100%;
@@ -439,7 +474,126 @@
     object-fit: contain;
   }
 
- 
+  .zoom-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.55);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+  }
+
+  .zoom-btn:hover {
+    background: rgba(255, 0, 0, 0.8);
+  }
+
+  /* Lightbox */
+  .lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-img {
+    max-width: 85vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 8px;
+    user-select: none;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: -10px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 36px;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 10001;
+    transition: color 0.2s;
+  }
+
+  .lightbox-close:hover {
+    color: #ff0000;
+  }
+
+  .lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10001;
+  }
+
+  .lightbox-arrow:hover {
+    background: rgba(255, 0, 0, 0.7);
+  }
+
+  .lightbox-arrow-left {
+    left: -60px;
+  }
+
+  .lightbox-arrow-right {
+    right: -60px;
+  }
+
+  .lightbox-counter {
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .lightbox-arrow-left {
+      left: 5px;
+    }
+    .lightbox-arrow-right {
+      right: 5px;
+    }
+    .lightbox-close {
+      top: -35px;
+      right: 0;
+    }
+  }
 
   .carousel-button {
     position: absolute;
@@ -891,10 +1045,15 @@
             <p style="color:red;">{error_artists}</p>
           </div>
         {:else}
-          {#each duplicatedArtists as artist}
+          {#each duplicatedArtists as artist, i}
             <div class="carousel-item">
               <div class="artist-card">
                 <img src={artist.image} alt="Artiste {artist.id}" class="artist-image" />
+                <button class="zoom-btn" onclick={() => openLightbox(i)} aria-label="Zoomer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+                  </svg>
+                </button>
               </div>
             </div>
           {/each}
@@ -1032,6 +1191,25 @@
     </div>
   </div>
 </div>
+{#if lightboxOpen}
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="lightbox-overlay" onclick={closeLightbox} onkeydown={handleLightboxKeydown}>
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <div class="lightbox-content" onclick={(e) => e.stopPropagation()}>
+    <button class="lightbox-close" onclick={closeLightbox} aria-label="Fermer">&times;</button>
+    <button class="lightbox-arrow lightbox-arrow-left" onclick={lightboxPrev} aria-label="Précédent">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <img src={artists[lightboxIndex]?.image} alt="Artiste {artists[lightboxIndex]?.id}" class="lightbox-img" />
+    <button class="lightbox-arrow lightbox-arrow-right" onclick={lightboxNext} aria-label="Suivant">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+    <div class="lightbox-counter">{lightboxIndex + 1} / {artists.length}</div>
+  </div>
+</div>
+{/if}
+
 <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
