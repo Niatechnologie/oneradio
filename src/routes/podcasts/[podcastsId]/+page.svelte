@@ -498,7 +498,7 @@ import Pagination from "../../pagination.svelte";
         <div class="status-indicator"></div>
         <div class="track-number">{index + 1}</div>
         <div class="track-cover">
-          <img src="https://adminradio.oneradio.ci/podcasts/img/{track.photo}" alt={track.titre} class="track-cover-img" />
+          <img src="https://adminradio.oneradio.ci/podcasts/{track.photo}" alt={track.titre} class="track-cover-img" />
         </div>
         <div class="track-info">
           <div class="track-title">{track.titre}</div>

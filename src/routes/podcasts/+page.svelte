@@ -90,7 +90,7 @@
                     <div class="podcast-card" data-id={podcast.id}>
                         <div class="podcast-image-container">
                            <a href="/podcasts/{podcast.idscat}">
-                            <img src="https://adminradio.oneradio.ci/podcasts/img/{podcast.photo}" alt={podcast.categorie} class="podcast-image">
+                            <img src="https://adminradio.oneradio.ci/podcasts/{podcast.photo}" alt={podcast.categorie} class="podcast-image">
                             </a> 
                         </div>
                         <div class="podcast-content">
