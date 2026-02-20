@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   
   import pub1 from "$lib/img/pubspa.jpg";
-  import pubradio from "$lib/img/pub-radio.gif";
+  // import pubradio from "$lib/img/pub-radio.gif";
   import  "$lib/style_news.css";
   import  "$lib/style_events.css";
   
@@ -1000,9 +1000,9 @@
 
 <main class="main-content">
 <div style="padding-top:20px" class="container">
-<div style="text-align: center;">
+<!-- <div style="text-align: center;">
   <img style="width:min(750px,100%);" src="{pubradio}" alt="pubrdio">
-</div>
+</div> -->
   <section class="artists-section">
   
     <div class="section">
