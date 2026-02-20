@@ -335,6 +335,8 @@
             owlScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js';
             owlScript.onload = () => {
                 owlCarouselLoaded = true;
+                // Tenter d'initialiser le carousel maintenant que owl est chargé
+                setTimeout(initCarousel, 100);
             };
             document.head.appendChild(owlScript);
         };
