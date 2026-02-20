@@ -276,7 +276,7 @@ import Pagination from "../../pagination.svelte";
         
         // Recréer l'élément audio en cas d'erreur
         const newAudio = new Audio();
-        newAudio.src = `https://adminradio.oneradio.ci/podcasts/${playlist[index].lien}`;
+        newAudio.src = `https://admin.radiotreichville.ci/podcasts/${playlist[index].lien}`;
         audioElements[index] = newAudio;
         setupAudioElement(newAudio, index);
       }
@@ -422,7 +422,7 @@ import Pagination from "../../pagination.svelte";
       } else {
         // Créer un nouvel élément audio
         const audio = new Audio();
-        audio.src = `https://adminradio.oneradio.ci/podcasts/${track.lien}`;
+        audio.src = `https://admin.radiotreichville.ci/podcasts/${track.lien}`;
         audioElements[index] = audio;
         setupAudioElement(audio, index);
       }
@@ -470,7 +470,7 @@ import Pagination from "../../pagination.svelte";
 </script>
 
 <svelte:head>
-  <title>Oneradio - Podcasts</title>
+  <title>Radio Treichville - Podcasts</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
 </svelte:head>
@@ -497,12 +497,9 @@ import Pagination from "../../pagination.svelte";
       >
         <div class="status-indicator"></div>
         <div class="track-number">{index + 1}</div>
-        <div class="track-cover">
-          <img src="https://adminradio.oneradio.ci/podcasts/{track.photo}" alt={track.titre} class="track-cover-img" />
-        </div>
         <div class="track-info">
           <div class="track-title">{track.titre}</div>
-          <div class="track-artist">Emission du {track.date_emission}</div>
+          <div class="track-artist">Emission du {track.datepub}</div>
         </div>
         <div class="audio-controls">
           <div class="time-display">
@@ -631,30 +628,8 @@ import Pagination from "../../pagination.svelte";
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    margin-right: 15px;
+    margin-right: 20px;
     font-size: 1.1em;
-    flex-shrink: 0;
-  }
-
-  .track-cover {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-right: 15px;
-    flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  .track-cover-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .track.playing .track-cover {
-    box-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
   }
 
   .track.playing .track-number {
