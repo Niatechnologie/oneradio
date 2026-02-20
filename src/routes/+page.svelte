@@ -433,39 +433,13 @@
   }
 
   .artist-image {
+    display: block;
     width: 100%;
     height: auto;
     object-fit: contain;
   }
 
-  .artist-info {
-    padding: 20px;
-    position: relative;
-  }
-
-  .artist-name {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 5px;
-    color: #ffffff;
-    position:absolute;
-    top: -40px;
-    left: 10px;
-    z-index: 1000;
-    
-  }
-
-  .artist-genre {
-    color: #666;
-    font-size: 15px;
-    margin-bottom: 10px;
-    font-weight: 700;
-  }
-
-  .artist-listeners {
-    font-size: 14px;
-    color: #555;
-  }
+ 
 
   .carousel-button {
     position: absolute;
