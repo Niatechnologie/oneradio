@@ -20,9 +20,10 @@
     
     try {
       // Récupération parallèle des données
+      const timestamp = Date.now();
       const [paginatedResponse, allNewsResponse] = await Promise.all([
-        fetch(`https://adminradio.oneradio.ci/radio_one/podcasts.php?page=${currentPage}&limit=${itemsPerPage}`),
-        fetch(`https://adminradio.oneradio.ci/radio_one/allpodcasts.php`)
+        fetch(`https://adminradio.oneradio.ci/radio_one/podcasts.php?page=${currentPage}&limit=${itemsPerPage}&_t=${timestamp}`, { cache: 'no-store' }),
+        fetch(`https://adminradio.oneradio.ci/radio_one/allpodcasts.php?_t=${timestamp}`, { cache: 'no-store' })
       ]);
 
       if (!paginatedResponse.ok) {

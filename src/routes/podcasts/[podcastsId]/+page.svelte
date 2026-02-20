@@ -139,9 +139,10 @@ import Pagination from "../../pagination.svelte";
       cleanupLocalAudioElements();
       
       // Récupération parallèle des données
+      const timestamp = Date.now();
       const [paginatedResponse, allNewsResponse] = await Promise.all([
-        fetch(`https://adminradio.oneradio.ci/radio_one/listpodcasts.php?page=${currentPage}&limit=${itemsPerPage}&podcastId=${podcastsId}`),
-        fetch(`https://adminradio.oneradio.ci/radio_one/alllistpodcasts.php?podcastId=${podcastsId}`)
+        fetch(`https://adminradio.oneradio.ci/radio_one/listpodcasts.php?page=${currentPage}&limit=${itemsPerPage}&podcastId=${podcastsId}&_t=${timestamp}`, { cache: 'no-store' }),
+        fetch(`https://adminradio.oneradio.ci/radio_one/alllistpodcasts.php?podcastId=${podcastsId}&_t=${timestamp}`, { cache: 'no-store' })
       ]);
 
       if (!paginatedResponse.ok) {
