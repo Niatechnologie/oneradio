@@ -6,60 +6,32 @@
   import pubradio from "$lib/img/pub-radio.gif";
   import  "$lib/style_news.css";
   import  "$lib/style_events.css";
-  import img1 from '$lib/img/slide1.jpg';
-  import img2 from '$lib/img/slide2.jpg';
-  import img3 from '$lib/img/slide3.jpg';
-  import img4  from '$lib/img/slide4.jpg';
+  
 
   // Données des artistes
   let artists = [
     {
       id: 1,
-      name: "Davido",
-      genre: "R&B/Pop",
-      country: "Nigeria",
-      yearFormed: 2010,
-      monthlyListeners: 98000000,
-      image:
+          image:
         "https://www.afro-impact.com/wp-content/uploads/2023/07/Houston-proclamation-Davido-day-journee-Davido-7-juillet-1024x683.jpg",
     },
     {
       id: 2,
-      name: "Fally Ipupa",
-      genre: "Pop/Country",
-      country: "United States",
-      yearFormed: 2004,
-      monthlyListeners: 94000000,
       image:
         "https://www.strong2kinmoov.com/wp-content/uploads/2022/08/62FBAD86-588D-4153-9AF1-9360971CBDA5.jpeg",
     },
     {
       id: 3,
-      name: "WizKid",
-      genre: "Reggaeton/Latin Trap",
-      country: "Puerto Rico",
-      yearFormed: 2016,
-      monthlyListeners: 86000000,
       image:
         "https://img.freepik.com/vecteurs-premium/musicien-africain-joyeux-joue-du-tambour-jembe-plein-air_1324823-858.jpg?semt=ais_hybrid",
     },
     {
       id: 4,
-      name: "Drake",
-      genre: "Hip-Hop/Rap",
-      country: "Canada",
-      yearFormed: 2006,
-      monthlyListeners: 82000000,
       image:
         "https://i.scdn.co/image/ab6761610000e5eb4293385d324db8558179afd9",
     },
     {
       id: 5,
-      name: "Ariana Grande",
-      genre: "Pop/R&B",
-      country: "United States",
-      yearFormed: 2011,
-      monthlyListeners: 79000000,
       image:
         "https://i.scdn.co/image/ab6761610000e5ebcdce7620dc940db079bf4952",
     },
@@ -78,55 +50,79 @@
 
   // Déplacer vers la diapositive suivante
   function moveToNextSlide() {
-    if (isDragging) return;
+    if (isDragging || !carouselRef) return;
 
-    const itemWidth = carouselRef?.querySelector(".carousel-item")?.offsetWidth || 0;
+    const itemWidth = carouselRef.querySelector(".carousel-item")?.offsetWidth || 0;
+    if (!itemWidth) return;
+
     carouselPosition -= itemWidth;
-    resetCarouselPosition();
+    carouselRef.style.transition = 'transform 0.5s ease';
+    carouselRef.style.transform = `translateX(${carouselPosition}px)`;
+
+    const numItems = artists.length;
+    if (carouselPosition <= -itemWidth * numItems) {
+      setTimeout(() => {
+        if (!carouselRef) return;
+        carouselRef.style.transition = 'none';
+        carouselPosition += itemWidth * numItems;
+        carouselRef.style.transform = `translateX(${carouselPosition}px)`;
+        void carouselRef.offsetHeight; // force reflow
+        carouselRef.style.transition = 'transform 0.5s ease';
+      }, 550);
+    }
   }
 
   // Déplacer vers la diapositive précédente
   function moveToPrevSlide() {
-    if (isDragging) return;
+    if (isDragging || !carouselRef) return;
 
-    const itemWidth = carouselRef?.querySelector(".carousel-item")?.offsetWidth || 0;
-    carouselPosition += itemWidth;
-    resetCarouselPosition();
-  }
+    const itemWidth = carouselRef.querySelector(".carousel-item")?.offsetWidth || 0;
+    if (!itemWidth) return;
 
-  // Réinitialisation de la position du carrousel pour l'infini
-  function resetCarouselPosition() {
-    const itemWidth = carouselRef?.querySelector(".carousel-item")?.offsetWidth || 0;
-    const numItems = artists.length;
-
-    // Si on dépasse la fin des clones, réinitialisez discrètement
-    if (carouselPosition <= -itemWidth * numItems) {
-      carouselPosition += itemWidth * numItems;
-    } else if (carouselPosition >= 0) {
-      carouselPosition -= itemWidth * numItems;
+    // Si on est au début, sauter d'abord à la position des clones (invisible)
+    if (carouselPosition >= 0) {
+      carouselRef.style.transition = 'none';
+      carouselPosition = -itemWidth * artists.length;
+      carouselRef.style.transform = `translateX(${carouselPosition}px)`;
+      void carouselRef.offsetHeight; // force reflow
     }
 
-    // Appliquer la transformation
+    carouselPosition += itemWidth;
+    carouselRef.style.transition = 'transform 0.5s ease';
     carouselRef.style.transform = `translateX(${carouselPosition}px)`;
   }
 
   // Drag and drop
   function setupDragEvents(e) {
     isDragging = true;
-    startX = e.clientX;
+    startX = e.clientX || e.touches?.[0]?.clientX || 0;
     scrollLeft = carouselPosition;
+    if (carouselRef) carouselRef.style.transition = 'none';
   }
 
   function handleMouseMove(e) {
-    if (!isDragging) return;
-    const walk = e.clientX - startX;
-    carouselPosition = scrollLeft - walk;
+    if (!isDragging || !carouselRef) return;
+    const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
+    const walk = clientX - startX;
+    carouselPosition = scrollLeft + walk;
     carouselRef.style.transform = `translateX(${carouselPosition}px)`;
   }
 
   function handleMouseUp() {
+    if (!isDragging || !carouselRef) return;
     isDragging = false;
-    resetCarouselPosition();
+
+    // Snap to the nearest item
+    const itemWidth = carouselRef.querySelector(".carousel-item")?.offsetWidth || 1;
+    carouselPosition = Math.round(carouselPosition / itemWidth) * itemWidth;
+
+    // Clamp within valid range
+    const numItems = artists.length;
+    if (carouselPosition > 0) carouselPosition = 0;
+    if (carouselPosition < -itemWidth * numItems) carouselPosition = -itemWidth * numItems;
+
+    carouselRef.style.transition = 'transform 0.3s ease';
+    carouselRef.style.transform = `translateX(${carouselPosition}px)`;
   }
 
   // Autoplay
@@ -405,7 +401,8 @@
 
   .carousel {
     display: flex;
-    transition: transform 0.5s ease;
+    cursor: grab;
+    user-select: none;
   }
 
   .carousel-item {
@@ -908,11 +905,22 @@
           <path d="m15 18-6-6 6-6" />
         </svg>
       </button>
-      <div class="carousel" bind:this={carouselRef}>
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <div
+        class="carousel"
+        bind:this={carouselRef}
+        onmousedown={setupDragEvents}
+        onmousemove={handleMouseMove}
+        onmouseup={handleMouseUp}
+        onmouseleave={handleMouseUp}
+        ontouchstart={setupDragEvents}
+        ontouchmove={handleMouseMove}
+        ontouchend={handleMouseUp}
+      >
         {#each duplicatedArtists as artist}
           <div class="carousel-item">
             <div class="artist-card">
-              <img src={artist.image} alt={artist.name} class="artist-image" />
+              <img src={artist.image} alt="Artiste {artist.id}" class="artist-image" />
              
             </div>
           </div>
