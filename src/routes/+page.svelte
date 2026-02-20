@@ -9,33 +9,31 @@
   
 
   // Données des artistes
-  let artists = [
-    {
-      id: 1,
-          image:
-        "https://www.afro-impact.com/wp-content/uploads/2023/07/Houston-proclamation-Davido-day-journee-Davido-7-juillet-1024x683.jpg",
-    },
-    {
-      id: 2,
-      image:
-        "https://www.strong2kinmoov.com/wp-content/uploads/2022/08/62FBAD86-588D-4153-9AF1-9360971CBDA5.jpeg",
-    },
-    {
-      id: 3,
-      image:
-        "https://img.freepik.com/vecteurs-premium/musicien-africain-joyeux-joue-du-tambour-jembe-plein-air_1324823-858.jpg?semt=ais_hybrid",
-    },
-    {
-      id: 4,
-      image:
-        "https://i.scdn.co/image/ab6761610000e5eb4293385d324db8558179afd9",
-    },
-    {
-      id: 5,
-      image:
-        "https://i.scdn.co/image/ab6761610000e5ebcdce7620dc940db079bf4952",
-    },
-  ];
+  let artists = $state([]);
+  let isLoading_artists = $state(true);
+  let error_artists = $state(null);
+
+  async function fetchArtists() {
+    try {
+      isLoading_artists = true;
+      error_artists = null;
+      const response = await fetch('https://adminradio.oneradio.ci/radio_one/artistes.php');
+      if (!response.ok) throw new Error('Erreur de chargement des artistes');
+      const data = await response.json();
+      artists = data.map(item => ({
+        id: item.id,
+        image: 'https://adminradio.oneradio.ci/pub/' + item.image,
+      }));
+    } catch (e) {
+      error_artists = e.message || 'Erreur de chargement des artistes';
+    } finally {
+      isLoading_artists = false;
+    }
+  }
+
+  onMount(() => {
+    fetchArtists();
+  });
 
   // État initial
   let carouselPosition = 0;
@@ -917,14 +915,23 @@
         ontouchmove={handleMouseMove}
         ontouchend={handleMouseUp}
       >
-        {#each duplicatedArtists as artist}
-          <div class="carousel-item">
-            <div class="artist-card">
-              <img src={artist.image} alt="Artiste {artist.id}" class="artist-image" />
-             
-            </div>
+        {#if isLoading_artists}
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:40px;">
+            <p>Chargement des artistes...</p>
           </div>
-        {/each}
+        {:else if error_artists}
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:40px;">
+            <p style="color:red;">{error_artists}</p>
+          </div>
+        {:else}
+          {#each duplicatedArtists as artist}
+            <div class="carousel-item">
+              <div class="artist-card">
+                <img src={artist.image} alt="Artiste {artist.id}" class="artist-image" />
+              </div>
+            </div>
+          {/each}
+        {/if}
       </div>
       <button class="carousel-button carousel-next" onclick={moveToNextSlide}>
         <svg
