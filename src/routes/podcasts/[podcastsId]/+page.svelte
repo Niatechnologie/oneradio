@@ -502,7 +502,7 @@ import Pagination from "../../pagination.svelte";
         </div>
         <div class="track-info">
           <div class="track-title">{track.titre}</div>
-          <div class="track-artist">Emission du {track.datepub}</div>
+          <div class="track-artist">Emission du {track.date_emission}</div>
         </div>
         <div class="audio-controls">
           <div class="time-display">
