@@ -404,8 +404,8 @@
   }
 
   .carousel-item {
-    flex: 0 0 25%;
-    min-width: 25%;
+    flex: 0 0 33.33%;
+    min-width: 33.33%;
     padding: 0 10px;
     box-sizing: border-box;
   }
@@ -434,8 +434,8 @@
 
   .artist-image {
     width: 100%;
-    height: 220px;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
   }
 
   .artist-info {
@@ -508,13 +508,6 @@
   }
 
   /* Responsive Design */
-  @media (max-width: 1200px) {
-    .carousel-item {
-      flex: 0 0 33.33%;
-      min-width: 33.33%;
-    }
-  }
-
   @media (max-width: 992px) {
     .carousel-item {
       flex: 0 0 50%;
