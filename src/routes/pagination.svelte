@@ -1,137 +1,95 @@
 <!-- Pagination.svelte -->
 <script>
-  import { createEventDispatcher } from 'svelte';
+  let { 
+    currentPage = 1, 
+    totalItems = 0, 
+    itemsPerPage = 6, 
+    maxVisiblePages = 5, 
+    showInfo = true, 
+    showFirstLast = true,
+    onpageChange = () => {}
+  } = $props();
   
-  // Props
-  export let currentPage = 1;
-  export let totalItems = 0;
-  export let itemsPerPage = 6;
-  export let maxVisiblePages = 5;
-  export let showInfo = true;
-  export let showFirstLast = true;
+  let totalPages = $derived(Math.ceil(totalItems / itemsPerPage));
+  let startItem = $derived((currentPage - 1) * itemsPerPage + 1);
+  let endItem = $derived(Math.min(currentPage * itemsPerPage, totalItems));
   
-  const dispatch = createEventDispatcher();
-  
-  // Calculs
-  $: totalPages = Math.ceil(totalItems / itemsPerPage);
-  $: startItem = (currentPage - 1) * itemsPerPage + 1;
-  $: endItem = Math.min(currentPage * itemsPerPage, totalItems);
-  
-  // Debug - à supprimer après test
-  $: console.log('Pagination debug:', { 
-    currentPage, 
-    totalItems, 
-    itemsPerPage, 
-    totalPages,
-    startItem,
-    endItem
-  });
-  
-  // Calcul des pages visibles
-  $: visiblePages = (() => {
+  let visiblePages = $derived((() => {
     const half = Math.floor(maxVisiblePages / 2);
     let start = Math.max(1, currentPage - half);
     let end = Math.min(totalPages, start + maxVisiblePages - 1);
-    
-    // Ajuster le début si on est près de la fin
     if (end - start + 1 < maxVisiblePages) {
       start = Math.max(1, end - maxVisiblePages + 1);
     }
-    
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  })();
+  })());
   
-  // Fonctions de navigation
   function goToPage(page) {
     if (page >= 1 && page <= totalPages && page !== currentPage) {
-      dispatch('pageChange', { page, itemsPerPage });
+      onpageChange({ detail: { page, itemsPerPage } });
     }
   }
   
-  function previousPage() {
-    goToPage(currentPage - 1);
-  }
-  
-  function nextPage() {
-    goToPage(currentPage + 1);
-  }
-  
-  function firstPage() {
-    goToPage(1);
-  }
-  
-  function lastPage() {
-    goToPage(totalPages);
-  }
+  const previousPage = () => goToPage(currentPage - 1);
+  const nextPage = () => goToPage(currentPage + 1);
+  const firstPage = () => goToPage(1);
+  const lastPage = () => goToPage(totalPages);
 </script>
 
-<!-- Affichage conditionnel modifié -->
 {#if totalItems > 0}
   <div class="pagination">
-    <!-- Informations -->
     {#if showInfo}
       <div class="pagination-info">
         Affichage {startItem} à {endItem} sur {totalItems} éléments
       </div>
     {/if}
     
-    <!-- Navigation - seulement si plus d'une page -->
     {#if totalPages > 1}
       <div class="pagination-nav">
-        <!-- Première page -->
         {#if showFirstLast && currentPage > 1}
-          <!-- svelte-ignore a11y_consider_explicit_label -->
           <button 
             class="pagination-btn" 
-            on:click={firstPage}
+            onclick={firstPage}
             title="Première page"
           >
             <i class="bi bi-chevron-double-left"></i>
           </button>
         {/if}
         
-        <!-- Page précédente -->
-        <!-- svelte-ignore a11y_consider_explicit_label -->
         <button 
           class="pagination-btn" 
-          on:click={previousPage}
+          onclick={previousPage}
           disabled={currentPage === 1}
           title="Page précédente"
         >
           <i class="bi bi-chevron-left"></i>
         </button>
         
-        <!-- Pages visibles -->
         {#each visiblePages as page}
           <button 
             class="pagination-btn {page === currentPage ? 'active' : ''}"
-            on:click={() => goToPage(page)}
+            onclick={() => goToPage(page)}
           >
             {page}
           </button>
         {/each}
         
-        <!-- Page suivante -->
-        <!-- svelte-ignore a11y_consider_explicit_label -->
         <button 
           class="pagination-btn" 
-          on:click={nextPage}
+          onclick={nextPage}
           disabled={currentPage === totalPages}
           title="Page suivante"
         >
-         <i class="bi bi-chevron-right"></i>
+          <i class="bi bi-chevron-right"></i>
         </button>
         
-        <!-- Dernière page -->
         {#if showFirstLast && currentPage < totalPages}
-          <!-- svelte-ignore a11y_consider_explicit_label -->
           <button 
             class="pagination-btn" 
-            on:click={lastPage}
+            onclick={lastPage}
             title="Dernière page"
           >
             <i class="bi bi-chevron-double-right"></i>
-           
           </button>
         {/if}
       </div>
@@ -181,14 +139,14 @@
   }
   
   .pagination-btn.active {
-    background: rgba(0, 152, 48, 0.902);
+    background: rgba(0, 0, 0, 0.9);
     color: white;
-    border-color: rgba(0, 152, 48, 0.902);
+    border-color: rgba(0, 0, 0, 0.9);
   }
   
   .pagination-btn.active:hover {
-    background: rgba(0, 115, 36, 0.902);
-    border-color:  rgba(0, 115, 36, 0.902);
+    background: rgba(255, 0, 0, 0.9);
+    border-color: rgba(255, 0, 0, 0.9);
   }
   
   @media (max-width: 768px) {
