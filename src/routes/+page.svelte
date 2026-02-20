@@ -22,7 +22,7 @@
       const data = await response.json();
       artists = data.map(item => ({
         id: item.id,
-        image: 'https://adminradio.oneradio.ci/pub/' + item.image,
+        image: 'https://adminradio.oneradio.ci/artistes/' + item.image,
       }));
     } catch (e) {
       error_artists = e.message || 'Erreur de chargement des artistes';
