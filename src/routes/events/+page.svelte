@@ -24,8 +24,8 @@
     try {
       // Récupération parallèle des données
       const [paginatedResponse, allNewsResponse] = await Promise.all([
-        fetch(`https://adminradio.oneradio.ci/radio_treich/events.php?page=${currentPage}&limit=${itemsPerPage}`),
-        fetch(`https://adminradio.oneradio.ci/radio_treich/allevents.php`)
+        fetch(`https://adminradio.oneradio.ci/radio_one/events.php?page=${currentPage}&limit=${itemsPerPage}`),
+        fetch(`https://adminradio.oneradio.ci/radio_one/allevents.php`)
       ]);
 
       if (!paginatedResponse.ok) {

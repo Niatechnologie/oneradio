@@ -9,6 +9,7 @@
     import logo from '$lib/img/logo.svg';
     import freq from '$lib/img/freq.svg';
     import Footer from './footer.svelte';
+    import Breadcrumb from './breadcrumb.svelte';
   /**
    * @typedef {Object} Props
    * @property {string} [src] - Pour un streaming
@@ -1094,6 +1095,9 @@
     </div>
   </div>
 </div>
+
+<!-- Fil d'Ariane -->
+<Breadcrumb />
 
 <!-- Contenu principal -->
 <main style="margin-top:0 !important;">
