@@ -141,9 +141,9 @@
 		box-sizing: border-box;
 	}*/
 
-	:global(body) {
+	/* :global(body) {
 		background: #000;
-	} 
+	}  */
 
 	.container {
 		max-width: 1200px;
