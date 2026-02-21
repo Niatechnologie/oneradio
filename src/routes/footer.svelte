@@ -15,13 +15,58 @@
     // Mettre à jour l'année automatiquement
     let currentYear = $state();
     
+    /** @type {Array<{id: number, icon: string, left: number, duration: number, delay: number, size: number}>} */
+    let notes = $state([]);
+    let noteId = 0;
+
+    const musicIcons = ['♪', '♫', '♬', '♩', '𝅘𝅥𝅮', '𝅘𝅥𝅯'];
+
+    function spawnNote() {
+      const id = noteId++;
+      const note = {
+        id,
+        icon: musicIcons[Math.floor(Math.random() * musicIcons.length)],
+        left: Math.random() * 100,
+        duration: 3 + Math.random() * 4,
+        delay: 0,
+        size: 0.8 + Math.random() * 1.2
+      };
+      notes = [...notes, note];
+      setTimeout(() => {
+        notes = notes.filter(n => n.id !== id);
+      }, note.duration * 1000);
+    }
+
     onMount(() => {
       currentYear = new Date().getFullYear();
+
+      // Spawn initial batch
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => spawnNote(), i * 500);
+      }
+
+      // Continuously spawn notes
+      const interval = setInterval(() => {
+        spawnNote();
+      }, 800 + Math.random() * 1200);
+
+      return () => clearInterval(interval);
     });
   </script>
   
   <footer>
-     
+    <!-- Notes musicales flottantes -->
+    <div class="floating-notes">
+      {#each notes as note (note.id)}
+        <span
+          class="music-note"
+          style="left: {note.left}%; animation-duration: {note.duration}s; font-size: {note.size}rem;"
+        >
+          {note.icon}
+        </span>
+      {/each}
+    </div>
+
     <div class="footer-content">
       <div class="footer-section">
         <h3>Contactez-nous</h3>
@@ -66,9 +111,47 @@
       color: #e0e0e0;
       padding:3rem 1rem;
       font-family: 'Roboto';
+      position: relative;
+      overflow: hidden;
     }
-    
+
+    /* Notes musicales flottantes */
+    .floating-notes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .music-note {
+      position: absolute;
+      bottom: -2rem;
+      color: #ff1919;
+      opacity: 0;
+      animation: floatUp linear forwards;
+      text-shadow: 0 0 6px rgba(255, 25, 25, 0.4);
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 0;
+        transform: translateY(0) rotate(0deg);
+      }
+      15% {
+        opacity: 0.9;
+      }
+      70% {
+        opacity: 0.6;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-400px) rotate(20deg);
+      }
+    }
+
     .footer-content {
+      position: relative;
+      z-index: 1;
       max-width: 1200px;
       margin: 0 auto;
       display: grid;
