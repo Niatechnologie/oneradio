@@ -33,7 +33,7 @@
             <article class="news-card">
                 <div class="news-image">
                     <!-- svelte-ignore a11y_img_redundant_alt -->
-                    <img src="https://admin.radiotreichville.ci/cropavatar/img/{events[0].photo}" alt="Photo Article">
+                    <img src="https://adminradio.oneradio.ci/cropavatar/img/{events[0].photo}" alt="Photo Article">
                     <span class="news-category">{@html events[0].categorie}</span>
                 </div>
                 <div class="news-content">
