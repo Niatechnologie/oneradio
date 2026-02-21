@@ -90,26 +90,14 @@
             <div class="podcasts-grid" id="podcastsContainer">
                 {#each podcasts as podcast}
                     <div class="podcast-card" data-id={podcast.id}>
-                        <div class="podcast-image-container">
-                           <a href="/podcasts/{podcast.idscat}">
-                            <img src="https://adminradio.oneradio.ci/souscategories/{podcast.photo}" alt={podcast.categorie} class="podcast-image">
-                            </a> 
-                        </div>
-                        <div class="podcast-content">
-                            <h3 class="podcast-title">{podcast.designation}</h3>
-                            <!-- <p class="podcast-host">Animé par {podcast.host}</p> -->
-                            <div class="podcast-meta">
-                                <span class="duration">
-                                    <!-- Icône Horloge -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polyline points="12 6 12 12 16 14"></polyline>
-                                    </svg>
-                                    {podcast.duration}
-                                </span>
-                                <span class="category">{podcast.category}</span>
+                        <a href="/podcasts/{podcast.idscat}" class="podcast-link">
+                            <div class="podcast-image-container">
+                                <img src="https://adminradio.oneradio.ci/souscategories/{podcast.photo}" alt={podcast.categorie} class="podcast-image">
+                                <div class="podcast-overlay">
+                                    <h3 class="podcast-title">{podcast.categorie}</h3>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 {/each}
             </div>
@@ -196,51 +184,37 @@ header p {
 
 .podcast-image-container {
     position: relative;
-    height: 250px;
+    height: 350px;
 }
 
 .podcast-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
+.podcast-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
 
-.podcast-content {
-    padding: 1.5rem;
+.podcast-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+    padding: 2rem 1.5rem 1.5rem;
 }
 
 .podcast-title {
     font-size: 1.25rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
     color: white;
-}
-
-.podcast-host {
-    color: #fed7aa;
-    margin-bottom: 1rem;
-}
-
-.podcast-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.875rem;
-    color: #fed7aa;
-}
-
-.duration {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.category {
-    background: rgba(234, 88, 12, 0.3);
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    border: 1px solid rgba(234, 88, 12, 0.5);
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 768px) {
