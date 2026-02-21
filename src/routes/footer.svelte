@@ -10,7 +10,7 @@
    */
 
   /** @type {Props} */
-  let { phone = "(+225) 27 21 25 61 10 | (+225) 27 21 24 03 47", email = "contact@radiotreichville.ci", address = "Abidjan, Côte d'Ivoire Treichville, Av. 1, Rue 21, près de la bourse de travail" } = $props();
+  let { phone = "(+225) 27 22 30 54 75", email = "contact@onradio.ci", address = "Abidjan Cocody, Angré 8é tranche, non loin de la CNPS. One Radio 2é etage Porte B3" } = $props();
     
     // Mettre à jour l'année automatiquement
     let currentYear = $state();
@@ -84,6 +84,7 @@
           <li><a href="/news"><i class="bi bi-info"></i> Actualités</a></li>
           <li><a href="/events"><i class="bi bi-calendar3"></i> Events</a></li>
           <li><a href="/podcasts"><i class="bi bi-music-note-beamed"></i> PodCasts</a></li>
+          <li><a href="/webradios"><i class="bi bi-music-note-beamed"></i> Webradios</a></li>
           <li><a href="/contact"><i class="bi bi-chat-dots-fill"></i> Contact</a></li>
         </ul>
       </div>
@@ -93,8 +94,25 @@
         <div class="social-links">
           <!-- svelte-ignore a11y_consider_explicit_label -->
           <a href="https://www.facebook.com/RadioTreichville" target="_blank" class="social-link"><i class="bi bi-facebook"></i></a>
-          <!-- <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
-          <a href="#" class="social-link"><i class="bi bi-instagram"></i></a> -->
+          <a href="https://www.youtube.com/@oneradiocotedivoire6837" class="social-link"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="social-link"><i class="bi bi-instagram"></i></a> 
+        </div>
+        <h3>Nos Applications</h3>
+        <div class="app-links">
+          <a href="https://play.google.com/store" target="_blank" class="app-btn">
+            <i class="bi bi-google-play"></i>
+            <div class="app-btn-text">
+              <span class="app-btn-small">Télécharger sur</span>
+              <span class="app-btn-big">Google Play</span>
+            </div>
+          </a>
+          <a href="https://apps.apple.com" target="_blank" class="app-btn">
+            <i class="bi bi-apple"></i>
+            <div class="app-btn-text">
+              <span class="app-btn-small">Télécharger sur</span>
+              <span class="app-btn-big">App Store</span>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -236,7 +254,52 @@
       background-color: #ff1919;
       color: white;
     }
-    
+
+    /* Boutons App Store / Play Store */
+    .app-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .app-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid #555;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      max-width: 200px;
+    }
+
+    .app-btn:hover {
+      border-color: #ff1919;
+      background-color: rgba(255, 25, 25, 0.1);
+    }
+
+    .app-btn i {
+      font-size: 1.6rem;
+      color: #ff1919;
+    }
+
+    .app-btn-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .app-btn-small {
+      font-size: 0.65rem;
+      color: #aaa;
+    }
+
+    .app-btn-big {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
     .footer-bottom {
       margin-top: 2rem;
       padding-top: 2rem;
@@ -275,6 +338,10 @@
       
       .contact-info p {
         justify-content: center;
+      }
+
+      .app-links {
+        align-items: center;
       }
     }
   </style>
