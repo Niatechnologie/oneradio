@@ -199,8 +199,6 @@ header p {
     text-decoration: none;
     color: inherit;
     display: block;
-    width: 100%;
-    height: 100%;
 }
 
 .podcast-overlay {
