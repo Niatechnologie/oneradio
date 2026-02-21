@@ -1213,14 +1213,14 @@
 {/if}
 
 <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/68441950e58c84190b866fa9/1it505p6a';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+    // var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    // (function(){
+    // var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    // s1.async=true;
+    // s1.src='https://embed.tawk.to/68441950e58c84190b866fa9/1it505p6a';
+    // s1.charset='UTF-8';
+    // s1.setAttribute('crossorigin','*');
+    // s0.parentNode.insertBefore(s1,s0);
+    // })();
     </script>
 </main>
