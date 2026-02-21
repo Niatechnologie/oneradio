@@ -176,7 +176,6 @@ header p {
     transition: transform 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
-    height: 350px;
 }
 
 .podcast-card:hover {
@@ -187,14 +186,13 @@ header p {
 .podcast-image-container {
     position: relative;
     width: 100%;
-    height: 100%;
 }
 
 .podcast-image {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     display: block;
+    object-fit: contain;
 }
 
 .podcast-link {
