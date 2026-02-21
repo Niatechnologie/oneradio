@@ -77,7 +77,7 @@
         transform: translateX(-50%);
         width: 80px;
         height: 4px;
-        background: linear-gradient(to right, #009830e6, #67b8ff);
+        background: linear-gradient(to right, #ff0000e6, #000000);
         border-radius: 2px;
     }
     
@@ -122,7 +122,7 @@
         position: absolute;
         top: 1rem;
         right: 1rem;
-        background: #009830e6;
+        background: #ff0000;
         color: white;
         padding: 0.5rem 1rem;
         border-radius: 20px;
@@ -164,14 +164,14 @@
     
     .news-meta i {
         font-size: 1rem;
-        color: #009830e6;
+        color: #ff0000;
     }
     
     .read-more {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        color: #009830e6;
+        color: #ff0000;
         text-decoration: none;
         font-weight: 500;
         transition: gap 0.3s ease;
@@ -211,7 +211,7 @@
         bottom: -0.5rem;
         width: 50px;
         height: 2px;
-        background-color: #009830e6;
+        background-color: #ff0000;
     }
     
     .contact-info p {
@@ -223,7 +223,7 @@
     
     .contact-info i {
         font-size: 1.2rem;
-        color: #009830e6;
+        color: #ff0000;
     }
     
     ul {
@@ -236,7 +236,7 @@
     
     ul li i {
         margin-right: 0.5rem;
-        color: #009830e6;
+        color: #ff0000;
     }
     
     a {
@@ -258,7 +258,7 @@
     
     .social-link {
         padding: 0.8rem;
-        border: 1px solid #009830e6;
+        border: 1px solid #ff0000;
         border-radius: 50%;
         transition: all 0.3s ease;
         display: flex;
@@ -271,7 +271,7 @@
     }
     
     .social-link:hover {
-        background-color: #009830e6;
+        background-color: #ff0000;
         color: white;
     }
     
