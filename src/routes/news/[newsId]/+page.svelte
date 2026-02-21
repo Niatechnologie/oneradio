@@ -29,7 +29,7 @@
          -->
             <article class="news-card">
                 <div class="news-image">
-                    <img src="https://adminone.oneradio.ci/cropavatar/img/{news[0].photo}" alt="Photo Article">
+                    <img src="https://adminradio.oneradio.ci/cropavatar/img/{news[0].photo}" alt="Photo Article">
                     <span class="news-category">{@html news[0].categorie}</span>
                 </div>
                 <div class="news-content">

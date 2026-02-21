@@ -102,7 +102,7 @@ import loader from '$lib/img/loader.gif'
             {#each items as item}
               <article class="news-card">
                 <div class="news-image"> <a href="/news/{item.slug}" class="read-more">
-                    <img src="https://admin.radiotreichville.ci/cropavatar/img/{item.photo}" alt="Article 1">
+                    <img src="https://adminradio.oneradio.ci/cropavatar/img/{item.photo}" alt="Article 1">
                     <span class="news-category">{item.categorie}</span>
                     </a>
                 </div>
