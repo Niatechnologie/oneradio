@@ -163,8 +163,9 @@ header p {
 }
 
 .podcasts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1.5rem;
 }
 
@@ -173,6 +174,8 @@ header p {
     border-radius: 1rem;
     overflow: hidden;
     backdrop-filter: blur(10px);
+    width: calc(33.33% - 1rem);
+    max-width: 400px;
     transition: transform 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
@@ -219,14 +222,20 @@ header p {
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
 }
 
+@media (max-width: 992px) {
+    .podcast-card {
+        width: calc(50% - 1rem);
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
         margin-bottom: 0;
     }
     
-    .podcasts-grid {
-        grid-template-columns: 1fr;
+    .podcast-card {
+        width: 100%;
     }
     
     h1 {
