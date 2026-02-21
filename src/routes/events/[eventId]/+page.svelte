@@ -3,6 +3,8 @@
     export const prerender = true;
 
     import {onMount} from 'svelte';
+    import { page } from '$app/stores';
+    import ShareButtons from '../../shareButtons.svelte';
 
     
     const success=data.status;
@@ -11,6 +13,7 @@
     let isLoading = true;
     let error = null;
 
+    let currentUrl = $derived($page.url.href);
 </script>
 <svelte:head>
   <title>Radio Treichville - Events</title>
@@ -44,7 +47,8 @@
                         <span><i class="bi bi-calendar3"></i>Publié le {@html events[0].datepub}</span>
                         <span><i class="bi bi-person-circle"></i> {events[0].auteur}</span>
                     </div>
-                    <!-- <a href="/news/{data.id}" class="read-more">Lire la suite <i class="bi bi-arrow-right"></i></a> -->
+
+                    <ShareButtons url={currentUrl} title={events[0].titre} />
                 </div>
             </article>
           

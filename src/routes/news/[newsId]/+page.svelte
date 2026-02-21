@@ -1,6 +1,8 @@
 <script>
     export const prerender = true;
     import {onMount} from 'svelte';
+    import { page } from '$app/stores';
+    import ShareButtons from '../../shareButtons.svelte';
 
     let { data } = $props();
     const success=data.status;
@@ -9,6 +11,7 @@
     let isLoading = true;
     let error = null;
 
+    let currentUrl = $derived($page.url.href);
 </script>
 <svelte:head>
   <title>One Radio - News</title>
@@ -40,7 +43,8 @@
                         <span><i class="bi bi-calendar3"></i> Publié le {news[0].datepub}</span>
                         <span><i class="bi bi-person-circle"></i> {news[0].auteur}</span>
                     </div>
-                    <!-- <a href="/news/{data.id}" class="read-more">Lire la suite <i class="bi bi-arrow-right"></i></a> -->
+
+                    <ShareButtons url={currentUrl} title={news[0].titre} />
                 </div>
             </article>
           
