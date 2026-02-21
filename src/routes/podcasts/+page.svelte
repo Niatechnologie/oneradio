@@ -120,7 +120,7 @@
 .main-content {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #007e33 0%, #f97316 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #464646 100%);
     color: white;
     line-height: 1.6;
     margin-bottom: 0 !important;

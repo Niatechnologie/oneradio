@@ -181,14 +181,14 @@
   }
   
   .pagination-btn.active {
-    background: rgba(0, 152, 48, 0.902);
+    background: rgba(0, 0, 0, 0.9);
     color: white;
-    border-color: rgba(0, 152, 48, 0.902);
+    border-color: rgba(0, 0, 0, 0.9);
   }
   
   .pagination-btn.active:hover {
-    background: rgba(0, 115, 36, 0.902);
-    border-color:  rgba(0, 115, 36, 0.902);
+    background: rgba(66, 66, 66, 0.9);
+    border-color:  rgba(66, 66, 66, 0.9);
   }
   
   @media (max-width: 768px) {
