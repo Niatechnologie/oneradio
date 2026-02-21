@@ -205,16 +205,18 @@ header p {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
-    padding: 2rem 1.5rem 1.5rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    padding: 3rem 1.5rem 1.5rem;
+    z-index: 2;
+    pointer-events: none;
 }
 
 .podcast-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: white;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
     margin: 0;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
 }
 
 @media (max-width: 768px) {
