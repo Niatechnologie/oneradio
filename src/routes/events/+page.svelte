@@ -180,7 +180,7 @@
       transform: translateX(-50%);
       width: 80px;
       height: 4px;
-      background: linear-gradient(to right, #009830e6, #67b8ff);
+      background: linear-gradient(to right, #ff0000, #67b8ff);
       border-radius: 2px;
   }
   
