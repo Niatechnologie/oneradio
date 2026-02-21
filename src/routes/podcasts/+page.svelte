@@ -81,7 +81,7 @@
         <header>
            
             <h1>Nos Podcasts </h1>
-            <p>Découvrez nos  meilleurs podcasts</p>
+            <p>Découvrez nos podcasts</p>
         </header>
 
         
@@ -118,7 +118,7 @@
 .main-content {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #ffffff 0%, #464646 100%);
+    background: linear-gradient(135deg, #ff8f8f 0%, #202127 100%);
     color: white;
     line-height: 1.6;
     margin-bottom: 0 !important;
