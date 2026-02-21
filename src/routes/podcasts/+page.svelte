@@ -90,7 +90,7 @@
             <div class="podcasts-grid" id="podcastsContainer">
                 {#each podcasts as podcast}
                     <div class="podcast-card" data-id={podcast.id}>
-                        <a href="/podcasts/{podcast.idscat}" class="podcast-link">
+                        <a href="/podcasts/{podcast.id}" class="podcast-link">
                             <div class="podcast-image-container">
                                 <img src="https://adminradio.oneradio.ci/souscategories/{podcast.photo}" alt={podcast.categorie} class="podcast-image">
                                 <div class="podcast-overlay">
