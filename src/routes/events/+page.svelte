@@ -81,7 +81,7 @@
 
   <main style="background: #fff;">
       <div class="news-section"  style="padding-top: 30px;">
-          <h2 class="section-title">Nos Evènements</h2>
+          <h2 class="section-title">Evènements In house/ others</h2>
            <div><!-- Composant Pagination -->
             <Pagination 
                 {currentPage}
