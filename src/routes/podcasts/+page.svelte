@@ -71,7 +71,7 @@
    </script>
 
 <svelte:head>
-  <title>Radio Treichville - Podcasts</title>
+  <title>One Radio - Podcasts</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </svelte:head>
@@ -79,10 +79,8 @@
 <main style="margin:0" class="main-content">
     <div class="container">
         <header>
-            <div class="logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="music-icon"><path d="M8 18V6l11-2v12"></path><path d="M8 9L19 7"></path><circle cx="4" cy="18" r="4"></circle><circle cx="15" cy="16" r="4"></circle></svg>
-            </div>
-            <h1>Nos Podcasts Tendances</h1>
+            
+            <h1>Nos Podcasts </h1>
             <p>Découvrez nos  meilleurs podcasts</p>
         </header>
 
@@ -120,7 +118,7 @@
 .main-content {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #ffffff 0%, #464646 100%);
+    background: linear-gradient(135deg, #f38888 0%, #282b2e 100%);
     color: white;
     line-height: 1.6;
     margin-bottom: 0 !important;
