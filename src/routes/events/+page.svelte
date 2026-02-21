@@ -24,8 +24,8 @@
     try {
       // Récupération parallèle des données
       const [paginatedResponse, allNewsResponse] = await Promise.all([
-        fetch(`https://admin.radiotreichville.ci/radio_treich/events.php?page=${currentPage}&limit=${itemsPerPage}`),
-        fetch(`https://admin.radiotreichville.ci/radio_treich/allevents.php`)
+        fetch(`https://adminradio.oneradio.ci/radio_treich/events.php?page=${currentPage}&limit=${itemsPerPage}`),
+        fetch(`https://adminradio.oneradio.ci/radio_treich/allevents.php`)
       ]);
 
       if (!paginatedResponse.ok) {
@@ -103,7 +103,7 @@
                   <article class="events-card">
                       <div class="events-image-container">
                         <a href="/events/{event.slug}">
-                          <img src="https://admin.radiotreichville.ci/cropavatar/img/{event.photo}" alt={event.titre} class="events-image" />
+                          <img src="https://adminradio.oneradio.ci/cropavatar/img/{event.photo}" alt={event.titre} class="events-image" />
                           <span class="events-category">{event.categorie}</span>
                         </a>
                       </div>
