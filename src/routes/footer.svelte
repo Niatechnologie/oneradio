@@ -94,7 +94,7 @@
         <h3>Suivez-nous</h3>
         <div class="social-links">
           <!-- svelte-ignore a11y_consider_explicit_label -->
-          <a href="https://www.facebook.com/RadioTreichville" target="_blank" class="social-link"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.facebook.com/oneradioci" target="_blank" class="social-link"><i class="bi bi-facebook"></i></a>
           <a href="https://www.youtube.com/@oneradiocotedivoire6837" class="social-link"><i class="bi bi-youtube"></i></a>
           <a href="#" class="social-link"><i class="bi bi-instagram"></i></a> 
         </div>
