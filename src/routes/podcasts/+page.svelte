@@ -175,6 +175,8 @@ header p {
     backdrop-filter: blur(10px);
     transition: transform 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    height: 350px;
 }
 
 .podcast-card:hover {
@@ -184,7 +186,8 @@ header p {
 
 .podcast-image-container {
     position: relative;
-    height: 350px;
+    width: 100%;
+    height: 100%;
 }
 
 .podcast-image {
@@ -198,6 +201,8 @@ header p {
     text-decoration: none;
     color: inherit;
     display: block;
+    width: 100%;
+    height: 100%;
 }
 
 .podcast-overlay {
@@ -205,16 +210,15 @@ header p {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
     padding: 3rem 1.5rem 1.5rem;
     z-index: 2;
-    pointer-events: none;
 }
 
 .podcast-title {
     font-size: 1.4rem;
     font-weight: 700;
-    color: #fff;
+    color: #ffffff !important;
     margin: 0;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
 }
