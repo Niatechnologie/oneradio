@@ -91,8 +91,8 @@
                 {#each podcasts as podcast}
                     <div class="podcast-card" data-id={podcast.id}>
                         <div class="podcast-image-container">
-                           <a href="/podcasts/{podcast.id}">
-                            <img src="https://admin.radiotreichville.ci/podcasts/img/{podcast.photo}" alt={podcast.designation} class="podcast-image">
+                           <a href="/podcasts/{podcast.idscat}">
+                            <img src="https://adminradio.oneradio.ci/souscategories/{podcast.photo}" alt={podcast.categorie} class="podcast-image">
                             </a> 
                         </div>
                         <div class="podcast-content">
