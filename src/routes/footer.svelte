@@ -84,7 +84,7 @@
           <li><a href="/news"><i class="bi bi-info"></i> Actualités</a></li>
           <li><a href="/events"><i class="bi bi-calendar3"></i> Events</a></li>
           <li><a href="/podcasts"><i class="bi bi-music-note-beamed"></i> PodCasts</a></li>
-          <li><a href="/webradios"><i class="bi bi-music-note-beamed"></i> Webradios</a></li>
+          <li><a href="/webradio"><i class="bi bi-music-note-beamed"></i> Webradios</a></li>
           <li><a href="/contact"><i class="bi bi-chat-dots-fill"></i> Contact</a></li>
         </ul>
       </div>
