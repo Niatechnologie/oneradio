@@ -71,7 +71,7 @@
    </script>
 
 <svelte:head>
-  <title>One Radio - Podcasts</title>
+  <title>One radio - Podcasts</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </svelte:head>
@@ -79,7 +79,7 @@
 <main style="margin:0" class="main-content">
     <div class="container">
         <header>
-            
+           
             <h1>Nos Podcasts </h1>
             <p>Découvrez nos  meilleurs podcasts</p>
         </header>
@@ -118,7 +118,7 @@
 .main-content {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f38888 0%, #282b2e 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #464646 100%);
     color: white;
     line-height: 1.6;
     margin-bottom: 0 !important;
