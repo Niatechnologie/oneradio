@@ -187,7 +187,7 @@
     width: auto;
     object-fit: contain;
     z-index: 0;
-    opacity: 0.55;
+    opacity: 0.85;
     pointer-events: none;
   }
 
