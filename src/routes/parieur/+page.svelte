@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import from img_p from '$lib/assets/parieur.png';
+  import img_p from '$lib/assets/parieur.png';
 
   let isVisible = $state(false);
 
