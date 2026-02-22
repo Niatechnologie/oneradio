@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import from img_p from '$lib/assets/parieur.png';
 
   let isVisible = $state(false);
 
@@ -26,6 +27,7 @@
   <!-- Hero Banner -->
   <div class="hero-banner" class:visible={isVisible}>
     <div class="hero-overlay"></div>
+    <img src={img_p} alt="Super Parieur" class="hero-img" />
     <div class="hero-text">
       <h2>Tu aimes le sport ?<br>Tu aimes les défis ?</h2>
       <p>Deviens le <strong>SUPER PARIEUR</strong> de ONE RADIO chaque jour et gagne du <strong>CASH</strong> !</p>
@@ -171,6 +173,19 @@
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at 80% 20%, rgba(255, 25, 25, 0.3), transparent 60%);
+  }
+
+  .hero-img {
+    position: absolute;
+    right: -1rem;
+    bottom: 0;
+    height: 100%;
+    max-height: 280px;
+    width: auto;
+    object-fit: contain;
+    z-index: 0;
+    opacity: 0.35;
+    pointer-events: none;
   }
 
   .hero-text {
