@@ -286,7 +286,7 @@
     display: block;
     width: 60px;
     height: 4px;
-    background: linear-gradient(to right, #ff1919, #FFD700);
+    background: #ff1919;
     margin: 0.8rem auto 0;
     border-radius: 2px;
   }
