@@ -724,9 +724,13 @@
 
   /* Contenu principal */
   main {
-    margin-top: 100px !important; /* Espace pour la navbar fixe */
+    margin-top: 80px !important; /* Espace pour la navbar fixe */
     padding: 0;
     margin-bottom: 0;
+  }
+
+  main.is-home {
+    margin-top: 0 !important;
   }
   
    
@@ -1378,7 +1382,7 @@
 <Breadcrumb />
 
 <!-- Contenu principal -->
-<main>
+<main class:is-home={$page.url.pathname === '/'}>
   <div
     in:fade={{ duration: 300 }}  
     out:fly={{ y: 20, duration: 300 }} 
