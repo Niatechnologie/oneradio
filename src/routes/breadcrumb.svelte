@@ -66,7 +66,7 @@
     padding: 0.75rem 1.5rem;
     border-bottom: 2px solid #ff1919;
     font-family: 'Roboto', sans-serif;
-    margin-top: 80px;
+    margin-top: 95px;
   }
 
   .breadcrumb-container {
