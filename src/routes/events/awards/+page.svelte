@@ -69,7 +69,6 @@
       {/each}
     </div>
     <div class="hero-content">
-      <div class="hero-badge"><i class="bi bi-trophy-fill"></i> ÉVÉNEMENT IN HOUSE</div>
       <h1 class="hero-title">
         <span class="title-line">ONE RADIO</span>
         <span class="title-line gold">MUSIC AWARD</span>
