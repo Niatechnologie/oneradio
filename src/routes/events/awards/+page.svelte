@@ -728,7 +728,8 @@
 
   /* ============ CTA ============ */
   .cta-section {
-    padding: 5rem 0;
+    padding: 5rem 0 0 0;
+    margin-bottom: -1px;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 50%, #0a0a0a 100%);
   }
 
