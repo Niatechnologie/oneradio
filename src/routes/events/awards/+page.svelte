@@ -296,7 +296,7 @@
   /* ============ HERO ============ */
   .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     border-radius: 0 ;
