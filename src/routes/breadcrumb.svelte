@@ -109,15 +109,53 @@
     font-weight: 600;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 868px) {
     .breadcrumb {
-      padding: 0.6rem 1rem;
+      padding: 0.5rem 0.8rem;
       margin-top: 80px;
     }
 
-    .breadcrumb-link,
+    .breadcrumb-container {
+      gap: 0.3rem;
+    }
+
+    .breadcrumb-link {
+      font-size: 0.75rem;
+      gap: 0.2rem;
+    }
+
+    .breadcrumb-link i {
+      font-size: 0.85rem;
+    }
+
+    .breadcrumb-separator {
+      font-size: 0.6rem;
+    }
+
     .breadcrumb-current {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .breadcrumb {
+      padding: 0.4rem 0.6rem;
+    }
+
+    .breadcrumb-link span {
+      display: none;
+    }
+
+    .breadcrumb-link i {
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb-current {
+      font-size: 0.7rem;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 </style>
