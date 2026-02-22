@@ -5,13 +5,12 @@
   const routeLabels = {
     'news': 'Actualités',
     'events': 'Événements',
-    'awards': 'ORMA',
+    'awards': 'One Radio music award',
     'podcasts': 'Podcasts',
     'contact': 'Contact',
     'programme': 'Programme',
     'webradio': 'Webradios',
-    'notrecite': 'Notre Cité',
-    'parieur': 'Parieur'
+    'parieur': 'Super Parieur'
   };
 
   /**
