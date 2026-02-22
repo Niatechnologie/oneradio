@@ -456,7 +456,7 @@
         // Convert the div to a functional volume control
         volumeSliderContainer.innerHTML = `
         <input type="range" min="0" max="1" step="0.01" value="${volume}" class="volume-input" style="width: 100%; height: 100%; position: absolute; opacity: 0; cursor: pointer; z-index: 2;">
-        <div class="volume-fill" style="width: ${volume * 100}%; height: 100%; background-color: #ff7f2a;"></div>
+        <div class="volume-fill" style="width: ${volume * 100}%; height: 100%; background-color: #ff2a2a;"></div>
         `;
         
         // Add event listeners for both input drag and direct click
@@ -762,49 +762,7 @@
   }
 
 
-      
-  /* Player Right Section */
-  .player-right {
-    display: flex;
-    align-items: center;
-  }
 
-  .volume-btn {
-    background: none;
-    border: none;
-    color: rgb(38, 38, 38);
-    cursor: pointer;
-    font-size: 25px;
-    margin-right: 10px;
-  }
-
-  .volume-slider {
-    position: relative;
-    width: 100px;
-    height: 4px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
-    margin-right: 15px;
-    /* overflow: hidden; */
-  }
-
-  .volume-fill {
-    height: 100%;
-    background-color: #ff2a2a;
-    width: 100%; /* This will be set dynamically based on volume */
-    transition: width 0.2s ease;
-  }
-
-  .volume-input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 2;
-  }
 
   /* Égaliseur */
   .equalizer-container {
@@ -1001,7 +959,7 @@
 
 .control-btn:hover {
   color: var(--primary);
-  background-color: rgba(255, 153, 0, 0.1);
+  background-color: rgba(255, 42, 42, 0.1);
 }
 
 .control-btn svg {
@@ -1021,13 +979,13 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(196, 118, 1, 0.3);
+  box-shadow: 0 2px 8px rgba(255, 42, 42, 0.3);
 }
 
 .play-pause-btn:hover {
   transform: scale(1.1);
   background-color: var(--primary-dark);
-  box-shadow: 0 4px 12px rgb(180, 87, 0);
+  box-shadow: 0 4px 12px rgba(255, 42, 42, 0.5);
 }
 
 
