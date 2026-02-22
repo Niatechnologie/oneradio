@@ -1007,7 +1007,7 @@
   <a href="/" id="logo_bureau"><img  style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
   <div class="menu-desktop">
     <a class:active={isActiveRoute('/news')} target="_blank" href="https://www.youtube.com/@oneradiocotedivoire6837"><i style="margin-right: 2px;" class="bi bi-play-btn-fill"></i> &nbsp; One TV</a>
-    <a class:active={isActiveRoute('/podcasts')}  href="https://boutique.oneradio.ci/">Shop</a>
+    <a class:active={isActiveRoute('/podcasts')}  target="_blank" href="https://boutique.oneradio.ci/">Shop</a>
        <a class:active={isActiveRoute('/webradio')}  href="/webradio">web Radios</a>
 
     <a class="logo" href="/" id="logo"><img style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
@@ -1029,7 +1029,6 @@
   <a href="/" id="logo"><img  style="border-radius: 10px;"width="190" src="{logo}" alt=""></a>
   <a href="/news">Live <i class="bi bi-chevron-right"></i></a>
   <a href="/podcasts">Podcasts <i class="bi bi-chevron-right"></i></a>
-  <a target="_blank" href="https://www.mairietreichville.com">Mairie de Treichville <i class="bi bi-box-arrow-up-right"></i></a>
   <a href="/events">Events <i class="bi bi-chevron-right"></i></a>
   <a href="/programme">Programme <i class="bi bi-chevron-right"></i></a>
   <a href="/notrecite">Actus de la mairie <i class="bi bi-chevron-right"></i></a>

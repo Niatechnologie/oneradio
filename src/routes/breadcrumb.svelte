@@ -5,6 +5,7 @@
   const routeLabels = {
     'news': 'Actualités',
     'events': 'Événements',
+    'awards': 'ORMA',
     'podcasts': 'Podcasts',
     'contact': 'Contact',
     'programme': 'Programme',

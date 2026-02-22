@@ -80,8 +80,45 @@
 </svelte:head>
 
   <main style="background: #fff;">
-      <div class="news-section"  style="padding-top: 30px;">
-          <h2 class="section-title">Evènements In house/ others</h2>
+      <div class="news-section" style="padding-top: 30px;">
+
+          <!-- Section In House -->
+          <h2 class="section-title">Événements In House</h2>
+          <div class="inhouse-section">
+            <article class="orma-card">
+              <div class="orma-image">
+                <div class="orma-badge">IN HOUSE</div>
+                <div class="orma-gradient"></div>
+                <div class="orma-content-overlay">
+                  <h3 class="orma-title">🏆 ONE RADIO MUSIC AWARD (ORMA)</h3>
+                  <p class="orma-subtitle">La grande messe annuelle de la musique urbaine et africaine</p>
+                </div>
+              </div>
+              <div class="orma-body">
+                <p class="orma-desc">
+                  Le <strong>ONE RADIO MUSIC AWARD (ORMA)</strong> est un événement musical majeur dédié à la célébration, 
+                  la valorisation et la reconnaissance des talents musicaux, des acteurs culturels et des professionnels 
+                  de l'industrie musicale en Côte d'Ivoire et en Afrique.
+                </p>
+                <div class="orma-info">
+                  <span class="orma-date"><i class="bi bi-calendar3"></i> Vendredi 04 Décembre</span>
+                  <span class="orma-location"><i class="bi bi-geo-alt-fill"></i> Lieu à confirmer</span>
+                </div>
+                <div class="orma-highlights">
+                  <span><i class="bi bi-trophy-fill"></i> Remise de trophées</span>
+                  <span><i class="bi bi-mic-fill"></i> Prestations live</span>
+                  <span><i class="bi bi-music-note-beamed"></i> Grand concert</span>
+                  <span><i class="bi bi-star-fill"></i> Tapis rouge</span>
+                </div>
+                <a href="/events/awards" class="orma-btn">
+                  Découvrir le projet <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Section Others -->
+          <h2 class="section-title" style="margin-top: 3rem;">Others</h2>
            <div><!-- Composant Pagination -->
             <Pagination 
                 {currentPage}
@@ -182,6 +219,155 @@
       height: 4px;
       background: linear-gradient(to right, #ff0000, #67b8ff);
       border-radius: 2px;
+  }
+
+  /* ORMA In House Card */
+  .inhouse-section {
+    margin-bottom: 2rem;
+  }
+
+  .orma-card {
+    background: #fff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease;
+  }
+
+  .orma-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .orma-image {
+    position: relative;
+    height: 220px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 40%, #cc0000 100%);
+    overflow: hidden;
+  }
+
+  .orma-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: #FFD700;
+    color: #1a1a1a;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    z-index: 2;
+  }
+
+  .orma-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 70% 30%, rgba(255, 215, 0, 0.15), transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(255, 25, 25, 0.3), transparent 50%);
+  }
+
+  .orma-content-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem 1.5rem 1.5rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    z-index: 1;
+  }
+
+  .orma-title {
+    color: #FFD700;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+  }
+
+  .orma-subtitle {
+    color: #ddd;
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  .orma-body {
+    padding: 1.5rem;
+  }
+
+  .orma-desc {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .orma-info {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .orma-info span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .orma-info i {
+    color: #ff1919;
+  }
+
+  .orma-highlights {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .orma-highlights span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: #f5f5f5;
+    padding: 0.4rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    color: #555;
+    font-weight: 500;
+  }
+
+  .orma-highlights i {
+    color: #FFD700;
+    font-size: 0.85rem;
+  }
+
+  .orma-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(135deg, #ff1919, #cc0000);
+    color: white;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .orma-btn:hover {
+    background: linear-gradient(135deg, #cc0000, #990000);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(255, 25, 25, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .orma-image { height: 180px; }
+    .orma-title { font-size: 1.2rem; }
+    .orma-info { flex-direction: column; gap: 0.5rem; }
   }
   
   </style>
