@@ -724,7 +724,7 @@
 
   /* Contenu principal */
   main {
-    margin-top: 120px !important; /* Espace pour la navbar fixe */
+    margin-top: 100px !important; /* Espace pour la navbar fixe */
     padding: 0;
     margin-bottom: 0;
   }
@@ -1378,7 +1378,7 @@
 <Breadcrumb />
 
 <!-- Contenu principal -->
-<main style="margin-top:0 !important;">
+<main>
   <div
     in:fade={{ duration: 300 }}  
     out:fly={{ y: 20, duration: 300 }} 
