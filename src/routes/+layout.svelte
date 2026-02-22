@@ -724,13 +724,9 @@
 
   /* Contenu principal */
   main {
-    margin-top: 80px !important; /* Espace pour la navbar fixe */
+    margin-top: 0;
     padding: 0;
     margin-bottom: 0;
-  }
-
-  main.is-home {
-    margin-top: 0 !important;
   }
   
    
