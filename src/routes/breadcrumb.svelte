@@ -66,7 +66,12 @@
     padding: 0.75rem 1.5rem;
     border-bottom: 2px solid #ff1919;
     font-family: 'Roboto', sans-serif;
-    margin-top: 108px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    margin-top: 64px;
   }
 
   .breadcrumb-container {
@@ -112,7 +117,7 @@
   @media (max-width: 868px) {
     .breadcrumb {
       padding: 0.5rem 0.8rem;
-      margin-top: 60px;
+      margin-top: 80px;
     }
 
     .breadcrumb-container {

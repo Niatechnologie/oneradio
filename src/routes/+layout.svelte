@@ -724,9 +724,13 @@
 
   /* Contenu principal */
   main {
-    margin-top: 0;
+    margin-top: 100px;
     padding: 0;
     margin-bottom: 0;
+  }
+
+  main.is-home {
+    margin-top: 0;
   }
   
    
