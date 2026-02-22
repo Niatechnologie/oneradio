@@ -569,7 +569,7 @@
 
   .programme-icon {
     font-size: 1.5rem;
-    color: var(--accent);
+    color: #ff1919;
   }
 
   .programme-card span {
