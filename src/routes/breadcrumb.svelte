@@ -66,12 +66,7 @@
     padding: 0.75rem 1.5rem;
     border-bottom: 2px solid #ff1919;
     font-family: 'Roboto', sans-serif;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
-    margin-top: 64px;
+    margin-top: 108px;
   }
 
   .breadcrumb-container {
