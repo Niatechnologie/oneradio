@@ -724,7 +724,7 @@
 
   /* Contenu principal */
   main {
-    margin-top: 90px !important; /* Espace pour la navbar fixe */
+    margin-top: 120px !important; /* Espace pour la navbar fixe */
     padding: 0;
     margin-bottom: 0;
   }
@@ -733,7 +733,7 @@
 
 @media (max-width: 868px) {
     main {
-      margin-top: 100px !important; /* Espace pour la navbar fixe */
+      margin-top: 120px !important; /* Espace pour la navbar fixe */
    
     }
     nav {
