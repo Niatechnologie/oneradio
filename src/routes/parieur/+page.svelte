@@ -47,6 +47,9 @@
           <i class="bi bi-tag-fill"></i>
           <span>CODE PROMO : 877</span>
         </div>
+        <a href="https://akwabet.com/prematch" target="_blank" class="inscription-btn">
+          <i class="bi bi-box-arrow-up-right"></i> S'inscrire sur AKWABET
+        </a>
       </div>
 
       <div class="step-card" class:visible={isVisible}>
@@ -319,6 +322,25 @@
   @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
+  }
+
+  .inscription-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+    padding: 0.6rem 1.2rem;
+    background: var(--gold);
+    color: var(--dark);
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+
+  .inscription-btn:hover {
+    background: #e6c200;
+    transform: scale(1.05);
   }
 
   .whatsapp-btn {
