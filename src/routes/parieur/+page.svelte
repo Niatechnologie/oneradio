@@ -119,6 +119,7 @@
   .header {
     text-align: center;
     margin-bottom: 2.5rem;
+    background: #fff;
   }
 
   .header-content {
