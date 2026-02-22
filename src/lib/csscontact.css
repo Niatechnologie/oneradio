@@ -48,9 +48,25 @@ h2 {
 }
 
 .icon {
-  color: #017e07;
+  color: #ff1919;
   flex-shrink: 0;
 }  
+
+.contact-icon {
+  font-size: 1.3rem;
+  color: #ff1919;
+  flex-shrink: 0;
+}
+
+.info-item a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.info-item a:hover {
+  color: #ff1919;
+}
 
 /* Map styles */
 #map {
@@ -84,13 +100,13 @@ h2 {
 #contactForm input:focus,
 #contactForm textarea:focus {
   outline: none;
-  border-color: #017e07;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: #ff1919;
+  box-shadow: 0 0 0 3px rgba(255, 25, 25, 0.1);
 }
 
 #contactForm button {
   width: 100%;
-  background-color: #017e07;
+  background-color: #ff1919;
   color: white;
   padding: 0.95rem 1.5rem;
   border: none;
@@ -106,5 +122,5 @@ h2 {
 }
 
 #contactForm button:hover {
-  background-color: rgb(255, 145, 11);
+  background-color: #1a1a1a;
 } 

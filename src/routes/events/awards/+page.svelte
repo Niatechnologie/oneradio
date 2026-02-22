@@ -624,6 +624,7 @@
 
   .cat-emoji {
     font-size: 2rem;
+    color: #ff1919;
   }
 
   .cat-title {
