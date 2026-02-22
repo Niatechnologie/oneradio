@@ -733,7 +733,7 @@
 
 @media (max-width: 868px) {
     main {
-      margin-top: 120px !important; /* Espace pour la navbar fixe */
+      margin-top: 80px !important; /* Espace pour la navbar fixe */
    
     }
     nav {
