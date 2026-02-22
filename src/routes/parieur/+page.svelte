@@ -120,6 +120,8 @@
     text-align: center;
     margin-bottom: 2.5rem;
     background: #fff;
+    box-shadow: none;
+    border-radius: 1rem;
   }
 
   .header-content {
