@@ -112,6 +112,7 @@
   @media (max-width: 768px) {
     .breadcrumb {
       padding: 0.6rem 1rem;
+      margin-top: 80px;
     }
 
     .breadcrumb-link,
