@@ -1,5 +1,5 @@
 <script>
-  import { run } from 'svelte/legacy';
+    import { run } from 'svelte/legacy';
 
     import { onMount } from 'svelte';
     import { fade, fly } from 'svelte/transition'; // Importer des transitions prédéfinies
