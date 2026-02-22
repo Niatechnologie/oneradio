@@ -5,16 +5,16 @@
   let activeCategory = $state(null);
 
   const categories = [
-    { icon: '🎤', title: 'Artiste de l\'année' },
-    { icon: '⭐', title: 'Révélation de l\'année' },
-    { icon: '🎵', title: 'Hit de l\'année' },
-    { icon: '🤝', title: 'Meilleure collaboration' },
-    { icon: '👩‍🎤', title: 'Meilleur artiste féminin' },
-    { icon: '👨‍🎤', title: 'Meilleur artiste masculin' },
-    { icon: '🎸', title: 'Meilleur groupe' },
-    { icon: '🎬', title: 'Meilleur clip vidéo' },
-    { icon: '📻', title: 'Prix du public ONE RADIO' },
-    { icon: '🏅', title: 'Prix spécial du jury' }
+    { icon: 'bi-mic-fill', title: 'Artiste de l\'année' },
+    { icon: 'bi-star-fill', title: 'Révélation de l\'année' },
+    { icon: 'bi-music-note-beamed', title: 'Hit de l\'année' },
+    { icon: 'bi-people-fill', title: 'Meilleure collaboration' },
+    { icon: 'bi-gender-female', title: 'Meilleur artiste féminin' },
+    { icon: 'bi-gender-male', title: 'Meilleur artiste masculin' },
+    { icon: 'bi-vinyl-fill', title: 'Meilleur groupe' },
+    { icon: 'bi-camera-reels-fill', title: 'Meilleur clip vidéo' },
+    { icon: 'bi-broadcast', title: 'Prix du public ONE RADIO' },
+    { icon: 'bi-award-fill', title: 'Prix spécial du jury' }
   ];
 
   const programme = [
@@ -69,7 +69,7 @@
       {/each}
     </div>
     <div class="hero-content">
-      <div class="hero-badge">🏆 ÉVÉNEMENT IN HOUSE</div>
+      <div class="hero-badge"><i class="bi bi-trophy-fill"></i> ÉVÉNEMENT IN HOUSE</div>
       <h1 class="hero-title">
         <span class="title-line">ONE RADIO</span>
         <span class="title-line gold">MUSIC AWARD</span>
@@ -119,17 +119,17 @@
         </div>
         <div class="about-stats">
           <div class="stat-card">
-            <span class="stat-icon">🎤</span>
+            <span class="stat-icon"><i class="bi bi-mic-fill"></i></span>
             <span class="stat-number">10+</span>
             <span class="stat-label">Catégories</span>
           </div>
           <div class="stat-card">
-            <span class="stat-icon">🌍</span>
+            <span class="stat-icon"><i class="bi bi-globe-americas"></i></span>
             <span class="stat-number">CI & Afrique</span>
             <span class="stat-label">Portée</span>
           </div>
           <div class="stat-card">
-            <span class="stat-icon">🎶</span>
+            <span class="stat-icon"><i class="bi bi-music-note-list"></i></span>
             <span class="stat-number">2 jours</span>
             <span class="stat-label">D'événement</span>
           </div>
@@ -141,7 +141,7 @@
   <!-- Objectifs Section -->
   <section class="section objectives-section">
     <div class="container">
-      <h2 class="section-heading">🎯 Objectifs</h2>
+      <h2 class="section-heading"><i class="bi bi-bullseye"></i> Objectifs</h2>
       <div class="objectives-grid">
         <div class="objective-card">
           <div class="obj-icon"><i class="bi bi-trophy-fill"></i></div>
@@ -175,7 +175,7 @@
   <!-- Programme Section -->
   <section class="section programme-section">
     <div class="container">
-      <h2 class="section-heading">🎤 Contenu de l'événement</h2>
+      <h2 class="section-heading"><i class="bi bi-mic-fill"></i> Contenu de l'événement</h2>
       <div class="programme-grid">
         {#each programme as item, i}
           <div class="programme-card" style="--accent: {item.color}; --delay: {i * 0.1}s">
@@ -190,7 +190,7 @@
   <!-- Categories Section -->
   <section class="section categories-section">
     <div class="container">
-      <h2 class="section-heading">🏆 Catégories de récompenses</h2>
+      <h2 class="section-heading"><i class="bi bi-trophy-fill"></i> Catégories de récompenses</h2>
       <div class="categories-grid">
         {#each categories as cat, i}
           <button 
@@ -198,7 +198,7 @@
             class:active={activeCategory === i}
             onclick={() => toggleCategory(i)}
           >
-            <span class="cat-emoji">{cat.icon}</span>
+            <span class="cat-emoji"><i class="bi {cat.icon}"></i></span>
             <span class="cat-title">{cat.title}</span>
             <div class="cat-shine"></div>
           </button>
@@ -210,7 +210,7 @@
   <!-- Cibles Section -->
   <section class="section cibles-section">
     <div class="container">
-      <h2 class="section-heading">🎯 Cibles</h2>
+      <h2 class="section-heading"><i class="bi bi-bullseye"></i> Cibles</h2>
       <div class="cibles-grid">
         {#each cibles as cible}
           <div class="cible-card">
@@ -225,7 +225,7 @@
   <!-- Sponsors Section -->
   <section class="section sponsors-section">
     <div class="container">
-      <h2 class="section-heading">🤝 Opportunités Partenaires & Sponsors</h2>
+      <h2 class="section-heading"><i class="bi bi-handshake"></i> Opportunités Partenaires & Sponsors</h2>
       <div class="sponsors-grid">
         {#each sponsors as sponsor}
           <div class="sponsor-card">
@@ -241,7 +241,7 @@
   <section class="section cta-section">
     <div class="container">
       <div class="cta-card">
-        <h2>📻 ONE RADIO MUSIC AWARD</h2>
+        <h2><i class="bi bi-broadcast"></i> ONE RADIO MUSIC AWARD</h2>
         <p class="cta-sub">La grande messe annuelle de la musique urbaine et africaine,<br>portée par l'expertise média et la puissance de diffusion de <strong>ONE RADIO</strong>.</p>
         <div class="cta-date">
           <i class="bi bi-calendar3"></i> Vendredi 04 Décembre
@@ -470,11 +470,11 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    border-left: 4px solid #FFD700;
   }
 
   .stat-icon {
     font-size: 1.8rem;
+    color: #FFD700;
   }
 
   .stat-number {
@@ -558,7 +558,6 @@
     background: #fafafa;
     padding: 1.2rem 1.5rem;
     border-radius: 0.75rem;
-    border-left: 4px solid var(--accent);
     transition: all 0.3s ease;
     animation: fadeInUp 0.5s var(--delay) both;
   }
