@@ -1027,11 +1027,12 @@
 </div>
   <div class="menu-mobile">
   <a href="/" id="logo"><img  style="border-radius: 10px;"width="190" src="{logo}" alt=""></a>
-  <a href="/news">Live <i class="bi bi-chevron-right"></i></a>
-  <a href="/podcasts">Podcasts <i class="bi bi-chevron-right"></i></a>
-  <a href="/events">Events <i class="bi bi-chevron-right"></i></a>
-  <a href="/programme">Programme <i class="bi bi-chevron-right"></i></a>
-  <a href="/notrecite">Actus de la mairie <i class="bi bi-chevron-right"></i></a>
+  <a href="https://www.youtube.com/@oneradiocotedivoire6837" target="_blank"><i class="bi bi-play-btn-fill"></i> One TV <i class="bi bi-chevron-right"></i></a>
+  <a href="https://boutique.oneradio.ci/" target="_blank"><i class="bi bi-shop"></i> Shop <i class="bi bi-chevron-right"></i></a>
+  <a href="/webradio"><i class="bi bi-broadcast"></i> Web Radios <i class="bi bi-chevron-right"></i></a>
+  <a href="/events"><i class="bi bi-calendar-event"></i> Events <i class="bi bi-chevron-right"></i></a>
+  <a href="/programme"><i class="bi bi-mic-fill"></i> Nos Emissions <i class="bi bi-chevron-right"></i></a>
+  <a href="/parieur"><i class="bi bi-trophy-fill"></i> Super Parieur <i class="bi bi-chevron-right"></i></a>
 </div>
 <!-- Élément audio (caché) -->
 <div style="display:none">
