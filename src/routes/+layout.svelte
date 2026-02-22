@@ -724,7 +724,7 @@
 
   /* Contenu principal */
   main {
-    margin-top: 100px;
+    margin-top: 0;
     padding: 0;
     margin-bottom: 0;
   }
