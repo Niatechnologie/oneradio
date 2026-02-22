@@ -299,6 +299,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    border-radius: 0 ;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 30%, #2d0000 60%, #0a0a0a 100%);
