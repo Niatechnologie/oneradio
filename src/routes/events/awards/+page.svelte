@@ -259,7 +259,7 @@
   .awards-page {
     font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
     color: #333;
-    overflow-x: hidden;
+    overflow: clip;
   }
 
   .container {
