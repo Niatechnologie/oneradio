@@ -27,7 +27,7 @@
   <div class="hero-banner" class:visible={isVisible}>
     <div class="hero-overlay"></div>
     <div class="hero-text">
-      <h2>🎯 Tu aimes le sport ?<br>Tu aimes les défis ?</h2>
+      <h2>Tu aimes le sport ?<br>Tu aimes les défis ?</h2>
       <p>Deviens le <strong>SUPER PARIEUR</strong> de ONE RADIO chaque jour et gagne du <strong>CASH</strong> !</p>
     </div>
   </div>
