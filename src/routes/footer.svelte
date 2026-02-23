@@ -10,7 +10,7 @@
    */
 
   /** @type {Props} */
-  let { phone = "(+225) 27 22 30 54 75 | 0501 877 877", email = "contact@onradio.ci", address = "Abidjan Cocody, Angré 8é tranche, non loin de la CNPS. One Radio 2é etage Porte B3" } = $props();
+  let { phone = "(+225) 27 22 30 54 75 | (+225) 0501 877 877", email = "contact@onradio.ci", address = "Abidjan Cocody, Angré 8é tranche, non loin de la CNPS. One Radio 2é etage Porte B3" } = $props();
     
     // Mettre à jour l'année automatiquement
     let currentYear = $state();
