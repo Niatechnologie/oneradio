@@ -7,10 +7,13 @@
   let phone = '';
   let subject = '';
   let message = '';
-  let captchaToken = '';
   let sending = false;
   let responseMsg = '';
+  let responseMsgType = '';
   let map;
+
+  const RECAPTCHA_SITE_KEY = '6LdmVHcsAAAAAN2I2jqs7wEcRVq2CIKbsNPWhGO7';
+  const PHP_ENDPOINT = 'https://adminradio.oneradio.ci/radio_one/transmission_contact.php';
   
   const initMap = () => {
     if (typeof L !== 'undefined') {
@@ -31,32 +34,59 @@
   const handleSubmit = async (event) => {
     event.preventDefault();
     responseMsg = '';
-    if (!captchaToken) {
-      responseMsg = 'Veuillez valider le captcha.';
+    responseMsgType = '';
+
+    if (!name || !email || !subject || !message) {
+      responseMsg = 'Veuillez remplir tous les champs obligatoires.';
+      responseMsgType = 'error';
       return;
     }
+
     sending = true;
-    const formData = { name, email, phone, subject, message, captcha: captchaToken };
+
     try {
-      const res = await fetch('/contact', {
+      // Obtenir le token reCAPTCHA v3
+      const recaptchaToken = await new Promise((resolve, reject) => {
+        if (window.grecaptcha) {
+          window.grecaptcha.ready(() => {
+            window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact' })
+              .then(resolve)
+              .catch(reject);
+          });
+        } else {
+          reject(new Error('reCAPTCHA non chargé'));
+        }
+      });
+
+      // Construire le FormData pour le PHP
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('phone', phone);
+      formData.append('subject', subject);
+      formData.append('message', message);
+      formData.append('recaptcha_token', recaptchaToken);
+
+      const res = await fetch(PHP_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: formData
       });
       const data = await res.json();
       if (data.success) {
-        responseMsg = 'Message envoyé avec succès !';
+        responseMsg = data.message || 'Message envoyé avec succès !';
+        responseMsgType = 'success';
         name = '';
         email = '';
+        phone = '';
         subject = '';
         message = '';
-        captchaToken = '';
-        if (window.grecaptcha) window.grecaptcha.reset();
       } else {
-        responseMsg = data.message || 'Erreur lors de l\'envoi.';
+        responseMsg = data.message || "Erreur lors de l'envoi.";
+        responseMsgType = 'error';
       }
     } catch (e) {
-      responseMsg = 'Erreur réseau.';
+      responseMsg = 'Erreur réseau. Veuillez réessayer.';
+      responseMsgType = 'error';
     }
     sending = false;
   };
@@ -80,7 +110,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
           crossorigin=""></script>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdmVHcsAAAAAN2I2jqs7wEcRVq2CIKbsNPWhGO7"></script>
 </svelte:head>
 <main class="main-content">
 <div class="container">
@@ -144,24 +174,14 @@
             <textarea autocomplete="off" id="message" name="msg" rows="4" bind:value={message} required></textarea>
           </div>
 
-          <div class="form-group">
-            <div class="g-recaptcha" data-sitekey="VOTRE_SITE_KEY" data-callback="onCaptcha"></div>
-          </div>
-
           <button type="submit" disabled={sending}>
             <span>{sending ? 'Envoi...' : 'Envoyer le message'}</span>
             <i class="bi bi-send-fill"></i>
           </button>
           {#if responseMsg}
-            <div class="response-message">{responseMsg}</div>
+            <div class="response-message {responseMsgType}">{responseMsg}</div>
           {/if}
         </form>
-        <script>
-          // Fonction callback pour reCAPTCHA
-          window.onCaptcha = function(token) {
-            captchaToken = token;
-          }
-        </script>
       </div>
     </div>
 </div>
@@ -173,5 +193,21 @@
       flex: 1;
       padding: 2rem 1rem 4rem 1rem;
   }
- 
+  .response-message {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-weight: 500;
+      text-align: center;
+  }
+  .response-message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+  }
+  .response-message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+  }
   </style>
