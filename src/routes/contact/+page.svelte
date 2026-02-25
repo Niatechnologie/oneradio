@@ -4,6 +4,7 @@
   
   let name = '';
   let email = '';
+  let phone = '';
   let subject = '';
   let message = '';
   let captchaToken = '';
@@ -35,7 +36,7 @@
       return;
     }
     sending = true;
-    const formData = { name, email, subject, message, captcha: captchaToken };
+    const formData = { name, email, phone, subject, message, captcha: captchaToken };
     try {
       const res = await fetch('/contact', {
         method: 'POST',
@@ -124,6 +125,12 @@
           <div class="form-group">
             <label for="email">Email</label>
             <input autocomplete="off" type="email" name="email" id="email" bind:value={email} required />
+          </div>
+
+
+          <div class="form-group">
+            <label for="phone">Téléphone</label>
+            <input autocomplete="off" type="text" name="phone" id="phone" bind:value={phone} />
           </div>
 
           <div class="form-group">
