@@ -73,7 +73,7 @@
           </div>
           <div class="info-item">
             <i class="bi bi-facebook contact-icon"></i>
-            <a href="https://www.facebook.com/RadioTreichville" target="_blank">Facebook - One Radio</a>
+            <a href="https://www.facebook.com/oneradioci" target="_blank">Facebook - One Radio</a>
           </div>
           <div class="info-item">
             <i class="bi bi-youtube contact-icon"></i>
