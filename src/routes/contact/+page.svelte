@@ -155,14 +155,12 @@
             <div class="response-message">{responseMsg}</div>
           {/if}
         </form>
-
         <script>
           // Fonction callback pour reCAPTCHA
           window.onCaptcha = function(token) {
             captchaToken = token;
           }
         </script>
-        </form>
       </div>
     </div>
 </div>
