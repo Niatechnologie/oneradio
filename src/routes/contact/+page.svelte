@@ -63,35 +63,54 @@
 
           if (!name || !email || !subject || !message) {
             responseMsg = 'Veuillez remplir tous les champs obligatoires.';
-      formData.append('email', email);
-      formData.append('phone', phone);
-      formData.append('subject', subject);
-      formData.append('message', message);
-      formData.append('recaptcha_token', recaptchaToken);
+            responseMsgType = 'error';
+            return;
+          }
 
-      const res = await fetch(PHP_ENDPOINT, {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
-      if (data.success) {
-        responseMsg = data.message || 'Message envoyé avec succès !';
-        responseMsgType = 'success';
-        name = '';
-        email = '';
-        phone = '';
-        subject = '';
-        message = '';
-      } else {
-        responseMsg = data.message || "Erreur lors de l'envoi.";
-        responseMsgType = 'error';
-      }
-    } catch (e) {
-      responseMsg = 'Erreur réseau. Veuillez réessayer.';
-      responseMsgType = 'error';
-    }
-    sending = false;
-  };
+          sending = true;
+          try {
+            // Obtenir le token reCAPTCHA v3 et envoyer le formulaire par AJAX
+            if (window.grecaptcha) {
+              window.grecaptcha.ready(async () => {
+                const recaptchaToken = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact' });
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('phone', phone);
+                formData.append('subject', subject);
+                formData.append('message', message);
+                formData.append('recaptcha_token', recaptchaToken);
+
+                const res = await fetch(PHP_ENDPOINT, {
+                  method: 'POST',
+                  body: formData
+                });
+                const data = await res.json();
+                if (data.success) {
+                  responseMsg = data.message || 'Message envoyé avec succès !';
+                  responseMsgType = 'success';
+                  name = '';
+                  email = '';
+                  phone = '';
+                  subject = '';
+                  message = '';
+                } else {
+                  responseMsg = data.message || "Erreur lors de l'envoi.";
+                  responseMsgType = 'error';
+                }
+                sending = false;
+              });
+            } else {
+              responseMsg = 'reCAPTCHA non chargé.';
+              responseMsgType = 'error';
+              sending = false;
+            }
+          } catch (e) {
+            responseMsg = 'Erreur réseau. Veuillez réessayer.';
+            responseMsgType = 'error';
+            sending = false;
+          }
+        };
   
   onMount(() => {
     initMap();
