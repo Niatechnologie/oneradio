@@ -174,6 +174,8 @@
             <textarea autocomplete="off" id="message" name="msg" rows="4" bind:value={message} required></textarea>
           </div>
 
+          <input type="hidden" name="recaptcha_token" id="recaptcha_token_contact">
+
           <button type="submit" disabled={sending}>
             <span>{sending ? 'Envoi...' : 'Envoyer le message'}</span>
             <i class="bi bi-send-fill"></i>
@@ -211,3 +213,23 @@
       border: 1px solid #f5c6cb;
   }
   </style>
+
+  <script>
+    // Gestion du formulaire de contact
+    const RECAPTCHA_SITE_KEY = '6Lck9RwsAAAAAA7zTR5Y5TT2VgcYZ66_503toBx_';
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof grecaptcha !== 'undefined') {
+        const form = document.querySelector('form#contactForm');
+        if (form) {
+          grecaptcha.ready(function() {
+            grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact' }).then(function(token) {
+              const recaptchaInput = document.getElementById('recaptcha_token_contact');
+              if (recaptchaInput) {
+                recaptchaInput.value = token;
+              }
+            });
+          });
+        }
+      }
+    });
+  </script>
