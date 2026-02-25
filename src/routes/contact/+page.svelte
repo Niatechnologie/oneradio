@@ -6,6 +6,9 @@
   let email = '';
   let subject = '';
   let message = '';
+  let captchaToken = '';
+  let sending = false;
+  let responseMsg = '';
   let map;
   
   const initMap = () => {
@@ -23,13 +26,38 @@
     }
   };
   
-  const handleSubmit = () => {
-    const formData = { name, email, subject, message };
-    console.log('Form submitted:', formData);
-    name = '';
-    email = '';
-    subject = '';
-    message = '';
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    responseMsg = '';
+    if (!captchaToken) {
+      responseMsg = 'Veuillez valider le captcha.';
+      return;
+    }
+    sending = true;
+    const formData = { name, email, subject, message, captcha: captchaToken };
+    try {
+      const res = await fetch('/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await res.json();
+      if (data.success) {
+        responseMsg = 'Message envoyé avec succès !';
+        name = '';
+        email = '';
+        subject = '';
+        message = '';
+        captchaToken = '';
+        if (window.grecaptcha) window.grecaptcha.reset();
+      } else {
+        responseMsg = data.message || 'Erreur lors de l\'envoi.';
+      }
+    } catch (e) {
+      responseMsg = 'Erreur réseau.';
+    }
+    sending = false;
   };
   
   onMount(() => {
@@ -87,35 +115,51 @@
 
       <!-- Contact Form -->
       <div class="card">
-        <form autocomplete="off" method="post" enctype="multipart/form-data" id="contactForm">
+        <form autocomplete="off" id="contactForm" on:submit={handleSubmit}>
           <div class="form-group">
             <label for="name">Nom complet</label>
-            <input autocomplete="off" type="text" name="nom" id="name" required />
+            <input autocomplete="off" type="text" name="nom" id="name" bind:value={name} required />
           </div>
 
           <div class="form-group">
             <label for="email">Email</label>
-            <input autocomplete="off" type="email" nom="email" id="email" required />
+            <input autocomplete="off" type="email" name="email" id="email" bind:value={email} required />
           </div>
 
           <div class="form-group">
             <label for="subject">Sujet</label>
-            <input autocomplete="off" type="text" name="objet" id="subject" required />
+            <input autocomplete="off" type="text" name="objet" id="subject" bind:value={subject} required />
           </div>
 
           <div class="form-group">
             <label for="message">Message</label>
-            <textarea autocomplete="off"  id="message" name="msg" rows="4" required></textarea>
+            <textarea autocomplete="off" id="message" name="msg" rows="4" bind:value={message} required></textarea>
           </div>
 
-          <button type="submit">
-            <span>Envoyer le message</span>
+          <div class="form-group">
+            <div class="g-recaptcha" data-sitekey="VOTRE_SITE_KEY" data-callback="onCaptcha"></div>
+          </div>
+
+          <button type="submit" disabled={sending}>
+            <span>{sending ? 'Envoi...' : 'Envoyer le message'}</span>
             <i class="bi bi-send-fill"></i>
           </button>
+          {#if responseMsg}
+            <div class="response-message">{responseMsg}</div>
+          {/if}
+        </form>
+
+        <script>
+          // Fonction callback pour reCAPTCHA
+          window.onCaptcha = function(token) {
+            captchaToken = token;
+          }
+        </script>
         </form>
       </div>
     </div>
 </div>
+
 </main>
 
 <style>
@@ -125,3 +169,6 @@
   }
  
   </style>
+
+<!-- Google reCAPTCHA v2 -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
