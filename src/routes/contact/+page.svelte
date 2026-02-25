@@ -18,26 +18,9 @@
   const initMap = () => {
     if (typeof L !== 'undefined') {
       map = L.map('map').setView([5.3781, -3.9697], 16);
-      
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
-      <script>
-        import '$lib/csscontact.css';
-        import { onMount, onDestroy } from 'svelte';
-
-        let name = '';
-        let email = '';
-        let phone = '';
-        let subject = '';
-        let message = '';
-        let sending = false;
-        let responseMsg = '';
-        let responseMsgType = '';
-        let map;
-
-        // Use the correct site key for reCAPTCHA v3
-        const RECAPTCHA_SITE_KEY = '6LdmVHcsAAAAAN2I2jqs7wEcRVq2CIKbsNPWhGO7';
-        const PHP_ENDPOINT = 'https://adminradio.oneradio.ci/radio_one/transmission_contact.php';
+      }).addTo(map);
 
         // DOMContentLoaded handler for reCAPTCHA token population (for fallback/manual use)
         if (typeof window !== 'undefined') {
