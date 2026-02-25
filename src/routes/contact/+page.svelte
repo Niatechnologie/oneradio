@@ -21,46 +21,65 @@
       
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
-      
-      L.marker([5.3781, -3.9697])
-        .addTo(map)
-        .bindPopup('<strong>ONE RADIO</strong><br>Cocody, Angré 8è tranche')
-        .openPopup();
-    }
-  };
-  
+      <script>
+        import '$lib/csscontact.css';
+        import { onMount, onDestroy } from 'svelte';
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    responseMsg = '';
-    responseMsgType = '';
+        let name = '';
+        let email = '';
+        let phone = '';
+        let subject = '';
+        let message = '';
+        let sending = false;
+        let responseMsg = '';
+        let responseMsgType = '';
+        let map;
 
-    if (!name || !email || !subject || !message) {
-      responseMsg = 'Veuillez remplir tous les champs obligatoires.';
-      responseMsgType = 'error';
-      return;
-    }
+        // Use the correct site key for reCAPTCHA v3
+        const RECAPTCHA_SITE_KEY = '6LdmVHcsAAAAAN2I2jqs7wEcRVq2CIKbsNPWhGO7';
+        const PHP_ENDPOINT = 'https://adminradio.oneradio.ci/radio_one/transmission_contact.php';
 
-    sending = true;
-
-    try {
-      // Obtenir le token reCAPTCHA v3
-      const recaptchaToken = await new Promise((resolve, reject) => {
-        if (window.grecaptcha) {
-          window.grecaptcha.ready(() => {
-            window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact' })
-              .then(resolve)
-              .catch(reject);
+        // DOMContentLoaded handler for reCAPTCHA token population (for fallback/manual use)
+        if (typeof window !== 'undefined') {
+          document.addEventListener('DOMContentLoaded', function() {
+            if (typeof grecaptcha !== 'undefined') {
+              const form = document.querySelector('form#contactForm');
+              if (form) {
+                grecaptcha.ready(function() {
+                  grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact' }).then(function(token) {
+                    const recaptchaInput = document.getElementById('recaptcha_token_contact');
+                    if (recaptchaInput) {
+                      recaptchaInput.value = token;
+                    }
+                  });
+                });
+              }
+            }
           });
-        } else {
-          reject(new Error('reCAPTCHA non chargé'));
         }
-      });
 
-      // Construire le FormData pour le PHP
-      const formData = new FormData();
-      formData.append('name', name);
+        const initMap = () => {
+          if (typeof L !== 'undefined') {
+            map = L.map('map').setView([5.3781, -3.9697], 16);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            L.marker([5.3781, -3.9697])
+              .addTo(map)
+              .bindPopup('<strong>ONE RADIO</strong><br>Cocody, Angré 8è tranche')
+              .openPopup();
+          }
+        };
+
+        const handleSubmit = async (event) => {
+          event.preventDefault();
+          responseMsg = '';
+          responseMsgType = '';
+
+          if (!name || !email || !subject || !message) {
+            responseMsg = 'Veuillez remplir tous les champs obligatoires.';
       formData.append('email', email);
       formData.append('phone', phone);
       formData.append('subject', subject);
@@ -213,23 +232,3 @@
       border: 1px solid #f5c6cb;
   }
   </style>
-
-  <script>
-    // Gestion du formulaire de contact
-    const RECAPTCHA_SITE_KEY = '6Lck9RwsAAAAAA7zTR5Y5TT2VgcYZ66_503toBx_';
-    document.addEventListener('DOMContentLoaded', function() {
-      if (typeof grecaptcha !== 'undefined') {
-        const form = document.querySelector('form#contactForm');
-        if (form) {
-          grecaptcha.ready(function() {
-            grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact' }).then(function(token) {
-              const recaptchaInput = document.getElementById('recaptcha_token_contact');
-              if (recaptchaInput) {
-                recaptchaInput.value = token;
-              }
-            });
-          });
-        }
-      }
-    });
-  </script>
