@@ -759,6 +759,7 @@
     @media (max-width: 768px) {
         .slider {
             --slider-height: 400px;
+            margin-top: 0;
         }
 
         .slide.active {
