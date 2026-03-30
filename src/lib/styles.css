@@ -164,7 +164,11 @@ body {
    
   }
 }
-
+@media (max-width: 868px) {
+  main.svelte-105jw5y {
+    margin-top: 0px !important;
+  }
+}
 /* Hero Section */
 .hero {
   position: relative;
