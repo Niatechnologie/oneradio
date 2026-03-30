@@ -658,7 +658,6 @@
         height: var(--slider-height, 600px);
         display: flex;
         gap: 0rem;
-        /* margin-top: 100px; */
         position: relative;
     }
 
