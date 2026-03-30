@@ -155,10 +155,11 @@ body {
   margin-bottom: 0 !important;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .main-content {
     /* padding: 2rem 1.5rem 9rem; */
     padding: 0;  
+    margin-top: 0;
     margin-bottom: 0 !important;
    
   }
