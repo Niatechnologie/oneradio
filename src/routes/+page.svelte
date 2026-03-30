@@ -967,45 +967,43 @@
     }
 </style>
 
-<!-- Structure HTML -->
-<div class="slider" style="height: {sliderHeight}">
-  {#each slides as slide, index}
-      <!-- svelte-ignore a11y_click_events_have_key_events -->
-      <!-- svelte-ignore a11y_no_static_element_interactions -->
-      <div
-          class="slide {index === activeIndex ? 'active' : ''}"
-          onclick={() => setActiveSlide(index)}
-      >
-          <div class="slide-bg" style="background-image: url({slide.url})"></div>
-          <div class="slide-overlay"></div>
-          <div class="slide-content">
-              <h2 class="slide-title">{slide.title}</h2>
-              <p class="slide-description">{slide.description}</p>
-          </div>
-          <div class="inactive-title">
-              <p class="vertical-text">{slide.title}</p>
-          </div>
-      </div>
-  {/each}
-</div>
 
-<div class="indicators">
-  {#each slides as _, index}
-      <!-- svelte-ignore a11y_no_static_element_interactions -->
-      <!-- svelte-ignore a11y_click_events_have_key_events -->
-      <div
-          class="indicator {index === activeIndex ? 'active' : ''}"
-          onclick={() => setActiveSlide(index)}
-      ></div>
-  {/each}
-</div>
 
 
 <main class="main-content">
-<div style="padding-top:20px" class="container">
-<!-- <div style="text-align: center;">
-  <img style="width:min(750px,100%);" src="{pubradio}" alt="pubrdio">
-</div> -->
+    <div style="padding-top:20px" class="container">
+    <!-- Structure HTML -->
+    <div class="slider" style="height: {sliderHeight}">
+      {#each slides as slide, index}
+          <!-- svelte-ignore a11y_click_events_have_key_events -->
+          <!-- svelte-ignore a11y_no_static_element_interactions -->
+          <div
+              class="slide {index === activeIndex ? 'active' : ''}"
+              onclick={() => setActiveSlide(index)}
+          >
+              <div class="slide-bg" style="background-image: url({slide.url})"></div>
+              <div class="slide-overlay"></div>
+              <div class="slide-content">
+                  <h2 class="slide-title">{slide.title}</h2>
+                  <p class="slide-description">{slide.description}</p>
+              </div>
+              <div class="inactive-title">
+                  <p class="vertical-text">{slide.title}</p>
+              </div>
+          </div>
+      {/each}
+    </div>
+
+    <div class="indicators">
+      {#each slides as _, index}
+          <!-- svelte-ignore a11y_no_static_element_interactions -->
+          <!-- svelte-ignore a11y_click_events_have_key_events -->
+          <div
+              class="indicator {index === activeIndex ? 'active' : ''}"
+              onclick={() => setActiveSlide(index)}
+          ></div>
+      {/each}
+    </div>
   <section class="artists-section">
   
     <div class="section">
