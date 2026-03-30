@@ -971,7 +971,7 @@
 
 
 <main class="main-content">
-    <div style="padding-top:20px" class="container">
+   
     <!-- Structure HTML -->
     <div class="slider" style="height: {sliderHeight}">
       {#each slides as slide, index}
@@ -1004,6 +1004,7 @@
           ></div>
       {/each}
     </div>
+   <div style="padding-top:20px" class="container">
   <section class="artists-section">
   
     <div class="section">
