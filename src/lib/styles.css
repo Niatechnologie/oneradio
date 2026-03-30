@@ -147,7 +147,7 @@ body {
 /* Main Content */
 .main-content {
   flex: 1;
-  margin-top: 110px;
+  margin-top: 108px;
   padding:0;
   background:url('img/kader.png') no-repeat -30% bottom,#fff;
   background-size:40% ;
