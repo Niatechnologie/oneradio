@@ -127,10 +127,7 @@
 		<p class="wh-subtitle">
 			Écoutez les belles sonorités du monde,<br>sélectionnées selon vos goûts du moment.
 		</p>
-		<div class="wh-live">
-			<span class="live-dot"></span>
-			<span class="wh-live-label">En direct</span>
-		</div>
+	
 	</div>
 
 	{#if loading}
@@ -254,23 +251,6 @@
 		line-height: 1.6;
 		max-width: 380px;
 		margin: 0 auto;
-	}
-
-	.wh-live {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 6px;
-		margin-top: 10px;
-	}
-
-	.live-dot {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background: #E24B4A;
-		display: inline-block;
-		animation: pulse-dot 1.2s ease-in-out infinite;
 	}
 
 	.wh-live-label {
