@@ -76,6 +76,9 @@ function getAbbreviatedDay(day) {
             <a href="https://www.youtube.com/@oneradiocotedivoire6837" target="_blank" rel="noopener noreferrer" class="social-link youtube" aria-label="YouTube">
               <i class="bi bi-youtube"></i>
             </a>
+            <a href="https://www.youtube.com/@oneradiocotedivoire6837" target="_blank" rel="noopener noreferrer" class="social-link youtube" aria-label="YouTube">
+              <i class="bi bi-tiktok"></i>
+            </a>
           </div>
         </div>
       </div>
