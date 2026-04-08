@@ -70,7 +70,7 @@
       <i class="bi bi-trophy-fill header-icon"></i>
       <h1>SUPER PARIEUR</h1>
     </div>
-    <p class="header-sub">Le jeu qui transforme tes pronostics en gains !</p>
+    <p class="header-sub">les analyses qui transforment  tes pronostics en gains !</p>
   </header>
 
   <!-- Hero Banner -->
@@ -79,7 +79,7 @@
     <img src={img_p} alt="Super Parieur" class="hero-img" />
     <div class="hero-text">
       <h2>Tu aimes le sport ?<br>Tu aimes les défis ?</h2>
-      <p>Deviens le <strong>SUPER PARIEUR</strong> de ONE RADIO chaque jour et gagne du <strong>CASH</strong> !</p>
+      <p>Deviens le <strong>SUPER PARIEUR</strong> de One Radio & Partenaires chaque jour et gagne du <strong>CASH</strong> !</p>
     </div>
   </div>
 
@@ -131,6 +131,12 @@
         <div class="step-icon"><i class="bi bi-ticket-perforated-fill"></i></div>
         <h3>Fais ton pari</h3>
         <p>Place tes pronostics sur les matchs de ton choix</p>
+        Nos horaires :
+        <ul class="avantages">
+          <li>10h30</li>
+          <li>12h30</li>
+          <li>14h30</li>
+        </ul>
       </div>
 
     </div>
