@@ -50,7 +50,6 @@
     <div class="occ-two-col" class:visible={isVisible}>
       <section class="occ-card occ-card--dark">
         <div class="occ-section-header occ-section-header--light">
-          <span class="occ-icon">🎯</span>
           <h2>Notre vision</h2>
         </div>
         <p>
@@ -61,7 +60,6 @@
 
       <section class="occ-card">
         <div class="occ-section-header">
-          <span class="occ-icon">🚀</span>
           <h2>Notre mission</h2>
         </div>
         <ul class="occ-list">
@@ -76,13 +74,11 @@
     <!-- ── ACTIVITÉS ── -->
     <section class="occ-section" class:visible={isVisible}>
       <div class="occ-section-header">
-        <span class="occ-icon">🎭</span>
         <h2>Nos activités</h2>
       </div>
       <div class="occ-activities-grid">
 
         <div class="occ-activity-card">
-          <div class="occ-activity-icon">🎤</div>
           <h3>ONE COMEDY LIVE</h3>
           <p>Des soirées stand-up organisées régulièrement dans des lieux premium à Abidjan.</p>
           <div class="occ-formats">
@@ -94,7 +90,6 @@
         </div>
 
         <div class="occ-activity-card">
-          <div class="occ-activity-icon">📻</div>
           <h3>ONE COMEDY RADIO</h3>
           <p>Le rire s'invite sur les ondes de One Radio.</p>
           <div class="occ-formats">
@@ -132,7 +127,6 @@
     <!-- ── PARTENAIRES ── -->
     <section class="occ-section occ-section--gold" class:visible={isVisible}>
       <div class="occ-section-header">
-        <span class="occ-icon">💼</span>
         <h2>Opportunités pour les partenaires</h2>
       </div>
       <p class="occ-lead">
@@ -150,28 +144,22 @@
     <!-- ── POURQUOI ── -->
     <section class="occ-section" class:visible={isVisible}>
       <div class="occ-section-header">
-        <span class="occ-icon">📊</span>
         <h2>Pourquoi ONE COMEDY CLUB ?</h2>
       </div>
       <div class="occ-why-grid">
         <div class="occ-why-item">
-          <span class="occ-why-icon">🔊</span>
           <p>Adossé à la puissance média de <strong>One Radio</strong></p>
         </div>
         <div class="occ-why-item">
-          <span class="occ-why-icon">📈</span>
           <p>Forte <strong>viralité</strong> du contenu humoristique</p>
         </div>
         <div class="occ-why-item">
-          <span class="occ-why-icon">🎯</span>
           <p>Cible jeune et active <strong>(18–40 ans)</strong></p>
         </div>
         <div class="occ-why-item">
-          <span class="occ-why-icon">🌍</span>
           <p>Potentiel de diffusion <strong>régional et international</strong></p>
         </div>
         <div class="occ-why-item">
-          <span class="occ-why-icon">💡</span>
           <p>Concept <strong>innovant et scalable</strong></p>
         </div>
       </div>
@@ -180,7 +168,6 @@
     <!-- ── AMBITION ── -->
     <section class="occ-ambition" class:visible={isVisible}>
       <div class="occ-ambition-inner">
-        <div class="occ-ambition-icon">🔥</div>
         <h2>Notre ambition</h2>
         <p>
           Créer une nouvelle génération de <strong>stars du rire africain</strong>, tout en positionnant
