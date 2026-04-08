@@ -181,7 +181,6 @@
       <p class="occ-lead">Vous êtes :</p>
       <div class="occ-join-grid">
         <div class="occ-join-card">
-          <span class="occ-join-emoji">🎤</span>
           <strong>Humoriste ?</strong>
           <p>Montez sur scène et faites briller votre talent.</p>
         </div>
