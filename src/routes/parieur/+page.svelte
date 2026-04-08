@@ -140,7 +140,7 @@
   <section class="winner-section" class:visible={isVisible}>
     <div class="winner-card">
       <div class="winner-icon"><i class="bi bi-star-fill"></i></div>
-      <h2>🏆 Deviens le SUPER PARIEUR du jour !</h2>
+      <h2>Deviens le SUPER PARIEUR du jour !</h2>
       <p>Celui qui fait le plus de <strong>GROS pronostics gagnants</strong> devient le <strong>SUPER PARIEUR</strong> du jour !</p>
     </div>
   </section>
@@ -160,11 +160,11 @@
   <section class="cta-section" class:visible={isVisible}>
     <div class="cta-card">
       <i class="bi bi-broadcast-pin cta-icon"></i>
-      <h2>📻 SUPER PARIEUR – ONE RADIO</h2>
+      <h2>SUPER PARIEUR – ONE RADIO</h2>
       <p>Le jeu qui transforme tes pronostics en gains !</p>
-      <a href="https://wa.me/2250500877877" target="_blank" class="cta-btn">
+      <!-- <a href="https://wa.me/2250500877877" target="_blank" class="cta-btn">
         <i class="bi bi-whatsapp"></i> Participer maintenant
-      </a>
+      </a> -->
     </div>
   </section>
 </div>
@@ -536,7 +536,7 @@
     display: inline-block;
     width: 16px;
     height: 16px;
-    background: #22c55e;
+    background: #ff0000;
     border-radius: 50%;
     flex-shrink: 0;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M13 4L6.5 11 3 7.5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -545,8 +545,8 @@
   .btn-open {
     width: 100%;
     padding: 14px;
-    background: #f0b429;
-    color: #3d2700;
+    background: #ff0000;
+    color: #ffffff;
     font-size: 15px;
     font-weight: 600;
     border: none;
