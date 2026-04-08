@@ -180,7 +180,8 @@ function getAbbreviatedDay(day) {
     .header-right {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
+      align-items: center;
+      justify-content: left;
       gap: 0.5rem;
     }
 
