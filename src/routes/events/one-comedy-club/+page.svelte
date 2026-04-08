@@ -11,7 +11,7 @@
 <svelte:head>
   <title>ONE COMEDY CLUB – One Radio</title>
   <meta name="description" content="ONE COMEDY CLUB, la plateforme humoristique officielle de One Radio. Stand-up, live, radio, digital et formation en Côte d'Ivoire et en Afrique." />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 </svelte:head>
 
 <div class="occ-wrap">
@@ -78,7 +78,7 @@
       <div class="occ-activities-grid">
 
         <div class="occ-activity-card">
-          <div class="occ-activity-icon">🎤</div>
+          <div class="occ-activity-icon"><i class="bi bi-mic-fill"></i></div>
           <h3>ONE COMEDY LIVE</h3>
           <p>Des soirées stand-up organisées régulièrement dans des lieux premium à Abidjan.</p>
           <div class="occ-formats">
@@ -90,7 +90,7 @@
         </div>
 
         <div class="occ-activity-card">
-          <div class="occ-activity-icon">📻</div>
+          <div class="occ-activity-icon"><i class="bi bi-broadcast"></i></div>
           <h3>ONE COMEDY RADIO</h3>
           <p>Le rire s'invite sur les ondes de One Radio.</p>
           <div class="occ-formats">
@@ -101,7 +101,7 @@
         </div>
 
         <div class="occ-activity-card">
-          <div class="occ-activity-icon">📱</div>
+          <div class="occ-activity-icon"><i class="bi bi-phone-fill"></i></div>
           <h3>ONE COMEDY DIGITAL</h3>
           <p>Une présence forte sur le digital pour maximiser l'audience.</p>
           <div class="occ-formats">
@@ -112,7 +112,7 @@
         </div>
 
         <div class="occ-activity-card">
-          <div class="occ-activity-icon">🎓</div>
+          <div class="occ-activity-icon"><i class="bi bi-mortarboard-fill"></i></div>
           <h3>ONE COMEDY ACADEMY</h3>
           <p>Un programme de formation et d'incubation des talents.</p>
           <div class="occ-formats">
@@ -149,23 +149,23 @@
       </div>
       <div class="occ-why-grid">
         <div class="occ-why-item">
-          <span class="occ-why-icon">🔊</span>
+          <span class="occ-why-icon"><i class="bi bi-volume-up-fill"></i></span>
           <p>Adossé à la puissance média de <strong>One Radio</strong></p>
         </div>
         <div class="occ-why-item">
-          <span class="occ-why-icon">📈</span>
+          <span class="occ-why-icon"><i class="bi bi-graph-up-arrow"></i></span>
           <p>Forte <strong>viralité</strong> du contenu humoristique</p>
         </div>
         <div class="occ-why-item">
-          <span class="occ-why-icon">🎯</span>
+          <span class="occ-why-icon"><i class="bi bi-bullseye"></i></span>
           <p>Cible jeune et active <strong>(18–40 ans)</strong></p>
         </div>
         <div class="occ-why-item">
-          <span class="occ-why-icon">🌍</span>
+          <span class="occ-why-icon"><i class="bi bi-globe2"></i></span>
           <p>Potentiel de diffusion <strong>régional et international</strong></p>
         </div>
         <div class="occ-why-item">
-          <span class="occ-why-icon">💡</span>
+          <span class="occ-why-icon"><i class="bi bi-lightbulb-fill"></i></span>
           <p>Concept <strong>innovant et scalable</strong></p>
         </div>
       </div>
@@ -174,7 +174,7 @@
     <!-- ── AMBITION ── -->
     <section class="occ-ambition" class:visible={isVisible}>
       <div class="occ-ambition-inner">
-        <div class="occ-ambition-icon">🔥</div>
+        <div class="occ-ambition-icon"><i class="bi bi-fire"></i></div>
         <h2>Notre ambition</h2>
         <p>
           Créer une nouvelle génération de <strong>stars du rire africain</strong>, tout en positionnant
@@ -191,27 +191,27 @@
       <p class="occ-lead">Vous êtes :</p>
       <div class="occ-join-grid">
         <div class="occ-join-card">
-          <span class="occ-join-emoji">🎤</span>
+          <span class="occ-join-emoji"><i class="bi bi-mic-fill"></i></span>
           <strong>Humoriste ?</strong>
           <p>Montez sur scène et faites briller votre talent.</p>
         </div>
         <div class="occ-join-card">
-          <span class="occ-join-emoji">🤝</span>
+          <span class="occ-join-emoji"><i class="bi bi-handshake"></i></span>
           <strong>Partenaire ou sponsor ?</strong>
           <p>Associez votre marque à la bonne humeur et au rire.</p>
         </div>
         <div class="occ-join-card">
-          <span class="occ-join-emoji">📺</span>
+          <span class="occ-join-emoji"><i class="bi bi-tv-fill"></i></span>
           <strong>Producteur ou média ?</strong>
           <p>Collaborez pour créer des contenus à fort impact.</p>
         </div>
       </div>
-      <p class="occ-cta-label">👉 ONE COMEDY CLUB est votre plateforme.</p>
+      <p class="occ-cta-label"><i class="bi bi-arrow-right-circle-fill"></i> ONE COMEDY CLUB est votre plateforme.</p>
     </section>
 
     <!-- ── CONTACT ── -->
     <section class="occ-contact" class:visible={isVisible}>
-      <h2>📞 Contact</h2>
+      <h2><i class="bi bi-telephone-fill"></i> Contact</h2>
       <div class="occ-contact-grid">
         <div class="occ-contact-item">
           <i class="bi bi-geo-alt-fill"></i>
@@ -410,7 +410,7 @@
 
   .occ-activity-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.11); }
 
-  .occ-activity-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .occ-activity-icon { font-size: 2rem; margin-bottom: 0.75rem; color: var(--occ-yellow); }
 
   .occ-activity-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--occ-text); margin-bottom: 0.5rem; }
 
@@ -461,7 +461,7 @@
   }
 
   .occ-why-item:hover { transform: translateY(-3px); }
-  .occ-why-icon { display: block; font-size: 1.75rem; margin-bottom: 0.6rem; }
+  .occ-why-icon { display: block; font-size: 1.75rem; margin-bottom: 0.6rem; color: var(--occ-yellow-dark); }
   .occ-why-item p { font-size: 0.9rem; color: var(--occ-muted); line-height: 1.5; }
   .occ-why-item strong { color: var(--occ-text); }
 
@@ -474,7 +474,7 @@
   }
 
   .occ-ambition.visible { opacity: 1; transform: translateY(0); }
-  .occ-ambition-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .occ-ambition-icon { font-size: 2.5rem; margin-bottom: 0.75rem; color: var(--occ-yellow); }
   .occ-ambition h2 { font-size: 1.5rem; font-weight: 700; color: var(--occ-white); margin-bottom: 0.75rem; }
   .occ-ambition p { font-size: 1.05rem; color: #ccc; line-height: 1.7; max-width: 600px; margin: 0 auto; }
   .occ-ambition strong { color: var(--occ-yellow); }
@@ -498,10 +498,11 @@
   }
 
   .occ-join-card:hover { transform: translateY(-3px); }
-  .occ-join-emoji { display: block; font-size: 2rem; margin-bottom: 0.5rem; }
+  .occ-join-emoji { display: block; font-size: 2rem; margin-bottom: 0.5rem; color: var(--occ-yellow-dark); }
   .occ-join-card strong { display: block; font-size: 0.95rem; margin-bottom: 0.35rem; color: var(--occ-text); }
   .occ-join-card p { font-size: 0.85rem; color: var(--occ-muted); line-height: 1.5; }
   .occ-cta-label { text-align: center; font-size: 1.05rem; font-weight: 700; color: var(--occ-text); }
+  .occ-cta-label i { color: var(--occ-yellow-dark); }
 
   .occ-contact {
     background: var(--occ-dark2); border-radius: var(--occ-radius); padding: 2rem;
@@ -511,6 +512,7 @@
 
   .occ-contact.visible { opacity: 1; transform: translateY(0); }
   .occ-contact h2 { font-size: 1.3rem; font-weight: 700; color: var(--occ-white); margin-bottom: 1.25rem; }
+  .occ-contact h2 i { color: var(--occ-yellow); margin-right: 0.4rem; }
   .occ-contact-grid { display: flex; flex-wrap: wrap; gap: 1.25rem; }
   .occ-contact-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.95rem; color: #ccc; }
   .occ-contact-item i { color: var(--occ-yellow); font-size: 1rem; }
