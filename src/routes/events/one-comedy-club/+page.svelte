@@ -233,8 +233,8 @@
 
 <style>
   :root {
-    --occ-yellow: #f5c518;
-    --occ-yellow-dark: #d4a800;
+    --occ-yellow: #ff0000;
+    --occ-yellow-dark: #b30101;
     --occ-dark: #121212;
     --occ-dark2: #1e1e2e;
     --occ-red: #ff1919;
