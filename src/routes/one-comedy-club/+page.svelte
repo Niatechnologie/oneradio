@@ -21,7 +21,7 @@
     <div class="occ-hero-overlay"></div>
     <div class="occ-hero-content">
       <span class="occ-tag">One Radio présente</span>
-      <h1>🎤 ONE COMEDY CLUB</h1>
+      <h1>ONE COMEDY CLUB</h1>
       <p class="occ-tagline">Le rire devient une industrie</p>
     </div>
   </header>
