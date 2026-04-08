@@ -1286,7 +1286,7 @@
   <a href="/" id="logo_bureau"><img  style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
   <div class="menu-desktop">
     <a class:active={isActiveRoute('/news')} target="_blank" href="https://www.youtube.com/@oneradiocotedivoire6837"><i style="margin-right: 2px;" class="bi bi-play-btn-fill"></i> &nbsp; One TV</a>
-    <a href="https://boutique.oneradio.ci/" target="_blank">Shop</a>
+    <a href="https://shop.oneradio.ci/" target="_blank">Shop</a>
        <a class:active={isActiveRoute('/webradio')}  href="/webradio">web Radios</a>
 
     <a class="logo" href="/" id="logo"><img style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
@@ -1307,12 +1307,11 @@
   <div class="menu-mobile">
   <a href="/" id="logo"><img  style="border-radius: 10px;"width="190" src="{logo}" alt=""></a>
   <a href="https://www.youtube.com/@oneradiocotedivoire6837" target="_blank"><i class="bi bi-play-btn-fill"></i> One TV <i class="bi bi-chevron-right"></i></a>
-  <a href="https://boutique.oneradio.ci/" target="_blank"><i class="bi bi-shop"></i> Shop <i class="bi bi-chevron-right"></i></a>
+  <a href="https://shop.oneradio.ci/" target="_blank"><i class="bi bi-shop"></i> Shop <i class="bi bi-chevron-right"></i></a>
   <a href="/webradio"><i class="bi bi-broadcast"></i> Web Radios <i class="bi bi-chevron-right"></i></a>
   <a href="/events"><i class="bi bi-calendar-event"></i> Events <i class="bi bi-chevron-right"></i></a>
   <a href="/programme"><i class="bi bi-mic-fill"></i> Nos Emissions <i class="bi bi-chevron-right"></i></a>
   <a href="/parieur"><i class="bi bi-trophy-fill"></i> Super Parieur <i class="bi bi-chevron-right"></i></a>
-  <a href="https://boutique.oneradio.ci/" target="_blank"><i class="bi bi-shop"></i> Shop <i class="bi bi-chevron-right"></i></a>
 </div>
 <!-- Élément audio (caché) -->
 <div style="display:none">
