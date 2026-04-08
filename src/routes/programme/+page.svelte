@@ -167,6 +167,7 @@ function getAbbreviatedDay(day) {
     .header-left {
       display: flex;
       align-items: center;
+      justify-content:right;
       gap: 0.75rem;
     }
 
