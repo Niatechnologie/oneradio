@@ -235,35 +235,34 @@
     
     .social-links {
       display: flex;
-      gap: 1rem;
+      gap: 0.65rem;
     }
     
     .social-link {
-      padding: 0.8rem;
+      width: 2.2rem;
+      height: 2.2rem;
       border-radius: 50%;
-      transition: all 0.3s ease;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
+      text-decoration: none;
     }
     
     .social-link i {
-      font-size: 1.2rem;
-    }
-    
-    .social-link:hover {
-      background-color: #ff1919;
-      color: white;
+      font-size: 1.05rem;
     }
 
     .social-link.whatsapp { color: #25D366; }
     .social-link.facebook { color: #1877F2; }
     .social-link.youtube  { color: #FF0000; }
     .social-link.tiktok   { color: #ffffff; }
-    .social-link.whatsapp:hover { background-color: #25D366; }
-    .social-link.facebook:hover { background-color: #1877F2; }
-    .social-link.youtube:hover  { background-color: #FF0000; }
-    .social-link.tiktok:hover   { background-color: #333; }
+
+    .social-link.whatsapp:hover { background: #25D366; color: #fff; border-color: #25D366; transform: translateY(-3px) scale(1.1); }
+    .social-link.facebook:hover { background: #1877F2; color: #fff; border-color: #1877F2; transform: translateY(-3px) scale(1.1); }
+    .social-link.youtube:hover  { background: #FF0000; color: #fff; border-color: #FF0000; transform: translateY(-3px) scale(1.1); }
+    .social-link.tiktok:hover   { background: #333;    color: #fff; border-color: #555;    transform: translateY(-3px) scale(1.1); }
 
     /* Boutons App Store / Play Store */
     .app-links {
