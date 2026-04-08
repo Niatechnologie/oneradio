@@ -3,10 +3,59 @@
   import img_p from '$lib/img/parieur.png';
 
   let isVisible = $state(false);
+  let copySuccess = $state(false);
+  let toastVisible = $state(false);
+  let popupBlocked = $state(false);
+
+  const PROMO_CODE = 'OA7245400';
+  const AKWABET_URL = 'https://akwabet.com/prematch';
 
   onMount(() => {
     isVisible = true;
   });
+
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'absolute';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+
+  function copierCode() {
+    navigator.clipboard.writeText(PROMO_CODE).then(() => {
+      copySuccess = true;
+      setTimeout(() => { copySuccess = false; }, 2000);
+    }).catch(() => {
+      fallbackCopy(PROMO_CODE);
+    });
+  }
+
+  function ouvrirAkwabet() {
+    try {
+      navigator.clipboard.writeText(PROMO_CODE).catch(() => {});
+    } catch(e) {
+      try { fallbackCopy(PROMO_CODE); } catch(e2) {}
+    }
+
+    const popup = window.open(
+      AKWABET_URL,
+      'akwabet_popup',
+      'width=1000,height=700,left=100,top=60,scrollbars=yes,resizable=yes'
+    );
+
+    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+      popupBlocked = true;
+      toastVisible = false;
+    } else {
+      toastVisible = true;
+      popupBlocked = false;
+      setTimeout(() => { toastVisible = false; }, 5000);
+    }
+  }
 </script>
 
 <svelte:head>
@@ -38,18 +87,43 @@
   <section class="steps-section">
     <h2 class="section-title">Comment participer ?</h2>
     <div class="steps-grid">
-      <div class="step-card" class:visible={isVisible}>
-        <div class="step-number">1</div>
-        <div class="step-icon"><i class="bi bi-person-plus-fill"></i></div>
-        <h3>Inscris-toi</h3>
-        <p>Inscris-toi sur <strong>AKWABET</strong> avec le code promo</p>
-        <div class="promo-code">
-          <i class="bi bi-tag-fill"></i>
-          <span>CODE PROMO : 877</span>
+      <div class="step-card step-card--promo" class:visible={isVisible}>
+        <div class="promo-card-header">
+          <div class="step-number step-number--inline">1</div>
+          <div class="badge">Offre exclusive</div>
+          <h3>Bonus de bienvenue +50%</h3>
+          <p>Utilisez le code ci-dessous sur Akwabet</p>
         </div>
-        <a href="https://akwabet.com/prematch" target="_blank" class="inscription-btn">
-          <i class="bi bi-box-arrow-up-right"></i> S'inscrire sur AKWABET
-        </a>
+        <div class="promo-card-body">
+          <div class="code-box">
+            <span class="code-label">Code</span>
+            <span class="code-value">{PROMO_CODE}</span>
+            <button class="btn-copy" class:copied={copySuccess} onclick={copierCode}>
+              {copySuccess ? 'Copié !' : 'Copier'}
+            </button>
+          </div>
+          <ul class="avantages">
+            <li>Bonus de 50% sur votre premier dépôt</li>
+            <li>Offre valable 48h après inscription</li>
+            <li>Collez le code dans le champ "Code promo"</li>
+          </ul>
+          <button class="btn-open" onclick={ouvrirAkwabet}>
+            Ouvrir Akwabet et utiliser le code
+          </button>
+          <p class="hint">Le code sera copié automatiquement dans votre presse-papier</p>
+          {#if toastVisible}
+            <div class="toast">
+              Code copié ! Collez-le avec <strong>Ctrl+V</strong> dans le champ "Code promo" sur Akwabet.
+            </div>
+          {/if}
+          {#if popupBlocked}
+            <div class="popup-blocked">
+              Votre navigateur a bloqué la fenêtre.
+              <a href={AKWABET_URL} target="_blank">Cliquez ici pour ouvrir Akwabet</a>
+              — puis collez le code <strong>{PROMO_CODE}</strong> avec Ctrl+V.
+            </div>
+          {/if}
+        </div>
       </div>
 
       <div class="step-card" class:visible={isVisible}>
@@ -59,15 +133,6 @@
         <p>Place tes pronostics sur les matchs de ton choix</p>
       </div>
 
-      <div class="step-card" class:visible={isVisible}>
-        <div class="step-number">3</div>
-        <div class="step-icon"><i class="bi bi-whatsapp"></i></div>
-        <h3>Envoie ta capture</h3>
-        <p>Envoie la capture de ton ticket sur le WhatsApp de ONE RADIO</p>
-        <a href="https://wa.me/2250500877877" target="_blank" class="whatsapp-btn">
-          <i class="bi bi-whatsapp"></i> 0500 877 877
-        </a>
-      </div>
     </div>
   </section>
 
@@ -87,7 +152,7 @@
         <i class="bi bi-exclamation-triangle-fill"></i>
         <h3>Rappel important</h3>
       </div>
-      <p>Sans le <strong>CODE PROMO : 877</strong>, ta participation n'est pas valable !</p>
+      <p>Sans le <strong>CODE PROMO : OA7245400</strong>, ta participation n'est pas valable !</p>
     </div>
   </section>
 
@@ -259,7 +324,6 @@
   }
 
   .step-card:nth-child(2) { transition-delay: 0.25s; }
-  .step-card:nth-child(3) { transition-delay: 0.4s; }
 
   .step-card.visible {
     opacity: 1;
@@ -360,6 +424,171 @@
   .whatsapp-btn:hover {
     background: #1da851;
     transform: scale(1.05);
+  }
+
+  /* Step 1 Promo Card */
+  .step-card--promo {
+    padding: 0;
+    overflow: hidden;
+    text-align: left;
+  }
+
+  .step-number--inline {
+    position: static;
+    transform: none;
+    margin: 0 auto 0.75rem;
+  }
+
+  .promo-card-header {
+    background: #1a1a2e;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-block;
+    background: #f0b429;
+    color: #3d2700;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .promo-card-header h3 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .promo-card-header p {
+    color: #aaa;
+    font-size: 13px;
+  }
+
+  .promo-card-body {
+    padding: 1.5rem;
+  }
+
+  .code-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8f8f8;
+    border: 1.5px dashed #ccc;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 1rem;
+  }
+
+  .code-label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .code-value {
+    flex: 1;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #1a1a2e;
+    text-align: center;
+  }
+
+  .btn-copy {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    color: #444;
+    transition: background 0.15s;
+  }
+
+  .btn-copy:hover { background: #eee; }
+  .btn-copy.copied { border-color: #22c55e; color: #16a34a; }
+
+  .avantages {
+    list-style: none;
+    margin-bottom: 1.25rem;
+    padding: 0;
+  }
+
+  .avantages li {
+    font-size: 13px;
+    color: #444;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .avantages li::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: #22c55e;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M13 4L6.5 11 3 7.5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .btn-open {
+    width: 100%;
+    padding: 14px;
+    background: #f0b429;
+    color: #3d2700;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .btn-open:hover { background: #e0a820; }
+  .btn-open:active { transform: scale(0.98); }
+
+  .hint {
+    font-size: 11px;
+    color: #999;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .toast {
+    margin-top: 14px;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #166534;
+    text-align: center;
+  }
+
+  .popup-blocked {
+    margin-top: 14px;
+    background: #fefce8;
+    border: 1px solid #fde047;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #713f12;
+  }
+
+  .popup-blocked a {
+    color: #92400e;
+    font-weight: 600;
   }
 
   /* Winner Section */
