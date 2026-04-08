@@ -221,8 +221,8 @@
 <style>
   /* ── Variables locales ── */
   :root {
-    --occ-yellow: #f5c518;
-    --occ-yellow-dark: #d4a800;
+    --occ-yellow: #f51818;
+    --occ-yellow-dark: #a30000;
     --occ-dark: #121212;
     --occ-dark2: #1e1e2e;
     --occ-red: #ff1919;
