@@ -192,6 +192,9 @@
     flex: 1;
     padding: 2rem 1rem 4rem 1rem;
   }
+  .main-content {
+    margin-top: 2rem;    
+  }
   .response-message {
     margin-top: 1rem;
     padding: 0.75rem 1rem;
