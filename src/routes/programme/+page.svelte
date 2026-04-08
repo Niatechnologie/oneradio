@@ -62,6 +62,7 @@ function getAbbreviatedDay(day) {
             <p class="header-subtitle">Guide des Emissions hebdomadaires</p>
           </div>
         </div>
+        <div class="header-divider"></div>
         <div class="header-right">
           <a href="tel:+2250501877877" class="phone-number">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.42 2 2 0 0 1 3.57 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.46 16z"></path></svg>
@@ -159,7 +160,7 @@ function getAbbreviatedDay(day) {
     .header-content {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0;
       margin-bottom: 0.5rem;
     }
 
@@ -167,7 +168,17 @@ function getAbbreviatedDay(day) {
       flex: 0 0 50%;
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       gap: 0.75rem;
+      padding-right: 1.5rem;
+    }
+
+    .header-divider {
+      width: 2px;
+      align-self: stretch;
+      background-color: #e00;
+      border-radius: 1px;
+      flex-shrink: 0;
     }
 
     .header-subtitle {
@@ -180,8 +191,9 @@ function getAbbreviatedDay(day) {
       flex: 0 0 50%;
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
+      align-items: flex-start;
       gap: 0.5rem;
+      padding-left: 1.5rem;
     }
 
     .phone-number {
