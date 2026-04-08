@@ -555,7 +555,7 @@
     transition: background 0.15s, transform 0.1s;
   }
 
-  .btn-open:hover { background: #e0a820; }
+  .btn-open:hover { background: #830505; }
   .btn-open:active { transform: scale(0.98); }
 
   .hint {
