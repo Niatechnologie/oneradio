@@ -85,6 +85,8 @@
           <!-- Section In House -->
           <h2 class="section-title">Événements In House</h2>
           <div class="inhouse-section">
+
+            <!-- ORMA -->
             <article class="orma-card">
               <div class="orma-image">
                 <div class="orma-badge">IN HOUSE</div>
@@ -115,6 +117,39 @@
                 </a>
               </div>
             </article>
+
+            <!-- ONE COMEDY CLUB -->
+            <article class="orma-card occ-card">
+              <div class="orma-image occ-image">
+                <div class="orma-badge occ-badge">IN HOUSE</div>
+                <div class="orma-gradient occ-gradient"></div>
+                <div class="orma-content-overlay">
+                  <h3 class="orma-title occ-title">🎤 ONE COMEDY CLUB</h3>
+                  <p class="orma-subtitle">La plateforme humoristique officielle de One Radio</p>
+                </div>
+              </div>
+              <div class="orma-body">
+                <p class="orma-desc">
+                  <strong>ONE COMEDY CLUB</strong> est dédié à la découverte, la production et la promotion
+                  des talents du stand-up en Côte d'Ivoire et en Afrique. Un écosystème complet combinant
+                  scène, radio, formation et diffusion digitale.
+                </p>
+                <div class="orma-info">
+                  <span class="orma-date"><i class="bi bi-calendar3"></i> Soirées régulières</span>
+                  <span class="orma-location"><i class="bi bi-geo-alt-fill"></i> Abidjan &amp; Afrique</span>
+                </div>
+                <div class="orma-highlights">
+                  <span><i class="bi bi-mic-fill"></i> Open mic</span>
+                  <span><i class="bi bi-camera-video-fill"></i> One man show</span>
+                  <span><i class="bi bi-mortarboard-fill"></i> Academy</span>
+                  <span><i class="bi bi-broadcast"></i> Radio</span>
+                </div>
+                <a href="/events/one-comedy-club" class="orma-btn occ-btn">
+                  Découvrir le projet <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
           </div>
 
           <!-- Section Others -->
@@ -223,7 +258,16 @@
 
   /* ORMA In House Card */
   .inhouse-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
     margin-bottom: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .inhouse-section {
+      grid-template-columns: 1fr;
+    }
   }
 
   .orma-card {
@@ -362,6 +406,35 @@
     background: linear-gradient(135deg, #cc0000, #990000);
     transform: scale(1.05);
     box-shadow: 0 4px 15px rgba(255, 25, 25, 0.4);
+  }
+
+  /* ONE COMEDY CLUB card overrides */
+  .occ-image {
+    background: linear-gradient(135deg, #121212 0%, #1a0040 50%, #3d0070 100%);
+  }
+
+  .occ-gradient {
+    background: radial-gradient(circle at 70% 30%, rgba(245, 197, 24, 0.2), transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(100, 0, 200, 0.25), transparent 50%);
+  }
+
+  .occ-badge {
+    background: #f5c518;
+    color: #121212;
+  }
+
+  .occ-title {
+    color: #f5c518;
+  }
+
+  .occ-btn {
+    background: linear-gradient(135deg, #f5c518, #d4a800);
+    color: #121212;
+  }
+
+  .occ-btn:hover {
+    background: linear-gradient(135deg, #d4a800, #a07800);
+    box-shadow: 0 4px 15px rgba(245, 197, 24, 0.45);
   }
 
   @media (max-width: 768px) {
