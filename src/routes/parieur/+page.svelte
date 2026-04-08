@@ -132,7 +132,7 @@
         <h3>Fais ton pari</h3>
         <p>Place tes pronostics sur les matchs de ton choix</p>
         Nos horaires :
-        <ul class="avantages">
+        <ul class="avantages" style="margin: 0.5rem auto 0; width: fit-content;">
           <li>10h30</li>
           <li>12h30</li>
           <li>14h30</li>
