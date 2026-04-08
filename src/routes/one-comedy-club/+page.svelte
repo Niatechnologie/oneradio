@@ -31,7 +31,6 @@
     <!-- ── À PROPOS ── -->
     <section class="occ-section" class:visible={isVisible}>
       <div class="occ-section-header">
-        <span class="occ-icon">🌍</span>
         <h2>À propos</h2>
       </div>
       <div class="occ-card">
@@ -100,7 +99,6 @@
         </div>
 
         <div class="occ-activity-card">
-          <div class="occ-activity-icon">📱</div>
           <h3>ONE COMEDY DIGITAL</h3>
           <p>Une présence forte sur le digital pour maximiser l'audience.</p>
           <div class="occ-formats">
@@ -111,7 +109,6 @@
         </div>
 
         <div class="occ-activity-card">
-          <div class="occ-activity-icon">🎓</div>
           <h3>ONE COMEDY ACADEMY</h3>
           <p>Un programme de formation et d'incubation des talents.</p>
           <div class="occ-formats">
@@ -179,7 +176,6 @@
     <!-- ── REJOIGNEZ-NOUS ── -->
     <section class="occ-section occ-section--join" class:visible={isVisible}>
       <div class="occ-section-header">
-        <span class="occ-icon">🎙️</span>
         <h2>Rejoignez-nous</h2>
       </div>
       <p class="occ-lead">Vous êtes :</p>
@@ -190,22 +186,20 @@
           <p>Montez sur scène et faites briller votre talent.</p>
         </div>
         <div class="occ-join-card">
-          <span class="occ-join-emoji">🤝</span>
           <strong>Partenaire ou sponsor ?</strong>
           <p>Associez votre marque à la bonne humeur et au rire.</p>
         </div>
         <div class="occ-join-card">
-          <span class="occ-join-emoji">📺</span>
           <strong>Producteur ou média ?</strong>
           <p>Collaborez pour créer des contenus à fort impact.</p>
         </div>
       </div>
-      <p class="occ-cta-label">👉 ONE COMEDY CLUB est votre plateforme.</p>
+      <p class="occ-cta-label">ONE COMEDY CLUB est votre plateforme.</p>
     </section>
 
     <!-- ── CONTACT ── -->
     <section class="occ-contact" class:visible={isVisible}>
-      <h2>📞 Contact</h2>
+      <h2>Contact</h2>
       <div class="occ-contact-grid">
         <div class="occ-contact-item">
           <i class="bi bi-geo-alt-fill"></i>
