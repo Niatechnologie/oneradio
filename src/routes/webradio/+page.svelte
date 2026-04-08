@@ -115,7 +115,7 @@
 				<span class="bar"></span>
 				<span class="bar"></span>
 			</div>
-			<span class="wh-title">Nos webradios</span>
+			<h2 class="section-title" >Nos webradios</h2>
 			<div class="bars-wrap bars-wrap--flip">
 				<span class="bar"></span>
 				<span class="bar"></span>
@@ -157,6 +157,17 @@
 			{/each}
 		</div>
 	{/if}
+
+	<div class="cta-block">
+		<div class="cta-icon"><i class="bi bi-broadcast"></i></div>
+		<div class="cta-text">
+			<p class="cta-main">Nous mettons à votre disposition des <strong>webradios personnalisées</strong>, contactez dès maintenant notre service technique&nbsp;: nous vous proposons des solutions <strong>clé en main</strong>.</p>
+			<a href="tel:+2250501877877" class="cta-phone">
+				<i class="bi bi-telephone-fill"></i>
+				Appelez au (+225) 0501 877 877
+			</a>
+		</div>
+	</div>
 </div>
 
 <style>
@@ -205,6 +216,16 @@
 		color: var(--color-text-primary, #111);
 	}
 
+	.section-title {
+		text-align: center;
+		font-size: 1.7rem;
+		color: #333;
+		margin-bottom: 3rem;
+		position: relative;
+	}
+
+	
+
 	.bars-wrap {
 		display: flex;
 		align-items: flex-end;
@@ -218,7 +239,7 @@
 		display: inline-block;
 		width: 4px;
 		border-radius: 2px;
-		background: #7F77DD;
+		background: #F00;
 		transform-origin: bottom;
 	}
 	.bar:nth-child(1) { animation: wave 0.9s ease-in-out infinite 0s;    height: 14px; }
@@ -312,9 +333,63 @@
 		.radio-grid {
 			grid-template-columns: 1fr;
 		}
+	}
 
-		h1 {
-			font-size: 1.8em;
-		}
+	/* CTA block */
+	.cta-block {
+		display: flex;
+		align-items: center;
+		gap: 1.25rem;
+		background: linear-gradient(135deg, #1a0000 0%, #2d0000 100%);
+		border: 1px solid #F0033;
+		border-radius: 1rem;
+		padding: 1.75rem 2rem;
+		margin-top: 3rem;
+	}
+
+	.cta-icon {
+		font-size: 2.5rem;
+		color: #F00;
+		flex-shrink: 0;
+	}
+
+	.cta-text {
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+	}
+
+	.cta-main {
+		font-size: 0.97rem;
+		color: #ddd;
+		line-height: 1.6;
+		margin: 0;
+	}
+
+	.cta-main strong { color: #fff; }
+
+	.cta-phone {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		background: #E24B4A;
+		color: #fff;
+		font-size: 1rem;
+		font-weight: 700;
+		text-decoration: none;
+		padding: 0.55rem 1.25rem;
+		border-radius: 2rem;
+		width: fit-content;
+		transition: background 0.2s, transform 0.2s;
+	}
+
+	.cta-phone:hover {
+		background: #c03939;
+		transform: scale(1.03);
+	}
+
+	@media (max-width: 600px) {
+		.cta-block { flex-direction: column; text-align: center; padding: 1.5rem 1.25rem; }
+		.cta-phone { align-self: center; }
 	}
 </style>
