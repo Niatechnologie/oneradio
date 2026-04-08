@@ -91,7 +91,7 @@
         <div class="promo-card-header">
           <div class="step-number step-number--inline">1</div>
           <div class="badge">Offre exclusive</div>
-          <h3>Bonus de bienvenue +50%</h3>
+          <h3>Bonus de bienvenue +100%</h3>
           <p>Utilisez le code ci-dessous sur Akwabet</p>
         </div>
         <div class="promo-card-body">
@@ -103,7 +103,7 @@
             </button>
           </div>
           <ul class="avantages">
-            <li>Bonus de 50% sur votre premier dépôt</li>
+            <li>Bonus de 100% sur votre premier dépôt</li>
             <li>Offre valable 48h après inscription</li>
             <li>Collez le code dans le champ "Code promo"</li>
           </ul>
