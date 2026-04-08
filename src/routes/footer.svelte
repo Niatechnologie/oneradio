@@ -93,10 +93,10 @@
       <div class="footer-section">
         <h3>Suivez-nous</h3>
         <div class="social-links">
-          <!-- svelte-ignore a11y_consider_explicit_label -->
-          <a href="https://www.facebook.com/oneradioci" target="_blank" class="social-link"><i class="bi bi-facebook"></i></a>
-          <a href="https://www.youtube.com/@oneradiocotedivoire6837" class="social-link"><i class="bi bi-youtube"></i></a>
-          <a href="#" class="social-link"><i class="bi bi-instagram"></i></a> 
+          <a href="https://wa.me/2250501877877" target="_blank" rel="noopener noreferrer" class="social-link whatsapp" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+          <a href="https://www.facebook.com/oneradioci" target="_blank" rel="noopener noreferrer" class="social-link facebook" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.youtube.com/@oneradiocotedivoire6837" target="_blank" rel="noopener noreferrer" class="social-link youtube" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          <a href="https://www.tiktok.com/@oneradioci?_r=1&_t=ZS-95MxlXMAaPv" target="_blank" rel="noopener noreferrer" class="social-link tiktok" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
         </div>
         <h3>Nos Applications</h3>
         <div class="app-links">
@@ -255,6 +255,15 @@
       background-color: #ff1919;
       color: white;
     }
+
+    .social-link.whatsapp { color: #25D366; }
+    .social-link.facebook { color: #1877F2; }
+    .social-link.youtube  { color: #FF0000; }
+    .social-link.tiktok   { color: #ffffff; }
+    .social-link.whatsapp:hover { background-color: #25D366; }
+    .social-link.facebook:hover { background-color: #1877F2; }
+    .social-link.youtube:hover  { background-color: #FF0000; }
+    .social-link.tiktok:hover   { background-color: #333; }
 
     /* Boutons App Store / Play Store */
     .app-links {
