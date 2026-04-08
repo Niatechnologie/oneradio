@@ -159,16 +159,14 @@ function getAbbreviatedDay(day) {
     .header-content {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 1rem;
       margin-bottom: 0.5rem;
     }
 
     .header-left {
-      border: 1px solid red;
+      flex: 0 0 50%;
       display: flex;
       align-items: center;
-      justify-content:right;
       gap: 0.75rem;
     }
 
@@ -179,10 +177,10 @@ function getAbbreviatedDay(day) {
     }
 
     .header-right {
+      flex: 0 0 50%;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: left;
+      align-items: flex-end;
       gap: 0.5rem;
     }
 
