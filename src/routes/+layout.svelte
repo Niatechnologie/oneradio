@@ -366,33 +366,9 @@
         function handleLogoMouseLeave() {
           isLogoHovered = false;
         }
-        
-    	const newsItems = [
-		{ text: "Révolution de l'IA dans la médecine avec 99% de précision diagnostique", category: "TECH", class: "tech", time: "2min" },
-		{ text: "Accord historique sur le climat lors du sommet mondial des nations", category: "MONDE", class: "world", time: "5min" },
-		{ text: "Découverte d'une exoplanète potentiellement habitable à 12 années-lumière", category: "SCIENCE", class: "science", time: "8min" },
-		{ text: "Nouveau traitement contre le cancer avec 95% de taux de réussite", category: "SANTÉ", class: "health", time: "12min" },
-		{ text: "Les marchés mondiaux montrent des signes de forte reprise économique", category: "FINANCE", class: "finance", time: "15min" },
-		{ text: "L'informatique quantique atteint un nouveau jalon technologique majeur", category: "TECH", class: "tech", time: "18min" },
-		{ text: "Traité de paix international signé par les dirigeants mondiaux", category: "MONDE", class: "world", time: "22min" },
-		{ text: "Percée en physique quantique ouvre de nouvelles possibilités scientifiques", category: "SCIENCE", class: "science", time: "25min" },
-		{ text: "Vaccin révolutionnaire avec 99% d'efficacité contre maladies virales", category: "SANTÉ", class: "health", time: "28min" },
-		{ text: "Crypto-monnaies atteignent des records historiques de valorisation", category: "FINANCE", class: "finance", time: "32min" },
-		{ text: "Nouvelle puce révolutionnaire 10 fois plus rapide que les précédentes", category: "TECH", class: "tech", time: "35min" },
-		{ text: "Coopération internationale renforcée pour la sécurité mondiale", category: "MONDE", class: "world", time: "38min" },
-		{ text: "Mission spatiale révèle des secrets sur l'origine de l'univers", category: "SCIENCE", class: "science", time: "42min" },
-		{ text: "Thérapie génique guérit une maladie rare chez 100% des patients", category: "SANTÉ", class: "health", time: "45min" },
-		{ text: "Innovation fintech révolutionne les paiements internationaux", category: "FINANCE", class: "finance", time: "48min" },
-		{ text: "Robot autonome développe ses propres algorithmes d'apprentissage", category: "TECH", class: "tech", time: "52min" },
-		{ text: "Nouvelle alliance économique entre pays émergents annoncée", category: "MONDE", class: "world", time: "55min" },
-		{ text: "Nouvelle espèce découverte dans les profondeurs océaniques", category: "SCIENCE", class: "science", time: "58min" },
-		{ text: "Nouvelle technique chirurgicale réduit les risques de 80%", category: "SANTÉ", class: "health", time: "62min" },
-		{ text: "Investissements verts dépassent les 500 milliards de dollars", category: "FINANCE", class: "finance", time: "65min" }
-	];
 
-	// Doubler les nouvelles pour assurer la continuité
-	const doubleNews = [...newsItems, ...newsItems];    
-        
+
+	
     onMount(() => {
       // Charger Bootstrap Icons CSS
       const link = document.createElement('link');

@@ -59,7 +59,7 @@ function getAbbreviatedDay(day) {
           </svg>
           <div>
             <h1>Emissions</h1>
-            <p class="header-subtitle">Guide des Emissions hebdomadaires</p>
+            <p class="header-subtitle">Programme des Emissions hebdomadaires</p>
           </div>
         </div>
         <div class="header-divider"></div>
