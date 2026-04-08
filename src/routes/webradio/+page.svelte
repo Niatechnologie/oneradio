@@ -106,7 +106,32 @@
 </script>
 
 <div class="container">
-	<h1>Webradios en Direct</h1>
+	<div class="webradio-header">
+		<div class="wh-title-row">
+			<div class="bars-wrap">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
+			<span class="wh-title">Nos webradios</span>
+			<div class="bars-wrap bars-wrap--flip">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</div>
+		</div>
+		<p class="wh-subtitle">
+			Écoutez les belles sonorités du monde,<br>sélectionnées selon vos goûts du moment.
+		</p>
+		<div class="wh-live">
+			<span class="live-dot"></span>
+			<span class="wh-live-label">En direct</span>
+		</div>
+	</div>
 
 	{#if loading}
 		<div class="loading-container">
@@ -151,13 +176,86 @@
         margin-bottom: 50px;
 	}
 
-	h1 {
+	/* ── Animated header ── */
+	@keyframes wave {
+		0%,100% { transform: scaleY(1); }
+		50% { transform: scaleY(2.2); }
+	}
+	@keyframes pulse-dot {
+		0%,100% { opacity: 1; }
+		50% { opacity: 0.3; }
+	}
+
+	.webradio-header {
 		text-align: center;
-		color: rgb(0, 0, 0);
-		margin-bottom: 30px;
-        margin-top: 30px;
-		font-size: 2.2em;
-		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+		padding: 2rem 0 1.5rem;
+	}
+
+	.wh-title-row {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		margin-bottom: 12px;
+	}
+
+	.wh-title {
+		font-size: 22px;
+		font-weight: 500;
+		color: var(--color-text-primary, #111);
+	}
+
+	.bars-wrap {
+		display: flex;
+		align-items: flex-end;
+		gap: 3px;
+		height: 24px;
+	}
+
+	.bars-wrap--flip { transform: scaleX(-1); }
+
+	.bar {
+		display: inline-block;
+		width: 4px;
+		border-radius: 2px;
+		background: #7F77DD;
+		transform-origin: bottom;
+	}
+	.bar:nth-child(1) { animation: wave 0.9s ease-in-out infinite 0s;    height: 14px; }
+	.bar:nth-child(2) { animation: wave 0.9s ease-in-out infinite 0.15s; height: 20px; }
+	.bar:nth-child(3) { animation: wave 0.9s ease-in-out infinite 0.3s;  height: 10px; }
+	.bar:nth-child(4) { animation: wave 0.9s ease-in-out infinite 0.45s; height: 18px; }
+	.bar:nth-child(5) { animation: wave 0.9s ease-in-out infinite 0.6s;  height: 12px; }
+
+	.wh-subtitle {
+		font-size: 15px;
+		color: var(--color-text-secondary, #555);
+		line-height: 1.6;
+		max-width: 380px;
+		margin: 0 auto;
+	}
+
+	.wh-live {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		margin-top: 10px;
+	}
+
+	.live-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #E24B4A;
+		display: inline-block;
+		animation: pulse-dot 1.2s ease-in-out infinite;
+	}
+
+	.wh-live-label {
+		font-size: 12px;
+		color: #A32D2D;
+		font-weight: 500;
 	}
 
 	.radio-grid {
