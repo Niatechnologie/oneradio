@@ -29,6 +29,7 @@
     // Variables pour le buffering
     let isBuffering = $state(true);
     let bufferingProgress = 0;
+    let isMutedAutoplay = $state(false); // true quand muet suite à l'autoplay
     
     // Fonction pour détecter les changements de page
     run(() => {
@@ -303,24 +304,46 @@
     // Fonction pour démarrer la lecture automatiquement
     function startAutoPlay() {
       if (!audio) return;
-      
+
       console.log("Tentative de lecture automatique...");
       isBuffering = true;
-      
-      // Pour un streaming, charger une première fois
+
+      // Stratégie : démarrer en muet (toujours autorisé par les navigateurs)
+      // puis démuterau premier geste utilisateur
+      audio.muted = true;
       audio.load();
-      
-      // Tenter de lire automatiquement
+
       audio.play().then(() => {
-        console.log("Lecture automatique réussie");
+        console.log("Lecture automatique réussie (muet)");
         playing = true;
+        isMutedAutoplay = true;
         updateIcon(playPauseIcon, 'pause');
         toggleEqualizer(true);
+        updateVolumeIcon('mute');
+
+        // Démueter au premier geste utilisateur
+        const unmuteOnGesture = () => {
+          if (!audio) return;
+          audio.muted = false;
+          audio.volume = volume;
+          isMutedAutoplay = false;
+          updateVolumeIcon('unmute');
+          // Mettre à jour le slider de volume
+          const volumeFill = document.querySelector('.volume-fill');
+          if (volumeFill) volumeFill.style.width = `${volume * 100}%`;
+          ['click','keydown','touchstart','scroll'].forEach(e =>
+            document.removeEventListener(e, unmuteOnGesture)
+          );
+        };
+        ['click','keydown','touchstart','scroll'].forEach(e =>
+          document.addEventListener(e, unmuteOnGesture, { once: true, passive: true })
+        );
       }).catch(error => {
-        console.warn("Lecture automatique bloquée:", error);
-        console.log("L'utilisateur devra cliquer pour démarrer la lecture");
+        console.warn("Lecture automatique bloquée même muet:", error);
         isBuffering = false;
         playing = false;
+        isMutedAutoplay = false;
+        audio.muted = false;
         updateIcon(playPauseIcon, 'play');
       });
     }
@@ -1340,6 +1363,10 @@
         <div class="equalizer-bar"></div>
       </div>
     </div>
+    {/if}
+
+    {#if isMutedAutoplay}
+      <div class="unmute-hint">🔇 Cliquez pour activer le son</div>
     {/if}
     
     <div class="progress-container">
