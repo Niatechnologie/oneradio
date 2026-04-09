@@ -134,23 +134,22 @@
     // Fonction pour afficher/masquer l'égaliseur
     function toggleEqualizer(isPlaying) {
       const equalizer = document.querySelector('.equalizer-container');
-      console.log("toggleEqualizer appelé, état:", isPlaying);
-      console.log("Élément égaliseur trouvé:", !!equalizer);
       
       if (!equalizer) {
-        console.error("Élément equalizer non trouvé");
+        // L'égaliseur n'est pas encore dans le DOM (buffering en cours)
+        // Réessayer quand isBuffering passera à false
+        if (isPlaying) {
+          setTimeout(() => toggleEqualizer(isPlaying), 200);
+        }
         return;
       }
       
-      // Ajouter ou supprimer la classe 'active' selon l'état de lecture
       if (isPlaying) {
         equalizer.classList.add('active_equalier');
-        console.log("Classe 'active' ajoutée à l'égaliseur");
-		  equalizer.style.opacity = 1;
+        equalizer.style.opacity = 1;
       } else {
         equalizer.classList.remove('active_equalier');
-        console.log("Classe 'active' supprimée de l'égaliseur");
-		  equalizer.style.opacity = 0;
+        equalizer.style.opacity = 0;
       }
     }
 
@@ -469,15 +468,6 @@
 
       if (volumeBtn) {
         volumeBtn.addEventListener('click', toggleMute);
-      }
-
-      const equalizer = document.querySelector('.equalizer-container');
-      if (equalizer) {
-        console.log("Égaliseur trouvé dans le DOM");
-        // L'égaliseur doit être caché initialement
-        equalizer.classList.remove('active_equalier');
-      } else {
-        console.error("Égaliseur non trouvé dans le DOM");
       }
 
       //Bascule du menu;
