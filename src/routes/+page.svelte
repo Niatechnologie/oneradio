@@ -884,6 +884,10 @@
         width: 100%;
         height: 0;
         transition: 0.5s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .gallery-item:hover .image-overlay {
@@ -893,24 +897,18 @@
     .gallery-item h3 {
         color: white;
         font-size: 1.5rem;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         text-align: center;
         opacity: 0;
         transition: opacity 0.3s ease;
+        margin: 0;
     }
 .gallery-item h2 {
         color: #ff7f2a;
-        font-size: 1.5rem;
-        position: absolute;
-        top: 51%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        font-size: 1rem;
         text-align: center;
         opacity: 0;
         transition: opacity 0.3s ease;
+        margin: 0.25rem 0 0;
     }
     .gallery-item:hover h3, .gallery-item:hover h2 {
         opacity: 1;
@@ -1204,7 +1202,7 @@
                 <img src={item.src} alt={item.alt}>
                 <div class="image-overlay">
                     <h3>{item.title}</h3>
-                     <h2 style="color:#ff7f2a">{item.fonction}</h2>
+                    <h2>{item.fonction}</h2>
                 </div>
             </div>
         {/each}
