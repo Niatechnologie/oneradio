@@ -308,11 +308,7 @@
       console.log("Tentative de lecture automatique...");
       isBuffering = true;
 
-      // Stratégie : démarrer en muet (toujours autorisé par les navigateurs)
-      // puis démuterau premier geste utilisateur
-      audio.muted = true;
-      audio.load();
-
+      // L'audio est déjà muted via l'attribut HTML, ce qui permet l'autoplay
       audio.play().then(() => {
         console.log("Lecture automatique réussie (muet)");
         playing = true;
@@ -321,25 +317,28 @@
         toggleEqualizer(true);
         updateVolumeIcon('mute');
 
-        // Démueter au premier geste utilisateur
-        const unmuteOnGesture = () => {
-          if (!audio) return;
+        // Unmute automatique progressif après 2 secondes
+        setTimeout(() => {
+          if (!audio || !playing) return;
           audio.muted = false;
-          audio.volume = volume;
+          audio.volume = 0;
+          // Ramène progressivement le volume
+          let v = 0;
+          const ramp = setInterval(() => {
+            v += 0.05;
+            if (v >= volume) {
+              v = volume;
+              clearInterval(ramp);
+            }
+            if (audio) audio.volume = v;
+          }, 50);
           isMutedAutoplay = false;
           updateVolumeIcon('unmute');
-          // Mettre à jour le slider de volume
           const volumeFill = document.querySelector('.volume-fill');
           if (volumeFill) volumeFill.style.width = `${volume * 100}%`;
-          ['click','keydown','touchstart','scroll'].forEach(e =>
-            document.removeEventListener(e, unmuteOnGesture)
-          );
-        };
-        ['click','keydown','touchstart','scroll'].forEach(e =>
-          document.addEventListener(e, unmuteOnGesture, { once: true, passive: true })
-        );
+        }, 2000);
       }).catch(error => {
-        console.warn("Lecture automatique bloquée même muet:", error);
+        console.warn("Lecture automatique bloquée:", error);
         isBuffering = false;
         playing = false;
         isMutedAutoplay = false;
@@ -413,25 +412,19 @@
       // Initialiser l'audio et définir le volume initial
       audio = document.querySelector('audio');
       if (audio) {
-        audio.volume = volume;
-        audio.autoplay = true; // Ajouter l'attribut autoplay
-        console.log("Volume initial défini à:", volume);
-        console.log("Autoplay défini à:", audio.autoplay);
+        audio.volume = 0; // Démarre muet, le volume sera monté progressivement
+        console.log("Audio initialisé, muted pour autoplay");
         
         // Configuration des événements de streaming
         setupStreamingEvents();
         
-        // Pour un streaming, définir l'attribut preload sur "auto" peut aider
-        audio.preload = "auto";
-        
-        // Précharger le flux immédiatement, puis démarrer dès que prêt
-        audio.load();
-        
-        // Démarrer la lecture dès que le flux est suffisamment chargé
-        audio.addEventListener('canplay', function onCanPlay() {
-          audio.removeEventListener('canplay', onCanPlay);
+        // Démarrer dès que le flux est prêt
+        if (audio.readyState >= 3) {
+          // Déjà prêt (grâce à autoplay + muted)
           startAutoPlay();
-        }, { once: true });
+        } else {
+          audio.addEventListener('canplay', () => startAutoPlay(), { once: true });
+        }
       }
       
       // Événements du lecteur audio
@@ -1348,6 +1341,7 @@
     onloadedmetadata={handleLoadedMetadata}
     preload="auto"
     autoplay
+    muted
   ></audio>
 </div>
 
