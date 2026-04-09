@@ -307,43 +307,48 @@
       console.log("Tentative de lecture automatique...");
       isBuffering = true;
 
-      // L'audio est déjà muted via l'attribut HTML, ce qui permet l'autoplay
-      audio.play().then(() => {
-        console.log("Lecture automatique réussie (muet)");
-        playing = true;
-        isMutedAutoplay = true;
-        updateIcon(playPauseIcon, 'pause');
-        toggleEqualizer(true);
-        updateVolumeIcon('mute');
+      // Forcer muted via JS avant play() - Chrome autorise le play() muet programmatique
+      audio.muted = true;
+      audio.volume = 0;
 
-        // Unmute automatique progressif après 2 secondes
-        setTimeout(() => {
-          if (!audio || !playing) return;
-          audio.muted = false;
-          audio.volume = 0;
-          // Ramène progressivement le volume
-          let v = 0;
-          const ramp = setInterval(() => {
-            v += 0.05;
-            if (v >= volume) {
-              v = volume;
-              clearInterval(ramp);
-            }
-            if (audio) audio.volume = v;
-          }, 50);
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          console.log("Lecture automatique réussie (muet)");
+          playing = true;
+          isMutedAutoplay = true;
+          updateIcon(playPauseIcon, 'pause');
+          toggleEqualizer(true);
+          updateVolumeIcon('mute');
+
+          // Unmute automatique progressif après 3 secondes
+          setTimeout(() => {
+            if (!audio || !playing) return;
+            audio.muted = false;
+            audio.volume = 0;
+            let v = 0;
+            const ramp = setInterval(() => {
+              v += 0.05;
+              if (v >= volume) {
+                v = volume;
+                clearInterval(ramp);
+              }
+              if (audio) audio.volume = v;
+            }, 60);
+            isMutedAutoplay = false;
+            updateVolumeIcon('unmute');
+            const volumeFill = document.querySelector('.volume-fill');
+            if (volumeFill) volumeFill.style.width = `${volume * 100}%`;
+          }, 3000);
+        }).catch(error => {
+          console.warn("Lecture automatique bloquée:", error);
+          isBuffering = false;
+          playing = false;
           isMutedAutoplay = false;
-          updateVolumeIcon('unmute');
-          const volumeFill = document.querySelector('.volume-fill');
-          if (volumeFill) volumeFill.style.width = `${volume * 100}%`;
-        }, 2000);
-      }).catch(error => {
-        console.warn("Lecture automatique bloquée:", error);
-        isBuffering = false;
-        playing = false;
-        isMutedAutoplay = false;
-        audio.muted = false;
-        updateIcon(playPauseIcon, 'play');
-      });
+          audio.muted = false;
+          updateIcon(playPauseIcon, 'play');
+        });
+      }
     }
 
       // Variables réactives
@@ -411,19 +416,18 @@
       // Initialiser l'audio et définir le volume initial
       audio = document.querySelector('audio');
       if (audio) {
-        audio.volume = 0; // Démarre muet, le volume sera monté progressivement
+        audio.muted = true;
+        audio.volume = 0;
         console.log("Audio initialisé, muted pour autoplay");
         
         // Configuration des événements de streaming
         setupStreamingEvents();
         
+        // Charger le flux
+        audio.load();
+        
         // Démarrer dès que le flux est prêt
-        if (audio.readyState >= 3) {
-          // Déjà prêt (grâce à autoplay + muted)
-          startAutoPlay();
-        } else {
-          audio.addEventListener('canplay', () => startAutoPlay(), { once: true });
-        }
+        audio.addEventListener('canplay', () => startAutoPlay(), { once: true });
       }
       
       // Événements du lecteur audio
@@ -1333,8 +1337,6 @@
     ontimeupdate={handleTimeUpdate}
     onloadedmetadata={handleLoadedMetadata}
     preload="auto"
-    autoplay
-    muted
   ></audio>
 </div>
 
