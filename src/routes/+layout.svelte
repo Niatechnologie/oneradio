@@ -401,6 +401,9 @@
         // Pour un streaming, définir l'attribut preload sur "auto" peut aider
         audio.preload = "auto";
         
+        // Précharger le flux immédiatement sans attendre la lecture
+        audio.load();
+        
         // Démarrer la lecture automatique
         setTimeout(startAutoPlay, 4000); // Délai court pour s'assurer que tout est chargé
       }
