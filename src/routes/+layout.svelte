@@ -1210,6 +1210,26 @@
     color: #ff2a2a;
     white-space: nowrap;
   }
+
+  .unmute-hint {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    font-size: 10px;
+    white-space: nowrap;
+    padding: 3px 8px;
+    border-radius: 10px;
+    pointer-events: none;
+    animation: fadeInPulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes fadeInPulse {
+    0%,100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
   
   @keyframes spin {
     0% { transform: rotate(0deg); }
@@ -1366,7 +1386,7 @@
     {/if}
 
     {#if isMutedAutoplay}
-      <div class="unmute-hint">🔇 Cliquez pour activer le son</div>
+      <div class="unmute-hint">🔇</div>
     {/if}
     
     <div class="progress-container">
