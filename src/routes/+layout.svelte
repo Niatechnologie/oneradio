@@ -975,6 +975,7 @@
   justify-content: center;
   flex: 1;
   padding: 0 1rem;
+  position: relative;
 }
 
 .player-controls {
@@ -1206,17 +1207,19 @@
 
   .unmute-hint {
     position: absolute;
-    top: -22px;
+    top: -28px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0,0,0,0.75);
+    background: rgba(255, 25, 25, 0.9);
     color: #fff;
-    font-size: 10px;
+    font-size: 13px;
     white-space: nowrap;
-    padding: 3px 8px;
-    border-radius: 10px;
+    padding: 5px 14px;
+    border-radius: 14px;
     pointer-events: none;
-    animation: fadeInPulse 1.5s ease-in-out infinite;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    animation: fadeInPulse 1.2s ease-in-out infinite;
   }
 
   @keyframes fadeInPulse {
