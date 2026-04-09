@@ -914,6 +914,37 @@
         opacity: 1;
     }
 
+    .gallery-share {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-share {
+        opacity: 1;
+    }
+
+    .gallery-share-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 14px;
+        text-decoration: none;
+        transition: background 0.2s, transform 0.2s;
+    }
+
+    .gallery-share-btn:hover {
+        background: #ff0000;
+        transform: scale(1.15);
+    }
+
     :global(.owl-carousel .owl-nav) {
         position: absolute;
         top: 50%;
@@ -1203,6 +1234,11 @@
                 <div class="image-overlay">
                     <h3>{item.title}</h3>
                     <h2>{item.fonction}</h2>
+                    <div class="gallery-share">
+                      <a href="https://www.facebook.com/sharer/sharer.php?u={encodeURIComponent(item.src)}" target="_blank" rel="noopener noreferrer" class="gallery-share-btn" aria-label="Partager sur Facebook"><i class="bi bi-facebook"></i></a>
+                      <a href="https://wa.me/?text={encodeURIComponent(item.title + ' - ' + item.src)}" target="_blank" rel="noopener noreferrer" class="gallery-share-btn" aria-label="Partager sur WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                      <a href="https://twitter.com/intent/tweet?url={encodeURIComponent(item.src)}&text={encodeURIComponent(item.title)}" target="_blank" rel="noopener noreferrer" class="gallery-share-btn" aria-label="Partager sur X"><i class="bi bi-twitter-x"></i></a>
+                    </div>
                 </div>
             </div>
         {/each}
