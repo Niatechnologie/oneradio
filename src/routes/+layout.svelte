@@ -29,7 +29,6 @@
     // Variables pour le buffering
     let isBuffering = $state(true);
     let bufferingProgress = 0;
-    let isMutedAutoplay = $state(false); // true quand muet suite à l'autoplay
     
     // Fonction pour détecter les changements de page
     run(() => {
@@ -134,22 +133,23 @@
     // Fonction pour afficher/masquer l'égaliseur
     function toggleEqualizer(isPlaying) {
       const equalizer = document.querySelector('.equalizer-container');
+      console.log("toggleEqualizer appelé, état:", isPlaying);
+      console.log("Élément égaliseur trouvé:", !!equalizer);
       
       if (!equalizer) {
-        // L'égaliseur n'est pas encore dans le DOM (buffering en cours)
-        // Réessayer quand isBuffering passera à false
-        if (isPlaying) {
-          setTimeout(() => toggleEqualizer(isPlaying), 200);
-        }
+        console.error("Élément equalizer non trouvé");
         return;
       }
       
+      // Ajouter ou supprimer la classe 'active' selon l'état de lecture
       if (isPlaying) {
         equalizer.classList.add('active_equalier');
-        equalizer.style.opacity = 1;
+        console.log("Classe 'active' ajoutée à l'égaliseur");
+		  equalizer.style.opacity = 1;
       } else {
         equalizer.classList.remove('active_equalier');
-        equalizer.style.opacity = 0;
+        console.log("Classe 'active' supprimée de l'égaliseur");
+		  equalizer.style.opacity = 0;
       }
     }
 
@@ -303,52 +303,26 @@
     // Fonction pour démarrer la lecture automatiquement
     function startAutoPlay() {
       if (!audio) return;
-
+      
       console.log("Tentative de lecture automatique...");
       isBuffering = true;
-
-      // Forcer muted via JS avant play() - Chrome autorise le play() muet programmatique
-      audio.muted = true;
-      audio.volume = 0;
-
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          console.log("Lecture automatique réussie (muet)");
-          playing = true;
-          isMutedAutoplay = true;
-          updateIcon(playPauseIcon, 'pause');
-          toggleEqualizer(true);
-          updateVolumeIcon('mute');
-
-          // Unmute automatique progressif après 3 secondes
-          setTimeout(() => {
-            if (!audio || !playing) return;
-            audio.muted = false;
-            audio.volume = 0;
-            let v = 0;
-            const ramp = setInterval(() => {
-              v += 0.05;
-              if (v >= volume) {
-                v = volume;
-                clearInterval(ramp);
-              }
-              if (audio) audio.volume = v;
-            }, 60);
-            isMutedAutoplay = false;
-            updateVolumeIcon('unmute');
-            const volumeFill = document.querySelector('.volume-fill');
-            if (volumeFill) volumeFill.style.width = `${volume * 100}%`;
-          }, 3000);
-        }).catch(error => {
-          console.warn("Lecture automatique bloquée:", error);
-          isBuffering = false;
-          playing = false;
-          isMutedAutoplay = false;
-          audio.muted = false;
-          updateIcon(playPauseIcon, 'play');
-        });
-      }
+      
+      // Pour un streaming, charger une première fois
+      audio.load();
+      
+      // Tenter de lire automatiquement
+      audio.play().then(() => {
+        console.log("Lecture automatique réussie");
+        playing = true;
+        updateIcon(playPauseIcon, 'pause');
+        toggleEqualizer(true);
+      }).catch(error => {
+        console.warn("Lecture automatique bloquée:", error);
+        console.log("L'utilisateur devra cliquer pour démarrer la lecture");
+        isBuffering = false;
+        playing = false;
+        updateIcon(playPauseIcon, 'play');
+      });
     }
 
       // Variables réactives
@@ -416,18 +390,25 @@
       // Initialiser l'audio et définir le volume initial
       audio = document.querySelector('audio');
       if (audio) {
-        audio.muted = true;
-        audio.volume = 0;
-        console.log("Audio initialisé, muted pour autoplay");
+        audio.volume = volume;
+        audio.autoplay = true; // Ajouter l'attribut autoplay
+        console.log("Volume initial défini à:", volume);
+        console.log("Autoplay défini à:", audio.autoplay);
         
         // Configuration des événements de streaming
         setupStreamingEvents();
         
-        // Charger le flux
+        // Pour un streaming, définir l'attribut preload sur "auto" peut aider
+        audio.preload = "auto";
+        
+        // Précharger le flux immédiatement, puis démarrer dès que prêt
         audio.load();
         
-        // Démarrer dès que le flux est prêt
-        audio.addEventListener('canplay', () => startAutoPlay(), { once: true });
+        // Démarrer la lecture dès que le flux est suffisamment chargé
+        audio.addEventListener('canplay', function onCanPlay() {
+          audio.removeEventListener('canplay', onCanPlay);
+          startAutoPlay();
+        }, { once: true });
       }
       
       // Événements du lecteur audio
@@ -472,6 +453,15 @@
 
       if (volumeBtn) {
         volumeBtn.addEventListener('click', toggleMute);
+      }
+
+      const equalizer = document.querySelector('.equalizer-container');
+      if (equalizer) {
+        console.log("Égaliseur trouvé dans le DOM");
+        // L'égaliseur doit être caché initialement
+        equalizer.classList.remove('active_equalier');
+      } else {
+        console.error("Égaliseur non trouvé dans le DOM");
       }
 
       //Bascule du menu;
@@ -969,7 +959,6 @@
   justify-content: center;
   flex: 1;
   padding: 0 1rem;
-  position: relative;
 }
 
 .player-controls {
@@ -1198,28 +1187,6 @@
     color: #ff2a2a;
     white-space: nowrap;
   }
-
-  .unmute-hint {
-    position: absolute;
-    top: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255, 25, 25, 0.9);
-    color: #fff;
-    font-size: 13px;
-    white-space: nowrap;
-    padding: 5px 14px;
-    border-radius: 14px;
-    pointer-events: none;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    animation: fadeInPulse 1.2s ease-in-out infinite;
-  }
-
-  @keyframes fadeInPulse {
-    0%,100% { opacity: 0.7; }
-    50% { opacity: 1; }
-  }
   
   @keyframes spin {
     0% { transform: rotate(0deg); }
@@ -1337,6 +1304,7 @@
     ontimeupdate={handleTimeUpdate}
     onloadedmetadata={handleLoadedMetadata}
     preload="auto"
+    autoplay
   ></audio>
 </div>
 
@@ -1372,10 +1340,6 @@
         <div class="equalizer-bar"></div>
       </div>
     </div>
-    {/if}
-
-    {#if isMutedAutoplay}
-      <div class="unmute-hint">🔇</div>
     {/if}
     
     <div class="progress-container">
