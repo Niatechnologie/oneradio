@@ -254,7 +254,7 @@
       padding: 0.4rem 1rem 4rem 1rem;
   }
   .news-section {
-  max-width: 1200px;
+    max-width: 1500px;
   margin: 0 auto;
   }
   .chargement-events{
@@ -287,17 +287,17 @@
   }
 
   /* ORMA In House Card */
-  .inhouse-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-  }
+    .inhouse-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
 
   @media (max-width: 768px) {
-    .inhouse-section {
-      grid-template-columns: 1fr;
-    }
+      .inhouse-section {
+        grid-template-columns: 1fr;
+      }
   }
 
   .orma-card {
