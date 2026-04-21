@@ -1056,7 +1056,7 @@
     <a class:active={isActiveRoute('/news')} target="_blank" href="https://www.youtube.com/@oneradiocotedivoire6837">
       <i style="margin-right: 2px;" class="bi bi-play-btn-fill"></i> &nbsp; One TV
     </a>
-    <a href="/news/" target="_blank">News</a>
+    <a class:active={isActiveRoute('/news')} href="/events">News</a>
     <a class:active={isActiveRoute('/webradio')} href="/webradio">web Radios</a>
     <a class="logo" href="/" id="logo"><img style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
     <a class:active={isActiveRoute('/events')} href="/events">Events</a>
@@ -1075,7 +1075,7 @@
 <div class="menu-mobile">
   <a href="/" id="logo"><img style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
   <a href="https://www.youtube.com/@oneradiocotedivoire6837" target="_blank"><i class="bi bi-play-btn-fill"></i> One TV <i class="bi bi-chevron-right"></i></a>
-  <a href="/news/" target="_blank"><i class="bi bi-shop"></i> News <i class="bi bi-chevron-right"></i></a>
+  <a href="/news/"><i class="bi bi-shop"></i> News <i class="bi bi-chevron-right"></i></a>
   <a href="/webradio"><i class="bi bi-broadcast"></i> Web Radios <i class="bi bi-chevron-right"></i></a>
   <a href="/events"><i class="bi bi-calendar-event"></i> Events <i class="bi bi-chevron-right"></i></a>
   <a href="/programme"><i class="bi bi-mic-fill"></i> Nos Emissions <i class="bi bi-chevron-right"></i></a>
