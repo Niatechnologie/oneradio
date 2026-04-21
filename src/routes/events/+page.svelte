@@ -184,17 +184,18 @@
 
           <!-- Section Others -->
           <h2 class="section-title" style="margin-top: 3rem;">Others</h2>
-           <div><!-- Composant Pagination -->
-            <Pagination 
-                {currentPage}
-                {totalItems}
-                {itemsPerPage}
-                maxVisiblePages={5}
-                showInfo={false}
-                showFirstLast={true}
-                on:pageChange={handlePageChange}
-            /></div>
-  
+          <div style="max-width: 1200px; margin: 0 auto; padding-top: 0;">
+            <div><!-- Composant Pagination -->
+              <Pagination 
+                  {currentPage}
+                  {totalItems}
+                  {itemsPerPage}
+                  maxVisiblePages={5}
+                  showInfo={false}
+                  showFirstLast={true}
+                  on:pageChange={handlePageChange}
+              />
+            </div>
             {#if isLoading}
             <p class="chargement-events"><img src="{loader}" alt="loading"></p>
             {:else if error}
@@ -231,18 +232,18 @@
               {/each}
               </div>
             {/if}
-          
-
             <div><!-- Composant Pagination -->
-            <Pagination 
-                {currentPage}
-                {totalItems}
-                {itemsPerPage}
-                maxVisiblePages={5}
-                showInfo={false}
-                showFirstLast={true}
-                on:pageChange={handlePageChange}
-            /></div>
+              <Pagination 
+                  {currentPage}
+                  {totalItems}
+                  {itemsPerPage}
+                  maxVisiblePages={5}
+                  showInfo={false}
+                  showFirstLast={true}
+                  on:pageChange={handlePageChange}
+              />
+            </div>
+          </div>
   
       </div>
   </main>   
