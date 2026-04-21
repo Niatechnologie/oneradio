@@ -1056,7 +1056,7 @@
     <a target="_blank" href="https://www.youtube.com/@oneradiocotedivoire6837">
       <i style="margin-right: 2px;" class="bi bi-play-btn-fill"></i> &nbsp; One TV
     </a>
-    <a class:active={isActiveRoute('/academy')} href="/Academy">News</a>
+    <a class:active={isActiveRoute('/academy')} href="/Academy">Academy</a>
     <a class:active={isActiveRoute('/webradio')} href="/webradio">web Radios</a>
     <a class="logo" href="/" id="logo"><img style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
     <a class:active={isActiveRoute('/events')} href="/events">Events</a>
