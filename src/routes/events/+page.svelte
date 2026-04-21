@@ -150,6 +150,36 @@
               </div>
             </article>
 
+            <!-- ONE SPORT (vente ticket match) -->
+            <article class="orma-card sport-card">
+              <div class="orma-image sport-image">
+                <div class="orma-badge sport-badge">IN HOUSE</div>
+                <div class="orma-gradient sport-gradient"></div>
+                <div class="orma-content-overlay">
+                  <h3 class="orma-title sport-title">⚽ ONE SPORT</h3>
+                  <p class="orma-subtitle">La billetterie officielle des matchs et événements sportifs</p>
+                </div>
+              </div>
+              <div class="orma-body">
+                <p class="orma-desc">
+                  <strong>ONE SPORT</strong> est la plateforme dédiée à la vente de tickets pour les matchs et événements sportifs majeurs en Côte d'Ivoire et dans la sous-région. Réservez vos places pour vivre l'expérience sportive au plus près !
+                </p>
+                <div class="orma-info">
+                  <span class="orma-date"><i class="bi bi-calendar3"></i> Prochains matchs à venir</span>
+                  <span class="orma-location"><i class="bi bi-geo-alt-fill"></i> Stades &amp; arènes partenaires</span>
+                </div>
+                <div class="orma-highlights">
+                  <span><i class="bi bi-ticket-perforated"></i> Achat de tickets en ligne</span>
+                  <span><i class="bi bi-people-fill"></i> Accès rapide au stade</span>
+                  <span><i class="bi bi-trophy"></i> Grands événements sportifs</span>
+                  <span><i class="bi bi-credit-card"></i> Paiement sécurisé</span>
+                </div>
+                <a href="/events/one-sport" class="orma-btn sport-btn">
+                  Acheter un ticket <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
           </div>
 
           <!-- Section Others -->
