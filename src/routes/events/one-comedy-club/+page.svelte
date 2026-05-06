@@ -6,14 +6,14 @@
   // Données des comédiens (à remplacer par des données dynamiques si besoin)
   let comediens = $state([
     {
-      photo: 'https://source.unsplash.com/random/300x400?face,comedian,1',
+      photo: 'https://randomuser.me/api/portraits/men/32.jpg', // grand portrait
       nom: 'Comédien 1',
       description: 'Description du comédien 1.',
       dateSpectacle: '2026-05-10',
       nomSpectacle: 'Spectacle A'
     },
     {
-      photo: 'https://source.unsplash.com/random/300x400?face,comedian,2',
+      photo: 'https://randomuser.me/api/portraits/women/44.jpg', // grand portrait
       nom: 'Comédien 2',
       description: 'Description du comédien 2.',
       dateSpectacle: '2026-05-15',
@@ -228,11 +228,14 @@
   }
 
   .comedy-card img {
-    width: 120px;
-    height: 120px;
+    width: 260px;
+    height: 390px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 18px;
     margin-bottom: 1rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    background: #eee;
+    display: block;
   }
 
   .comedy-card .nom {
