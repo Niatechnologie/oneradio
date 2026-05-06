@@ -26,7 +26,11 @@
     </div>
   </header>
 
+
   <main class="occ-main">
+    <section class="occ-section" style="text-align:center; margin-bottom:2rem;">
+      <a href="/events/one-comedy-club/programme_comedy" class="occ-btn" style="display:inline-block;padding:0.7rem 1.5rem;background:#ff0000;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;transition:background 0.2s;">Voir le programme des comédiens</a>
+    </section>
 
     <!-- ── À PROPOS ── -->
     <section class="occ-section" class:visible={isVisible}>
