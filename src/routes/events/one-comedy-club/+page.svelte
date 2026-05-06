@@ -6,14 +6,14 @@
   // Données des comédiens (à remplacer par des données dynamiques si besoin)
   let comediens = $state([
     {
-      photo: '/src/lib/img/comedien1.jpg',
+      photo: 'https://source.unsplash.com/random/300x400?face,comedian,1',
       nom: 'Comédien 1',
       description: 'Description du comédien 1.',
       dateSpectacle: '2026-05-10',
       nomSpectacle: 'Spectacle A'
     },
     {
-      photo: '/src/lib/img/comedien2.jpg',
+      photo: 'https://source.unsplash.com/random/300x400?face,comedian,2',
       nom: 'Comédien 2',
       description: 'Description du comédien 2.',
       dateSpectacle: '2026-05-15',
