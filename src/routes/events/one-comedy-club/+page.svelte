@@ -116,7 +116,7 @@
       </div>
       <div class="occ-contact-item">
         <i class="bi bi-telephone"></i>
-        <span>+2250 500 877 877</span>
+        <span>+225 05 00 877 877</span>
       </div>
       <div class="occ-contact-item">
         <i class="bi bi-geo-alt"></i>
