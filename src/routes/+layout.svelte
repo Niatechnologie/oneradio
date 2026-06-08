@@ -1051,14 +1051,14 @@
 
 <!-- Navbar -->
 <nav id="navbar" class="navbar">
-  <a href="/" id="logo_bureau"><img style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
+  <a href="/" id="logo_bureau"><img style="border-radius: 10px;" width="120" src="{logo}" alt=""></a>
   <div class="menu-desktop">
     <a target="_blank" href="https://www.youtube.com/@oneradiocotedivoire6837">
       <i style="margin-right: 2px;" class="bi bi-play-btn-fill"></i> &nbsp; One TV
     </a>
     <a href="https://studiomozaik.com" target="_blank">Academy</a>
     <a class:active={isActiveRoute('/webradio')} href="/webradio">web Radios</a>
-    <a class="logo" href="/" id="logo"><img style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
+    <a class="logo" href="/" id="logo"><img style="border-radius: 10px;" width="120" src="{logo}" alt=""></a>
     <a class:active={isActiveRoute('/events')} href="/events">Events</a>
     <a class:active={isActiveRoute('/programme')} href="/programme">Nos Emissions</a>
     <a class:active={isActiveRoute('/parieur')} href="/parieur">Super Parieur</a>
@@ -1073,7 +1073,7 @@
 <div class="ticker"></div>
 
 <div class="menu-mobile">
-  <a href="/" id="logo"><img style="border-radius: 10px;" width="190" src="{logo}" alt=""></a>
+  <a href="/" id="logo"><img style="border-radius: 10px;" width="120" src="{logo}" alt=""></a>
   <a href="https://www.youtube.com/@oneradiocotedivoire6837" target="_blank"><i class="bi bi-play-btn-fill"></i> One TV <i class="bi bi-chevron-right"></i></a>
   <a href="https://studiomozaik.com" target="_blank"><i class="bi bi-file"></i>Academy <i class="bi bi-chevron-right"></i></a>
   <a href="/webradio"><i class="bi bi-broadcast"></i> Web Radios <i class="bi bi-chevron-right"></i></a>
