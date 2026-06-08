@@ -652,6 +652,24 @@
     }
   }
 
+  .pub-bar {
+    width: 100%;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .pub-bar a {
+    display: block;
+  }
+
+  .pub-bar img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 120px;
+    object-fit: cover;
+  }
+
   /* Slider du corrousel principal*/
   .slider {
         width: 100%;
@@ -1018,7 +1036,12 @@
 
 
 <main class="main-content">
-   
+
+    <!-- Barre de pub -->
+    <div class="pub-bar">
+      <a href="#"><img src="{pub1}" alt="Publicité" /></a>
+    </div>
+
     <!-- Structure HTML -->
     <div class="slider" style="height: {sliderHeight}">
       {#each slides as slide, index}
