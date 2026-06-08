@@ -572,7 +572,7 @@
     text-decoration: none;
     color: #fff;
     font-weight: 500;
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-left: 10px;
     padding: 7px 10px;
     border-radius: 25px;
