@@ -1047,12 +1047,12 @@
       padding: 3px 8px;
     }
   }
-  
+
 </style>
 
 <!-- Navbar -->
 <nav id="navbar" class="navbar">
-    <div style="display: flex; align-items: center; gap: 5px; position: absolute; left: 20px;background: rgba(255, 255, 255, 0.2); padding: 5px 10px; border-radius: 20px;">
+    <div style="display: flex; align-items: center; gap: 5px; position: absolute; left: 20px;background: rgba(255, 255, 255, 1); padding: 5px 10px; border-radius: 20px;">
       <i class="bi bi-telephone-fill"></i>
       <span style="color:red" >(+225) 0500 877 877</span>
     </div>
