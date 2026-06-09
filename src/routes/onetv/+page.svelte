@@ -1,79 +1,160 @@
 <script>
   import { onMount } from 'svelte';
 
-  const API_KEY = 'AIzaSyAUeGGt6iOFwuBw10bpQoNE1Iv_sn6nvaE';
-  // Remplacez par l'ID de votre playlist YouTube (ex: PLxxxxxxx ou UUxxxxxxx pour les uploads)
-  // Pour le trouver : ouvrez la playlist sur YouTube > copiez l'ID dans l'URL après ?list=
-  const PLAYLIST_ID = 'PLH0AkpOLQWAeRDrH6k9TekCLjdnweMjWu';
+  const API_KEY    = 'AIzaSyAUeGGt6iOFwuBw10bpQoNE1Iv_sn6nvaE';
+  const YT_HANDLE  = 'oneradiocotedivoire6837'; // handle sans @
+  const BASE       = 'https://www.googleapis.com/youtube/v3';
 
-  let mainVideo = $state(null);
-  let isLive = $state(false);
-  let recentVideos = $state([]);
-  let loading = $state(true);
-  let error = $state(null);
+  let mainVideo    = $state(null);   // { videoId, title, thumbnail, publishedAt, description, viewCount, concurrentViewers }
+  let isLive       = $state(false);
+  let recentVideos = $state([]);     // [{ videoId, title, thumbnail, publishedAt, isLive }]
+  let loading      = $state(true);
+  let error        = $state(null);
+
+  // ── helpers ──────────────────────────────────────────────────────────────
+
+  async function yt(endpoint, params) {
+    const url = `${BASE}/${endpoint}?${new URLSearchParams({ ...params, key: API_KEY })}`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message || 'Erreur YouTube API');
+    return data;
+  }
+
+  function thumb(snippet) {
+    return snippet.thumbnails?.medium?.url
+        ?? snippet.thumbnails?.high?.url
+        ?? snippet.thumbnails?.default?.url
+        ?? '';
+  }
+
+  // ── fetch principal ───────────────────────────────────────────────────────
 
   async function fetchVideos() {
     loading = true;
-    error = null;
+    error   = null;
     try {
-      // Étape 1 : récupérer les 10 dernières vidéos de la playlist
-      const playlistRes = await fetch(
-        `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${PLAYLIST_ID}&key=${API_KEY}`
-      );
-      const playlistData = await playlistRes.json();
+      // 1) Récupérer l'ID de la chaîne + la playlist uploads depuis le handle
+      const channelData = await yt('channels', {
+        part: 'id,contentDetails',
+        forHandle: YT_HANDLE,
+      });
+      if (!channelData.items?.length) throw new Error('Chaîne YouTube introuvable');
 
-      if (playlistData.error) {
-        throw new Error(playlistData.error.message || 'Erreur YouTube API');
-      }
-      if (!playlistData.items || playlistData.items.length === 0) {
-        throw new Error('Aucune vidéo trouvée dans la playlist');
-      }
+      const channelId         = channelData.items[0].id;
+      const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
 
-      // Étape 2 : récupérer les détails complets (dont liveStreamingDetails)
-      const videoIds = playlistData.items
-        .map(i => i.snippet.resourceId.videoId)
-        .filter(Boolean)
-        .join(',');
+      // 2) Chercher un direct EN COURS sur la chaîne
+      const liveSearch = await yt('search', {
+        part: 'id,snippet',
+        channelId,
+        eventType: 'live',
+        type: 'video',
+        maxResults: 1,
+      });
 
-      const videosRes = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?part=snippet,liveStreamingDetails,statistics&id=${videoIds}&key=${API_KEY}`
-      );
-      const videosData = await videosRes.json();
-
-      if (!videosData.items || videosData.items.length === 0) {
-        throw new Error('Impossible de charger les détails des vidéos');
-      }
-
-      // Étape 3 : détecter le direct en cours ou le dernier direct
-      const liveVideo = videosData.items.find(
-        v => v.snippet.liveBroadcastContent === 'live'
-      );
-
-      if (liveVideo) {
-        mainVideo = liveVideo;
+      if (liveSearch.items?.length) {
+        // ── direct en cours ──
+        const item = liveSearch.items[0];
+        const vid  = await yt('videos', {
+          part: 'snippet,liveStreamingDetails,statistics',
+          id: item.id.videoId,
+        });
+        const v = vid.items?.[0];
+        mainVideo = {
+          videoId:            item.id.videoId,
+          title:              item.snippet.title,
+          thumbnail:          thumb(item.snippet),
+          publishedAt:        item.snippet.publishedAt,
+          description:        item.snippet.description,
+          viewCount:          v?.statistics?.viewCount ?? null,
+          concurrentViewers:  v?.liveStreamingDetails?.concurrentViewers ?? null,
+        };
         isLive = true;
+
       } else {
-        // Chercher le dernier direct terminé
-        const lastLive = videosData.items.find(
-          v => v.liveStreamingDetails?.actualStartTime
-        );
-        mainVideo = lastLive || videosData.items[0];
+        // 3) Pas de direct — chercher le DERNIER direct terminé
+        const completedSearch = await yt('search', {
+          part: 'id,snippet',
+          channelId,
+          eventType: 'completed',
+          type: 'video',
+          order: 'date',
+          maxResults: 1,
+        });
+
+        if (completedSearch.items?.length) {
+          const item = completedSearch.items[0];
+          const vid  = await yt('videos', {
+            part: 'snippet,statistics',
+            id: item.id.videoId,
+          });
+          const v = vid.items?.[0];
+          mainVideo = {
+            videoId:     item.id.videoId,
+            title:       item.snippet.title,
+            thumbnail:   thumb(item.snippet),
+            publishedAt: item.snippet.publishedAt,
+            description: item.snippet.description,
+            viewCount:   v?.statistics?.viewCount ?? null,
+            concurrentViewers: null,
+          };
+        } else {
+          // 4) Fallback : dernière vidéo publiée
+          const fallback = await yt('search', {
+            part: 'id,snippet',
+            channelId,
+            type: 'video',
+            order: 'date',
+            maxResults: 1,
+          });
+          if (fallback.items?.length) {
+            const item = fallback.items[0];
+            mainVideo = {
+              videoId:     item.id.videoId,
+              title:       item.snippet.title,
+              thumbnail:   thumb(item.snippet),
+              publishedAt: item.snippet.publishedAt,
+              description: item.snippet.description,
+              viewCount:   null,
+              concurrentViewers: null,
+            };
+          }
+        }
         isLive = false;
       }
 
-      recentVideos = videosData.items.filter(v => v.id !== mainVideo.id).slice(0, 6);
+      // 5) Vidéos récentes depuis la playlist uploads (exclure la vidéo principale)
+      const recentData = await yt('playlistItems', {
+        part: 'snippet',
+        playlistId: uploadsPlaylistId,
+        maxResults: 9,
+      });
+      recentVideos = (recentData.items ?? [])
+        .filter(i => i.snippet.resourceId.videoId !== mainVideo?.videoId)
+        .slice(0, 6)
+        .map(i => ({
+          videoId:     i.snippet.resourceId.videoId,
+          title:       i.snippet.title,
+          thumbnail:   thumb(i.snippet),
+          publishedAt: i.snippet.publishedAt,
+          liveBroadcastContent: i.snippet.liveBroadcastContent ?? 'none',
+        }));
+
     } catch (err) {
-      error = err.message || 'Impossible de charger le contenu. Vérifiez votre connexion.';
+      error = err.message || 'Impossible de charger le contenu.';
       console.error('OneTv error:', err);
     } finally {
       loading = false;
     }
   }
 
+  // ── utils ─────────────────────────────────────────────────────────────────
+
   function formatDate(dateStr) {
     if (!dateStr) return '';
     return new Date(dateStr).toLocaleDateString('fr-FR', {
-      day: 'numeric', month: 'long', year: 'numeric'
+      day: 'numeric', month: 'long', year: 'numeric',
     });
   }
 
@@ -81,7 +162,7 @@
     if (!count) return '';
     const n = parseInt(count);
     if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M vues`;
-    if (n >= 1_000) return `${Math.floor(n / 1000)}K vues`;
+    if (n >= 1_000)     return `${Math.floor(n / 1000)}K vues`;
     return `${n} vues`;
   }
 
@@ -103,7 +184,7 @@
     <p class="tv-subtitle">Regardez nos directs et nos émissions en replay</p>
   </div>
 
-  <!-- ── Contenu principal ── -->
+  <!-- ── Contenu ── -->
   <div class="tv-main">
 
     {#if loading}
@@ -122,7 +203,7 @@
       </div>
 
     {:else if mainVideo}
-      <!-- Lecteur principal -->
+      <!-- ── Lecteur principal ── -->
       <div class="main-player-wrap">
         <div class="player-badge-row">
           {#if isLive}
@@ -136,8 +217,8 @@
 
         <div class="video-frame-wrap">
           <iframe
-            src="https://www.youtube.com/embed/{mainVideo.id}?autoplay={isLive ? 1 : 0}&rel=0"
-            title={mainVideo.snippet.title}
+            src="https://www.youtube.com/embed/{mainVideo.videoId}?autoplay={isLive ? 1 : 0}&rel=0"
+            title={mainVideo.title}
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
@@ -145,28 +226,30 @@
         </div>
 
         <div class="video-info">
-          <h2 class="video-title">{mainVideo.snippet.title}</h2>
+          <h2 class="video-title">{mainVideo.title}</h2>
           <div class="video-meta">
-            <span><i class="bi bi-calendar3"></i> {formatDate(mainVideo.snippet.publishedAt)}</span>
-            {#if mainVideo.statistics?.viewCount}
-              <span><i class="bi bi-eye-fill"></i> {formatViews(mainVideo.statistics.viewCount)}</span>
+            {#if mainVideo.publishedAt}
+              <span><i class="bi bi-calendar3"></i> {formatDate(mainVideo.publishedAt)}</span>
             {/if}
-            {#if isLive && mainVideo.liveStreamingDetails?.concurrentViewers}
+            {#if mainVideo.viewCount}
+              <span><i class="bi bi-eye-fill"></i> {formatViews(mainVideo.viewCount)}</span>
+            {/if}
+            {#if isLive && mainVideo.concurrentViewers}
               <span class="live-viewers">
                 <i class="bi bi-people-fill"></i>
-                {parseInt(mainVideo.liveStreamingDetails.concurrentViewers).toLocaleString('fr-FR')} spectateurs
+                {parseInt(mainVideo.concurrentViewers).toLocaleString('fr-FR')} spectateurs
               </span>
             {/if}
           </div>
-          {#if mainVideo.snippet.description}
+          {#if mainVideo.description}
             <p class="video-desc">
-              {mainVideo.snippet.description.slice(0, 220)}{mainVideo.snippet.description.length > 220 ? '…' : ''}
+              {mainVideo.description.slice(0, 220)}{mainVideo.description.length > 220 ? '…' : ''}
             </p>
           {/if}
         </div>
       </div>
 
-      <!-- Vidéos récentes -->
+      <!-- ── Vidéos récentes ── -->
       {#if recentVideos.length > 0}
         <div class="recent-section">
           <h3 class="recent-title">
@@ -175,20 +258,16 @@
           <div class="recent-grid">
             {#each recentVideos as video}
               <a
-                href="https://www.youtube.com/watch?v={video.id}"
+                href="https://www.youtube.com/watch?v={video.videoId}"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="video-card"
               >
                 <div class="thumb-wrap">
-                  <img
-                    src={video.snippet.thumbnails?.medium?.url ?? video.snippet.thumbnails?.default?.url}
-                    alt={video.snippet.title}
-                    loading="lazy"
-                  />
-                  {#if video.snippet.liveBroadcastContent === 'live'}
+                  <img src={video.thumbnail} alt={video.title} loading="lazy" />
+                  {#if video.liveBroadcastContent === 'live'}
                     <span class="thumb-live">LIVE</span>
-                  {:else if video.liveStreamingDetails?.actualStartTime}
+                  {:else if video.liveBroadcastContent === 'none' && video.title?.toLowerCase().includes('direct')}
                     <span class="thumb-replay">REPLAY</span>
                   {/if}
                   <div class="thumb-overlay">
@@ -196,8 +275,8 @@
                   </div>
                 </div>
                 <div class="card-info">
-                  <p class="card-title">{video.snippet.title}</p>
-                  <span class="card-date">{formatDate(video.snippet.publishedAt)}</span>
+                  <p class="card-title">{video.title}</p>
+                  <span class="card-date">{formatDate(video.publishedAt)}</span>
                 </div>
               </a>
             {/each}
@@ -205,10 +284,10 @@
         </div>
       {/if}
 
-      <!-- Bouton YouTube -->
+      <!-- ── Bouton YouTube ── -->
       <div class="yt-cta">
         <a
-          href="https://www.youtube.com/@oneradiocotedivoire6837"
+          href="https://www.youtube.com/@{YT_HANDLE}"
           target="_blank"
           rel="noopener noreferrer"
           class="yt-btn"
@@ -246,10 +325,7 @@
     margin-bottom: 0.5rem;
   }
 
-  .tv-brand i {
-    font-size: 2.5rem;
-    color: #ff2a2a;
-  }
+  .tv-brand i  { font-size: 2.5rem; color: #ff2a2a; }
 
   .tv-brand h1 {
     font-size: 2.8rem;
@@ -260,11 +336,7 @@
 
   .tv-brand h1 span { color: #ff2a2a; }
 
-  .tv-subtitle {
-    color: #aaa;
-    font-size: 1rem;
-    margin: 0;
-  }
+  .tv-subtitle { color: #aaa; font-size: 1rem; margin: 0; }
 
   /* ── Contenu ── */
   .tv-main {
@@ -274,11 +346,7 @@
   }
 
   /* Loader */
-  .loader-wrap {
-    text-align: center;
-    padding: 5rem 0;
-    color: #aaa;
-  }
+  .loader-wrap { text-align: center; padding: 5rem 0; color: #aaa; }
 
   .tv-loader {
     width: 56px;
@@ -293,11 +361,7 @@
   @keyframes spin { to { transform: rotate(360deg); } }
 
   /* Erreur */
-  .error-wrap {
-    text-align: center;
-    padding: 4rem 1rem;
-    color: #ccc;
-  }
+  .error-wrap { text-align: center; padding: 4rem 1rem; color: #ccc; }
 
   .error-wrap i {
     font-size: 3rem;
@@ -367,7 +431,7 @@
     border-radius: 30px;
   }
 
-  /* Lecteur iframe */
+  /* Iframe */
   .video-frame-wrap {
     position: relative;
     width: 100%;
@@ -386,7 +450,7 @@
     border: none;
   }
 
-  /* Infos vidéo */
+  /* Infos */
   .video-info { padding: 1.25rem 0 0; }
 
   .video-title {
@@ -408,14 +472,9 @@
   .video-meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
   .live-viewers { color: #ff6060 !important; font-weight: 600; }
 
-  .video-desc {
-    color: #888;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin: 0;
-  }
+  .video-desc { color: #888; font-size: 0.9rem; line-height: 1.6; margin: 0; }
 
-  /* Vidéos récentes */
+  /* Récentes */
   .recent-section { margin-top: 3rem; }
 
   .recent-title {
@@ -437,7 +496,7 @@
     gap: 1.25rem;
   }
 
-  /* Carte vidéo */
+  /* Carte */
   .video-card {
     text-decoration: none;
     color: #fff;
@@ -479,7 +538,6 @@
     font-weight: 800;
     padding: 2px 8px;
     border-radius: 4px;
-    letter-spacing: 0.05em;
   }
 
   .thumb-replay {
@@ -492,7 +550,6 @@
     font-weight: 700;
     padding: 2px 8px;
     border-radius: 4px;
-    letter-spacing: 0.05em;
     border: 1px solid #ff2a2a;
   }
 
@@ -510,7 +567,7 @@
 
   .thumb-overlay i {
     font-size: 2.8rem;
-    color: rgba(255,255,255,0);
+    color: transparent;
     transition: color 0.2s, transform 0.2s;
   }
 
