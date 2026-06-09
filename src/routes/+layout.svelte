@@ -1047,6 +1047,7 @@
       padding: 3px 8px;
     }
   }
+  
 </style>
 
 <!-- Navbar -->
