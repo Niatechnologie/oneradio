@@ -1211,7 +1211,7 @@
   .pub-slide-item {
     position: relative;
     border-radius: 10px;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
 
   .pub-slide-item a { display: block; }
