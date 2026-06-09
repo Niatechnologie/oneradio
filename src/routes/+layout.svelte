@@ -1050,7 +1050,7 @@
 
 </style>
 
-<!-- Navbar -->
+<!-- Navbar 2-->
 <nav id="navbar" class="navbar">
     <div style="display: flex; align-items: center; gap: 5px; position: absolute; left: 20px;background: rgba(255, 255, 255, 1); padding: 5px 10px; border-radius: 20px;">
       <i style="color:black" class="bi bi-telephone-fill"></i>
