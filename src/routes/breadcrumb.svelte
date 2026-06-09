@@ -10,7 +10,8 @@
     'contact': 'Contact',
     'programme': 'Programme',
     'webradio': 'Webradios',
-    'parieur': 'Super Parieur'
+    'parieur': 'Super Parieur',
+    'onetv': 'One TV'
   };
 
   /**
