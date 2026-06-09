@@ -658,6 +658,23 @@
     overflow: hidden;
     background: #000;
     margin-bottom: 5px;
+    position:relative
+
+
+    .pub-indic {
+      color: #ff0000;
+      font-size: 18px;
+      padding: 5px 10px;
+      
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000000;
+      height: 100%;
+      position:absolute;
+      left:0;
+      width: 80px;
+    }
   }
   
 
@@ -1042,6 +1059,7 @@
 
     <!-- Barre de pub -->
     <div class="pub-bar">
+     <div class="pub-indic"> Pub.</div>
       <a href="#"><img src="{pub2}" alt="Publicité" /></a>
     </div>
 
