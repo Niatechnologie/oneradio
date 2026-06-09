@@ -711,7 +711,7 @@
     height: auto;
     display: block;
     max-height: 120px;
-    object-fit: cover;
+    /* object-fit: cover; */
   }
 .pub-indic {
   color: #ff0000;
