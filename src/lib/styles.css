@@ -287,8 +287,8 @@ body {
 
 /* Sections */
 .section {
-  margin-bottom: 2.1rem;
-  margin-top: 1.3rem;
+  margin-bottom: 1.1rem !important;
+  margin-top: 1rem !important;
   /* transition: opacity 0.4s ease, transform 0.4s ease; */
   h1{
     background: linear-gradient(90deg, rgba(255,0,0,0) 0%, #ff0000 20%, #ff0000 80%, rgba(255,0,0,0) 100%);
