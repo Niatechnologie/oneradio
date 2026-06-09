@@ -3,15 +3,11 @@
   import { onMount } from 'svelte';
   
   import pub1 from "$lib/img/pubspa.jpg";
+  import pub1 from "$lib/img/pubspa2.jpg";
   // import pubradio from "$lib/img/pub-radio.gif";
   import  "$lib/style_news.css";
   import  "$lib/style_events.css";
-  
 
-  // Données des artistes
- 
-
-  
 
   //code du carroussel principal;
   // État du slider
@@ -302,8 +298,6 @@
     font-size: 12px;
 
 }
-  
-
   .zoom-btn {
     position: absolute;
     top: 50%;
@@ -858,7 +852,7 @@
 
     <!-- Barre de pub -->
     <div class="pub-bar">
-      <a href="#"><img src="{pub1}" alt="Publicité" /></a>
+      <a href="#"><img src="{pub2}" alt="Publicité" /></a>
     </div>
 
     <!-- Structure HTML -->
