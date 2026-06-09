@@ -391,11 +391,11 @@
             setTimeout(initPubCarousel, 400);
             return;
         }
-        const jq = window.jQuery;
-        if (jq(pubOwlEl).data('owl.carousel')) {
-            jq(pubOwlEl).owlCarousel('destroy');
+        const $ = window.jQuery;
+        if ($(pubOwlEl).data('owl.carousel')) {
+            $(pubOwlEl).owlCarousel('destroy');
         }
-        jq(pubOwlEl).owlCarousel({
+        $(pubOwlEl).owlCarousel({
             loop: true,
             items: 1,
             autoplay: true,
@@ -1226,7 +1226,6 @@
 
 
 
-
 <main class="main-content">
 
     <!-- Barre de pub -->
@@ -1345,6 +1344,23 @@
     </div>
   </section>
 
+<<<<<<< HEAD
+  <section class="section">
+    <div style="paddding:5px 20px;box-sizing:border-box">
+      <small style="background:red;color:#fff;padding:3px 5px;border-radius:5px"><i class="bi bi-chevron-right"></i> Publicité </small>
+       
+      <div class="pub-content" style="display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:10px;">
+        <div>
+          <h2 style="font-size: 1.5rem; margin: 10px 0;">Découvrez nos offres exclusives !</h2>
+          <p style="font-size: 1rem; color: #555;">Profitez de réductions incroyables sur nos produits et services. Ne manquez pas cette opportunité de faire des économies tout en bénéficiant de la qualité OneRadio.</p> 
+          <a href="#"><img width="100%" src="{pub1}" alt="Pub1"/></a>
+        </div>
+        <div>
+          slider
+        </div>
+      </div>
+      
+=======
   <section class="section pub-promo-section">
     <div class="pub-content">
       <div class="pub-text-side">
@@ -1367,6 +1383,7 @@
           {/each}
         </div>
       </div>
+>>>>>>> 418a4aeebbaa42b9a83f875dd5f5ebab8d23d01f
     </div>
   </section>
 
