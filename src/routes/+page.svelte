@@ -207,8 +207,8 @@
             }));
 
             isLoadingslide = false;
+            setTimeout(initPubCarousel, 300);
 
-    
         } catch (err) {
             error = err.message || 'Erreur de chargement des images';
             isLoadingslide = false;
@@ -318,6 +318,7 @@
     let error = null;
     let owlCarouselLoaded = false;
     let carouselElement = $state();
+    let pubOwlEl = $state();
 
     onMount(() => {
         // Fetch gallery items
@@ -338,6 +339,7 @@
                 owlCarouselLoaded = true;
                 // Tenter d'initialiser le carousel maintenant que owl est chargé
                 setTimeout(initCarousel, 100);
+                setTimeout(initPubCarousel, 100);
             };
             document.head.appendChild(owlScript);
         };
@@ -383,6 +385,28 @@
         }
     }
 
+
+    function initPubCarousel() {
+        if (!owlCarouselLoaded || !window.jQuery || !pubOwlEl || slides.length === 0) {
+            setTimeout(initPubCarousel, 400);
+            return;
+        }
+        const $ = window.jQuery;
+        if ($(pubOwlEl).data('owl.carousel')) {
+            $(pubOwlEl).owlCarousel('destroy');
+        }
+        $(pubOwlEl).owlCarousel({
+            loop: true,
+            items: 1,
+            autoplay: true,
+            autoplayTimeout: 4000,
+            autoplayHoverPause: true,
+            nav: false,
+            dots: true,
+            animateIn: 'fadeIn',
+            animateOut: 'fadeOut'
+        });
+    }
 
     function initCarousel() {
         if (owlCarouselLoaded && window.jQuery && carouselElement && galleryItems.length > 0) {
@@ -1107,6 +1131,97 @@
     margin-top: 0px !important;
   }
 }
+
+  /* ── Section pub promo ── */
+  .pub-promo-section { padding: 0 1rem; }
+
+  .pub-content {
+    display: flex;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .pub-text-side {
+    flex: 0 0 38%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pub-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #e52222;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    align-self: flex-start;
+  }
+
+  .pub-text-side h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #111;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .pub-text-side p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .pub-img-bottom {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+    margin-top: auto;
+  }
+
+  .pub-carousel-side {
+    flex: 1;
+    min-width: 0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .pub-slide-item {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .pub-slide-item a { display: block; }
+
+  .pub-slide-item img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pub-slide-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: #fff;
+    padding: 20px 14px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .pub-content { flex-direction: column; }
+    .pub-text-side { flex: none; }
+    .pub-slide-item img { height: 200px; }
+  }
 </style>
 
 
@@ -1230,12 +1345,29 @@
     </div>
   </section>
 
-  <section class="section">
-    <div style="paddding:5px 20px;box-sizing:border-box">
-      <small style="background:red;color:#fff;padding:3px 5px;border-radius:5px"><i class="bi bi-chevron-right"></i> Publicité </small>
-       <a href="#"><img width="100%" src="{pub1}" alt="Pub1"/></a>
+  <section class="section pub-promo-section">
+    <div class="pub-content">
+      <div class="pub-text-side">
+        <small class="pub-badge"><i class="bi bi-megaphone-fill"></i> Publicité</small>
+        <h2>Découvrez nos offres exclusives !</h2>
+        <p>Profitez de réductions incroyables sur nos produits et services. Ne manquez pas cette opportunité de faire des économies tout en bénéficiant de la qualité OneRadio.</p>
+        <a href="#"><img src="{pub1}" alt="Pub1" class="pub-img-bottom"/></a>
+      </div>
+      <div class="pub-carousel-side">
+        <div class="owl-carousel owl-pub-promo" bind:this={pubOwlEl}>
+          {#each slides as slide}
+            <div class="pub-slide-item">
+              <a href={slide.lien || '#'}>
+                <img src={slide.url} alt={slide.title} />
+                {#if slide.title}
+                  <div class="pub-slide-caption">{slide.title}</div>
+                {/if}
+              </a>
+            </div>
+          {/each}
+        </div>
+      </div>
     </div>
-
   </section>
 
   <section class="section">
