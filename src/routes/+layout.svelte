@@ -486,6 +486,170 @@
 
     window.addEventListener('scroll', handleScroll);
 
+    // ── Notifications publicitaires ──────────────────────────────────────
+    const PUB_API      = 'https://adminradio.oneradio.ci/radio_one/publicites.php';
+    const PUB_IMG_BASE = 'https://adminradio.oneradio.ci/pub/';
+    let appEnArrierePlan = false;
+
+    document.addEventListener('pause',  () => { appEnArrierePlan = true;  }, false);
+    document.addEventListener('resume', () => { appEnArrierePlan = false; }, false);
+
+    function pubImgUrl(filename) {
+      if (!filename) return '';
+      return filename.startsWith('http') ? filename : PUB_IMG_BASE + filename;
+    }
+
+    function getPubsVues() {
+      try { return JSON.parse(localStorage.getItem('pubs_vues') || '{}'); }
+      catch(e) { return {}; }
+    }
+
+    function savePubsVues(data) {
+      localStorage.setItem('pubs_vues', JSON.stringify(data));
+    }
+
+    function peutAfficherPub(pub) {
+      const vues  = getPubsVues();
+      const entry = vues[pub.id];
+      const nb    = (pub.nb_affichages  != null) ? pub.nb_affichages  : 0;
+      const inter = (pub.intervalle_min != null) ? pub.intervalle_min : 0;
+      if (!entry) return true;
+      if (nb !== 0 && entry.count >= nb) return false;
+      if (inter === 0) return true;
+      const msEcoulees = Date.now() - (entry.lastShown || 0);
+      return msEcoulees >= inter * 60 * 1000;
+    }
+
+    function marquerPubVue(pub) {
+      const vues  = getPubsVues();
+      const entry = vues[pub.id] || { count: 0, lastShown: 0 };
+      entry.count    += 1;
+      entry.lastShown = Date.now();
+      vues[pub.id]    = entry;
+      savePubsVues(vues);
+    }
+
+    // ── File d'attente ───────────────────────────────────────────────────
+    let pubQueue     = [];
+    let pubEnCours   = false;
+    let pubTimerAuto = null;
+    const PUB_DUREE_MS = 10000;
+
+    const pubOverlay   = document.getElementById('pub-overlay');
+    const pubImg       = document.getElementById('pub-img');
+    const pubTitre     = document.getElementById('pub-titre');
+    const pubMessage   = document.getElementById('pub-message');
+    const pubCta       = document.getElementById('pub-cta');
+    const pubClose     = document.getElementById('pub-close');
+    const pubTimerFill = document.getElementById('pub-timer-fill');
+
+    function fermerPub() {
+      clearTimeout(pubTimerAuto);
+      pubOverlay.hidden = true;
+      pubEnCours = false;
+      if (pubQueue.length > 0) {
+        setTimeout(afficherProchainesPub, 12000);
+      }
+    }
+
+    function afficherPub(pub) {
+      pubEnCours = true;
+      if (navigator.vibrate) navigator.vibrate([0, 200, 100, 200]);
+
+      pubImg.src           = pub._localImgUri || pubImgUrl(pub.image);
+      pubImg.style.display = pub.image ? 'block' : 'none';
+      pubTitre.textContent   = pub.titre;
+      pubMessage.textContent = pub.message;
+
+      if (pub.url) {
+        pubCta.style.display = 'block';
+        pubCta.onclick = (e) => {
+          e.preventDefault();
+          fermerPub();
+          if (typeof cordova !== 'undefined' && cordova.InAppBrowser) {
+            cordova.InAppBrowser.open(pub.url, '_blank', 'location=yes,closebuttoncaption=Fermer,toolbar=yes');
+          } else {
+            window.open(pub.url, '_blank');
+          }
+        };
+      } else {
+        pubCta.style.display = 'none';
+      }
+
+      pubTimerFill.style.transition = 'none';
+      pubTimerFill.style.transform  = 'scaleX(1)';
+      pubOverlay.hidden = false;
+
+      requestAnimationFrame(() => {
+        pubTimerFill.style.transition = `transform ${PUB_DUREE_MS / 1000}s linear`;
+        pubTimerFill.style.transform  = 'scaleX(0)';
+      });
+
+      pubTimerAuto = setTimeout(fermerPub, PUB_DUREE_MS);
+    }
+
+    function afficherProchainesPub() {
+      if (pubEnCours || pubQueue.length === 0) return;
+      afficherPub(pubQueue.shift());
+    }
+
+    pubClose.addEventListener('click', fermerPub);
+    pubOverlay.addEventListener('click', (e) => {
+      if (e.target === pubOverlay) fermerPub();
+    });
+
+    function cacherImagePourNotif(imgUrl, id, callback) {
+      // Fallback web : pas de cache local Cordova disponible
+      callback(null);
+    }
+
+    function planifierPubs(pubs) {
+      pubs.forEach((pub) => {
+        if (!peutAfficherPub(pub)) return;
+        marquerPubVue(pub);
+        if (!appEnArrierePlan) pubQueue.push(pub);
+
+        cacherImagePourNotif(pubImgUrl(pub.image), 'pub_' + pub.id, (localUri) => {
+          if (localUri) pub._localImgUri = localUri;
+
+          if (typeof cordova !== 'undefined' && cordova.plugins?.notification) {
+            const notifOptions = {
+              id               : 200 + pub.id,
+              androidChannelId : 'oneradio_pubs',
+              title            : pub.titre,
+              text             : pub.message,
+              androidSmallIcon : 'res://ic_launcher',
+              androidLargeIcon : localUri || 'res://ic_launcher',
+              sound            : 'default',
+              data             : { url: pub.url }
+            };
+            if (localUri) notifOptions.attachments = [localUri];
+            cordova.plugins.notification.local.schedule(notifOptions);
+          }
+        });
+      });
+
+      if (pubQueue.length > 0 && !pubEnCours) {
+        setTimeout(afficherProchainesPub, 5000);
+      }
+    }
+
+    async function chargerPubs() {
+      try {
+        const res  = await fetch(PUB_API);
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data)) {
+          planifierPubs(json.data);
+        }
+      } catch(e) {
+        console.warn('Pubs fetch error:', e);
+      }
+    }
+
+    chargerPubs();
+    setInterval(chargerPubs, 5 * 60 * 1000);
+    // ────────────────────────────────────────────────────────────────────
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -1048,6 +1212,135 @@
     }
   }
 
+  /* ── Popup publicitaire ── */
+  .pub-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pubOverlayIn 0.25s ease;
+  }
+
+  .pub-overlay[hidden] { display: none !important; }
+
+  @keyframes pubOverlayIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .pub-modal {
+    background: linear-gradient(160deg, #1a0a0a 0%, #0f0f0f 100%);
+    border: 1px solid rgba(229, 34, 34, 0.25);
+    border-radius: 14px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+    animation: pubModalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    margin: 16px;
+  }
+
+  @keyframes pubModalIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  .pub-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.15s ease;
+    backdrop-filter: blur(6px);
+  }
+
+  .pub-close:active { transform: scale(0.9); background: rgba(229, 34, 34, 0.5); }
+
+  .pub-img {
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pub-body {
+    padding: 14px 16px 10px;
+  }
+
+  .pub-body h3 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 5px;
+    line-height: 1.3;
+  }
+
+  .pub-body p {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.82rem;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  .pub-footer {
+    padding: 10px 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pub-cta {
+    display: block;
+    text-align: center;
+    background: linear-gradient(135deg, #e52222 0%, #b80000 100%);
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.03em;
+    padding: 11px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+    box-shadow: 0 4px 14px rgba(229, 34, 34, 0.4);
+  }
+
+  .pub-cta:active { opacity: 0.85; transform: scale(0.97); }
+
+  .pub-timer-bar {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .pub-timer-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #e52222, #ff6060);
+    border-radius: 2px;
+    transform-origin: left;
+    transition: transform linear;
+  }
 </style>
 
 <!-- Navbar 2-->
@@ -1163,6 +1456,22 @@
     {@render children?.()}
   </div>
 </main>
+
+<!-- Popup publicitaire -->
+<div id="pub-overlay" class="pub-overlay" hidden>
+  <div id="pub-modal" class="pub-modal">
+    <button id="pub-close" class="pub-close" aria-label="Fermer">&#10005;</button>
+    <img id="pub-img" src="" alt="" class="pub-img">
+    <div class="pub-body">
+      <h3 id="pub-titre"></h3>
+      <p id="pub-message"></p>
+    </div>
+    <div class="pub-footer">
+      <a id="pub-cta" href="#" class="pub-cta">En savoir plus</a>
+      <div class="pub-timer-bar"><div id="pub-timer-fill" class="pub-timer-fill"></div></div>
+    </div>
+  </div>
+</div>
 
 <!-- Footer -->
 <Footer />
