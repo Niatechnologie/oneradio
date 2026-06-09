@@ -1194,7 +1194,7 @@
             <p>Chargement des artistes...</p>
           </div>
         {:else if error_artists}
-          <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:20px 40px;">
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:10px 40px;">
             <p style="color:red;">{error_artists}</p>
           </div>
         {:else}
