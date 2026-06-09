@@ -653,45 +653,14 @@
     }
   }
 
-  .pub-bar {
-    width: 100%;
-    overflow: hidden;
-    background: #000;
-    margin-bottom: 5px;
-    position:relative
-
-  }
-   .pub-indic{
-      color: #ff0000;
-      font-size: 22px;
-      padding: 5px 10px;
-      display: flex;
-      letter-spacing: 1px;
-      align-items: center;
-      justify-content: center;
-      background: #000000;
-      height: 100%;
-      position:absolute;
-      font-family: Impact, sans-serif;
-      left:0;
-      width: 80px;
-      z-index: 10;
-    }
-    .pub-indic::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: -10px;
-      transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      border-left: 10px solid #000000;
-    }
-  
-
-  .pub-bar a {
+.pub-bar {
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+  margin-bottom: 5px;
+  position: relative;
+}
+ .pub-bar a {
     display: block;
   }
 
@@ -702,6 +671,81 @@
     max-height: 120px;
     object-fit: cover;
   }
+.pub-indic {
+  color: #ff0000;
+  font-size: 22px;
+  padding: 5px 10px;
+  display: flex;
+  letter-spacing: 1px;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  height: 100%;
+  position: absolute;
+  font-family: Impact, sans-serif;
+  left: 0;
+  width: 80px;
+  z-index: 10;
+  overflow: visible; /* Indispensable pour le grand zoom */
+}
+
+.pub-indic::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #000000;
+}
+
+/* Les deux mots animés */
+.pub-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: center;
+  opacity: 0;
+  animation: grand-zoom 6s infinite;
+  white-space: nowrap;
+}
+
+.pub-text-1 {
+  animation-delay: 0s;
+}
+
+.pub-text-2 {
+  animation-delay: 3s;
+}
+
+@keyframes grand-zoom {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(5);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(3);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50%, 100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+}
+
+ 
 
   /* Slider du corrousel principal*/
   .slider {
@@ -1072,7 +1116,10 @@
 
     <!-- Barre de pub -->
     <div class="pub-bar">
-     <div class="pub-indic"><span>Pub.</span><span>Promo</span></div>
+      <div class="pub-indic">
+        <span class="pub-text pub-text-1">Pub.</span>
+        <span class="pub-text pub-text-2">Promo</span>
+      </div>
       <a href="#"><img src="{pub2}" alt="Publicité" /></a>
     </div>
 
