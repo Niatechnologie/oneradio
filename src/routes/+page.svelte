@@ -1252,7 +1252,7 @@
         <span class="pub-text pub-text-1">Pub.</span>
         <span class="pub-text pub-text-2">Promo</span>
       </div>
-      <a href="https://www.facebook.com/photo/?fbid=962265536631786&set=pcb.962266153298391"><img src="{pub2}" alt="Publicité" /></a>
+      <a target="_blank" href="https://www.facebook.com/photo/?fbid=962265536631786&set=pcb.962266153298391"><img src="{pub2}" alt="Publicité" /></a>
     </div>
 
     <!-- Structure HTML -->
