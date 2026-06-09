@@ -1240,13 +1240,14 @@
     background: linear-gradient(160deg, #1a0a0a 0%, #0f0f0f 100%);
     border: 1px solid rgba(229, 34, 34, 0.25);
     border-radius: 14px;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
+    width: 85vw;
+    max-width: 85vw;
+    max-height: 85vh;
+    overflow-y: auto;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
     animation: pubModalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
-    margin: 16px;
+    margin: 0;
   }
 
   @keyframes pubModalIn {
