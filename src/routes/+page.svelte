@@ -663,9 +663,10 @@
   }
    .pub-indic{
       color: #ff0000;
-      font-size: 18px;
+      font-size: 22px;
       padding: 5px 10px;
       display: flex;
+      letter-spacing: 1px;
       align-items: center;
       justify-content: center;
       background: #000000;
