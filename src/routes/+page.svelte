@@ -671,6 +671,7 @@
       background: #000000;
       height: 100%;
       position:absolute;
+      font-family: Impact, sans-serif;
       left:0;
       width: 80px;
       z-index: 10;
