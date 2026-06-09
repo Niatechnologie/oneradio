@@ -169,8 +169,10 @@
   let activeIndex = $state(0);
   let isPlaying = true;
 
-    // Données des slides
+    // Données des slides (slider principal)
     let slides = $state([])
+    // Données des slides pub (carousel pub-promo)
+    let pubSlides = $state([])
 
 
  // State for gallery items
@@ -181,6 +183,7 @@
     onMount(() => {
         // Fetch gallery items
         fetchSlide();
+        fetchPubSlides();
 
     });
 
@@ -207,11 +210,26 @@
             }));
 
             isLoadingslide = false;
-            setTimeout(initPubCarousel, 300);
 
         } catch (err) {
             error = err.message || 'Erreur de chargement des images';
             isLoadingslide = false;
+        }
+    }
+
+    async function fetchPubSlides() {
+        try {
+            const response = await fetch('https://adminradio.oneradio.ci/radio_one/sliders_pub.php');
+            if (!response.ok) throw new Error('Erreur chargement pub slides');
+            const data = await response.json();
+            pubSlides = data.map(item => ({
+                url: 'https://adminradio.oneradio.ci/pub/' + item.images,
+                lien: item.lien,
+                title: item.titre,
+            }));
+            setTimeout(initPubCarousel, 300);
+        } catch (err) {
+            console.warn('fetchPubSlides:', err.message);
         }
     }
 
@@ -387,7 +405,7 @@
 
 
     function initPubCarousel() {
-        if (!owlCarouselLoaded || !window.jQuery || !pubOwlEl || slides.length === 0) {
+        if (!owlCarouselLoaded || !window.jQuery || !pubOwlEl || pubSlides.length === 0) {
             setTimeout(initPubCarousel, 400);
             return;
         }
@@ -1354,7 +1372,7 @@
       </div>
       <div class="pub-carousel-side">
         <div class="owl-carousel owl-pub-promo" bind:this={pubOwlEl}>
-          {#each slides as slide}
+          {#each pubSlides as slide}
             <div class="pub-slide-item">
               <a href={slide.lien || '#'}>
                 <img src={slide.url} alt={slide.title} />
