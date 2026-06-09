@@ -660,8 +660,8 @@
     margin-bottom: 5px;
     position:relative
 
-
-    .pub-indic {
+  }
+   .pub-indic {
       color: #ff0000;
       font-size: 18px;
       padding: 5px 10px;
@@ -674,8 +674,8 @@
       position:absolute;
       left:0;
       width: 80px;
+      z-index: 10;
     }
-  }
   
 
   .pub-bar a {
