@@ -661,7 +661,7 @@
     position:relative
 
   }
-   .pub-indic {
+   .pub-indic{
       color: #ff0000;
       font-size: 18px;
       padding: 5px 10px;
