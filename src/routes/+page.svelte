@@ -7,6 +7,159 @@
   // import pubradio from "$lib/img/pub-radio.gif";
   import  "$lib/style_news.css";
   import  "$lib/style_events.css";
+  
+
+  // Données des artistes
+  let artists = $state([]);
+  let isLoading_artists = $state(true);
+  let error_artists = $state(null);
+
+  async function fetchArtists() {
+    try {
+      isLoading_artists = true;
+      error_artists = null;
+      const response = await fetch('https://adminradio.oneradio.ci/radio_one/artistes.php');
+      if (!response.ok) throw new Error('Erreur de chargement des artistes');
+      const data = await response.json();
+      artists = data.map(item => ({
+        id: item.id,
+        image: 'https://adminradio.oneradio.ci/artistes/' + item.image,
+      }));
+    } catch (e) {
+      error_artists = e.message || 'Erreur de chargement des artistes';
+    } finally {
+      isLoading_artists = false;
+    }
+  }
+
+  onMount(() => {
+    fetchArtists();
+  });
+
+  // État initial
+  let carouselPosition = 0;
+  let isDragging = false;
+  let startX, scrollLeft;
+
+  // Référence au carrousel
+  let carouselRef = $state();
+
+  // Dupliquez les artistes pour créer un effet infini
+  let duplicatedArtists = $derived([...artists, ...artists]);
+
+  // Déplacer vers la diapositive suivante
+  function moveToNextSlide() {
+    if (isDragging || !carouselRef) return;
+
+    const itemWidth = carouselRef.querySelector(".carousel-item")?.offsetWidth || 0;
+    if (!itemWidth) return;
+
+    carouselPosition -= itemWidth;
+    carouselRef.style.transition = 'transform 0.5s ease';
+    carouselRef.style.transform = `translateX(${carouselPosition}px)`;
+
+    const numItems = artists.length;
+    if (carouselPosition <= -itemWidth * numItems) {
+      setTimeout(() => {
+        if (!carouselRef) return;
+        carouselRef.style.transition = 'none';
+        carouselPosition += itemWidth * numItems;
+        carouselRef.style.transform = `translateX(${carouselPosition}px)`;
+        void carouselRef.offsetHeight; // force reflow
+        carouselRef.style.transition = 'transform 0.5s ease';
+      }, 550);
+    }
+  }
+
+  // Déplacer vers la diapositive précédente
+  function moveToPrevSlide() {
+    if (isDragging || !carouselRef) return;
+
+    const itemWidth = carouselRef.querySelector(".carousel-item")?.offsetWidth || 0;
+    if (!itemWidth) return;
+
+    // Si on est au début, sauter d'abord à la position des clones (invisible)
+    if (carouselPosition >= 0) {
+      carouselRef.style.transition = 'none';
+      carouselPosition = -itemWidth * artists.length;
+      carouselRef.style.transform = `translateX(${carouselPosition}px)`;
+      void carouselRef.offsetHeight; // force reflow
+    }
+
+    carouselPosition += itemWidth;
+    carouselRef.style.transition = 'transform 0.5s ease';
+    carouselRef.style.transform = `translateX(${carouselPosition}px)`;
+  }
+
+  // Drag and drop
+  function setupDragEvents(e) {
+    isDragging = true;
+    startX = e.clientX || e.touches?.[0]?.clientX || 0;
+    scrollLeft = carouselPosition;
+    if (carouselRef) carouselRef.style.transition = 'none';
+  }
+
+  function handleMouseMove(e) {
+    if (!isDragging || !carouselRef) return;
+    const clientX = e.clientX || e.touches?.[0]?.clientX || 0;
+    const walk = clientX - startX;
+    carouselPosition = scrollLeft + walk;
+    carouselRef.style.transform = `translateX(${carouselPosition}px)`;
+  }
+
+  function handleMouseUp() {
+    if (!isDragging || !carouselRef) return;
+    isDragging = false;
+
+    // Snap to the nearest item
+    const itemWidth = carouselRef.querySelector(".carousel-item")?.offsetWidth || 1;
+    carouselPosition = Math.round(carouselPosition / itemWidth) * itemWidth;
+
+    // Clamp within valid range
+    const numItems = artists.length;
+    if (carouselPosition > 0) carouselPosition = 0;
+    if (carouselPosition < -itemWidth * numItems) carouselPosition = -itemWidth * numItems;
+
+    carouselRef.style.transition = 'transform 0.3s ease';
+    carouselRef.style.transform = `translateX(${carouselPosition}px)`;
+  }
+
+  // Lightbox
+  let lightboxOpen = $state(false);
+  let lightboxIndex = $state(0);
+
+  function openLightbox(index) {
+    // Map back to original artist index (since duplicatedArtists repeats)
+    lightboxIndex = index % artists.length;
+    lightboxOpen = true;
+  }
+
+  function closeLightbox() {
+    lightboxOpen = false;
+  }
+
+  function lightboxPrev() {
+    lightboxIndex = (lightboxIndex - 1 + artists.length) % artists.length;
+  }
+
+  function lightboxNext() {
+    lightboxIndex = (lightboxIndex + 1) % artists.length;
+  }
+
+  function handleLightboxKeydown(e) {
+    if (!lightboxOpen) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lightboxPrev();
+    if (e.key === 'ArrowRight') lightboxNext();
+  }
+
+  // Autoplay
+  let autoplayInterval;
+  function startAutoplaySel() {
+    if (autoplayInterval) clearInterval(autoplayInterval);
+    autoplayInterval = setInterval(moveToNextSlide, 3000);
+  }
+
 
 
   //code du carroussel principal;
@@ -298,6 +451,32 @@
     font-size: 12px;
 
 }
+  
+  .artist-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+
+  .artist-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .artist-card:hover .zoom-btn {
+    opacity: 1;
+  }
+
+  .artist-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
   .zoom-btn {
     position: absolute;
     top: 50%;
@@ -436,7 +615,16 @@
     justify-content: center;
     transition: all 0.2s ease;
   }
- 
+  .cover-artiste{
+    background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.6));
+    position: absolute;
+    top: -51px;
+    height: 46px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+  }
+
   .carousel-button:hover {
     background-color: #f5f5f7;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
@@ -888,6 +1076,79 @@
       {/each}
     </div>
    <div style="padding-top:20px" class="container">
+  <section class="artists-section">
+  
+    <div class="section">
+      <h1>Invités de la semaine</h1>
+    </div>
+    <div class="carousel-container">
+      <button class="carousel-button carousel-prev" onclick={moveToPrevSlide}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#ff0"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+      </button>
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <div
+        class="carousel"
+        bind:this={carouselRef}
+        onmousedown={setupDragEvents}
+        onmousemove={handleMouseMove}
+        onmouseup={handleMouseUp}
+        onmouseleave={handleMouseUp}
+        ontouchstart={setupDragEvents}
+        ontouchmove={handleMouseMove}
+        ontouchend={handleMouseUp}
+      >
+        {#if isLoading_artists}
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:40px;">
+            <p>Chargement des artistes...</p>
+          </div>
+        {:else if error_artists}
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:40px;">
+            <p style="color:red;">{error_artists}</p>
+          </div>
+        {:else}
+          {#each duplicatedArtists as artist, i}
+            <div class="carousel-item">
+              <div class="artist-card">
+                <img src={artist.image} alt="Artiste {artist.id}" class="artist-image" />
+                <button class="zoom-btn" onclick={() => openLightbox(i)} aria-label="Zoomer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          {/each}
+        {/if}
+      </div>
+      <button class="carousel-button carousel-next" onclick={moveToNextSlide}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#fa0000"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </button>
+    </div>
+  </section>
 
   <section class="section">
     <div style="paddding:5px 20px;box-sizing:border-box">
@@ -1008,7 +1269,24 @@
     </div>
   </div>
 </div>
-
+{#if lightboxOpen}
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="lightbox-overlay" onclick={closeLightbox} onkeydown={handleLightboxKeydown}>
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <div class="lightbox-content" onclick={(e) => e.stopPropagation()}>
+    <button class="lightbox-close" onclick={closeLightbox} aria-label="Fermer">&times;</button>
+    <button class="lightbox-arrow lightbox-arrow-left" onclick={lightboxPrev} aria-label="Précédent">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <img src={artists[lightboxIndex]?.image} alt="Artiste {artists[lightboxIndex]?.id}" class="lightbox-img" />
+    <button class="lightbox-arrow lightbox-arrow-right" onclick={lightboxNext} aria-label="Suivant">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+    <div class="lightbox-counter">{lightboxIndex + 1} / {artists.length}</div>
+  </div>
+</div>
+{/if}
 
   <script type="text/javascript">
   //demo
