@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   
   import pub1 from "$lib/img/pubspa.jpg";
-  import pub2 from "$lib/img/pubspa2.jpg";
+  import pub2 from "$lib/img/pubspa2.png";
   // import pubradio from "$lib/img/pub-radio.gif";
   import  "$lib/style_news.css";
   import  "$lib/style_events.css";
