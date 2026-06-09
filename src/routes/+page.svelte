@@ -1151,7 +1151,7 @@
 }
 
   /* ── Section pub promo ── */
-  .pub-promo-section { padding: 0 1rem; }
+  .pub-promo-section { padding: 1.5rem 0;}
 
   .pub-content {
     display: flex;
