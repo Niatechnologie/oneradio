@@ -391,11 +391,11 @@
             setTimeout(initPubCarousel, 400);
             return;
         }
-        const $ = window.jQuery;
-        if ($(pubOwlEl).data('owl.carousel')) {
-            $(pubOwlEl).owlCarousel('destroy');
+        const jq = window.jQuery;
+        if (jq(pubOwlEl).data('owl.carousel')) {
+            jq(pubOwlEl).owlCarousel('destroy');
         }
-        $(pubOwlEl).owlCarousel({
+        jq(pubOwlEl).owlCarousel({
             loop: true,
             items: 1,
             autoplay: true,
