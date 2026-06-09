@@ -1230,18 +1230,23 @@
     </div>
   </section>
 
-  <section class="section">
-    <div style="paddding:5px 20px;box-sizing:border-box">
-      <small style="background:red;color:#fff;padding:3px 5px;border-radius:5px"><i class="bi bi-chevron-right"></i> Publicité </small>
-       <a href="#"><img width="100%" src="{pub1}" alt="Pub1"/></a>
+  <section class="section pub-section-split">
+    <div class="pub-split-col">
+      <small class="pub-label"><i class="bi bi-chevron-right"></i> Publicité</small>
+      <a href="#"><img src="{pub1}" alt="Pub 1"/></a>
     </div>
-   
+    <div class="pub-split-col">
+      <small class="pub-label"><i class="bi bi-chevron-right"></i> Publicité</small>
+      <a href="#"><img src="{pub2}" alt="Pub 2"/></a>
+    </div>
   </section>
 
   <section class="section">
-    <h1>Dernières Actualités</h1>
-    
-    <!-- Structure HTML -->
+    <div class="news-section-header">
+      <h1>Dernières Actualités</h1>
+      <a href="/news">Tout voir <i class="bi bi-arrow-right"></i></a>
+    </div>
+
     <div class="news-grid">
      
 
