@@ -697,9 +697,9 @@
 
 .pub-bar {
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   background: #000;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   position: relative;
 }
  .pub-bar a {
