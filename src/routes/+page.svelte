@@ -1072,7 +1072,7 @@
 
     <!-- Barre de pub -->
     <div class="pub-bar">
-     <div class="pub-indic"> Pub.</div>
+     <div class="pub-indic"><span>Pub.</span><span>Promo</span></div>
       <a href="#"><img src="{pub2}" alt="Publicité" /></a>
     </div>
 
