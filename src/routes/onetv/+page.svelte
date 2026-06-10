@@ -312,7 +312,7 @@
   /* ── En-tête ── */
   .tv-header {
     background: linear-gradient(135deg, #1a0000 0%, #2d0000 50%, #0a0a0a 100%);
-    padding: 3rem 1.5rem 2rem;
+    padding: 2rem 1.5rem 2rem;
     text-align: center;
     border-bottom: 2px solid #ff2a2a;
   }
