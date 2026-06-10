@@ -328,7 +328,7 @@
   .tv-brand i  { font-size: 2.5rem; color: #ff2a2a; }
 
   .tv-brand h1 {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     font-weight: 900;
     margin: 0;
     letter-spacing: -1px;
@@ -634,6 +634,6 @@
 
   @media (max-width: 480px) {
     .recent-grid { grid-template-columns: 1fr; }
-    .tv-header   { padding: 2rem 1rem 1.5rem; }
+    .tv-header   { padding: 1rem }
   }
 </style>
