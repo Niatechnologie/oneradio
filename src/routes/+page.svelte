@@ -1245,7 +1245,7 @@
 
 <!-- test -->
 <main class="main-content">
-
+    <!-- Section Slider -->
     <!-- Barre de pub -->
     <div class="pub-bar">
       <div class="pub-indic">
