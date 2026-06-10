@@ -1260,7 +1260,7 @@
   .pub-slide-item {
     position: relative;
     border-radius: 10px;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
 
   .pub-slide-item a { display: block; }
@@ -1294,24 +1294,14 @@
 
 <!-- test -->
 <main class="main-content">
-
+    <!-- Section Slider -->
     <!-- Barre de pub -->
     <div class="pub-bar">
       <div class="pub-indic">
         <span class="pub-text pub-text-1">Pub.</span>
         <span class="pub-text pub-text-2">Promo</span>
       </div>
-      {#if pub1Slides.length > 0}
-        <div class="pub-bar-slider">
-          {#each pub1Slides as slide, i}
-            <a href={slide.lien} class="pub-bar-slide" class:active={i === pub1ActiveIndex}>
-              <img src={slide.url} alt="Publicité" />
-            </a>
-          {/each}
-        </div>
-      {:else}
-        <a href="#"><img src="{pub2}" alt="Publicité" /></a>
-      {/if}
+      <a href="#"><img src="{pub2}" alt="Publicité" /></a>
     </div>
 
     <!-- Structure HTML -->
