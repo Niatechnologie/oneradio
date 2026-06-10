@@ -1240,9 +1240,9 @@
     background: linear-gradient(160deg, #1a0a0a 0%, #0f0f0f 100%);
     border: 1px solid rgba(229, 34, 34, 0.25);
     border-radius: 14px;
-    width: 85vw;
-    max-width: 85vw;
-    max-height: 85vh;
+    width: 80vw;
+    max-width: 80vw;
+    max-height: 100vh;
     overflow-y: auto;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
     animation: pubModalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1264,8 +1264,8 @@
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: rgba(255, 255, 255, 0.85);
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
     font-size: 14px;
     cursor: pointer;
     display: flex;

@@ -173,6 +173,9 @@
     let slides = $state([])
     // Données des slides pub (carousel pub-promo)
     let pubSlides = $state([])
+    // Données des slides pub1 (barre pub top)
+    let pub1Slides = $state([]);
+    let pub1ActiveIndex = $state(0);
 
 
  // State for gallery items
@@ -184,7 +187,7 @@
         // Fetch gallery items
         fetchSlide();
         fetchPubSlides();
-
+        fetchPub1Slides();
     });
 
     async function fetchSlide() {
@@ -230,6 +233,25 @@
             setTimeout(initPubCarousel, 300);
         } catch (err) {
             console.warn('fetchPubSlides:', err.message);
+        }
+    }
+
+    async function fetchPub1Slides() {
+        try {
+            const response = await fetch('https://adminradio.oneradio.ci/radio_one/sliders_pub1.php');
+            if (!response.ok) throw new Error('Erreur chargement pub1 slides');
+            const data = await response.json();
+            pub1Slides = data.map(item => ({
+                url: 'https://adminradio.oneradio.ci/pub/' + item.images,
+                lien: item.lien || '#',
+            }));
+            if (pub1Slides.length > 1) {
+                setInterval(() => {
+                    pub1ActiveIndex = (pub1ActiveIndex + 1) % pub1Slides.length;
+                }, 4000);
+            }
+        } catch (err) {
+            console.warn('fetchPub1Slides:', err.message);
         }
     }
 
@@ -712,6 +734,33 @@
     display: block;
     max-height: 120px;
     /* object-fit: cover; */
+  }
+
+  .pub-bar-slider {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+  }
+
+  .pub-bar-slide {
+    display: block;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.9s ease;
+  }
+
+  .pub-bar-slide.active {
+    opacity: 1;
+  }
+
+  .pub-bar-slide img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+    max-height: 120px;
   }
 .pub-indic {
   color: #ff0000;
@@ -1252,7 +1301,17 @@
         <span class="pub-text pub-text-1">Pub.</span>
         <span class="pub-text pub-text-2">Promo</span>
       </div>
-      <a href="#"><img src="{pub2}" alt="Publicité" /></a>
+      {#if pub1Slides.length > 0}
+        <div class="pub-bar-slider">
+          {#each pub1Slides as slide, i}
+            <a href={slide.lien} class="pub-bar-slide" class:active={i === pub1ActiveIndex}>
+              <img src={slide.url} alt="Publicité" />
+            </a>
+          {/each}
+        </div>
+      {:else}
+        <a href="#"><img src="{pub2}" alt="Publicité" /></a>
+      {/if}
     </div>
 
     <!-- Structure HTML -->
