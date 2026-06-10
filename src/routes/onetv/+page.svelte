@@ -314,7 +314,7 @@
     background: linear-gradient(135deg, #1a0000 0%, #2d0000 50%, #0a0a0a 100%);
     padding: 1.5rem 1.5rem 1.5rem;
     text-align: center;
-    border-bottom: 2px solid #ff2a2a;
+    border-bottom: 1px solid #ff2a2a;
   }
 
   .tv-brand {
