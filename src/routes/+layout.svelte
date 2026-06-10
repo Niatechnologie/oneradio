@@ -1344,11 +1344,11 @@
   }
 </style>
 
-<!-- Navbar 2-->
+<!-- Navbar -->
 <nav id="navbar" class="navbar">
     <div style="display: flex; align-items: center; gap: 5px; position: absolute; left: 20px;background: rgba(255, 255, 255, 1); padding: 5px 10px; border-radius: 20px;">
       <i style="color:red" class="bi bi-telephone-fill"></i>
-      <span style="color:red" >(+225) 0500 877 877</span>
+      <span style="color:red" >(+225) 27 223 054 75</span>
     </div>
   <a href="/" id="logo_bureau"><img style="border-radius: 10px;" width="120" src="{logo}" alt=""></a>
   <div class="menu-desktop">
