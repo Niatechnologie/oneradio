@@ -1306,8 +1306,8 @@
         text-align: center;
         margin-bottom: 3rem;
     }
-    .container-owl h1 {
-        font-size: 2.2rem;
+    .container-owl h3 {
+        font-size: 1.4rem;
         font-weight: 900;
         letter-spacing: 0.2em;
         text-transform: uppercase;

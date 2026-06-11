@@ -74,6 +74,23 @@
     return el.value;
   }
 
+  // Clé de la dernière émission connue — permet de détecter les changements
+  let lastEmissionKey = '';
+
+  function notifyNewEmission(prog) {
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    const name = decodeHtml(prog.designation);
+    const host = prog.presentateur ? decodeHtml(prog.presentateur) : '';
+    new Notification('🎙 One Radio — Nouvelle émission', {
+      body: name
+        + (host ? '\nPrésenté par ' + host : '')
+        + '\n⏱ ' + prog.hdebut + ' – ' + prog.hfin,
+      icon: logo,
+      tag: 'oneradio-emission',
+      renotify: true,
+    });
+  }
+
   async function fetchCurrentEmission() {
     try {
       const res = await fetch('https://adminradio.oneradio.ci/radio_one/programmes.php');
@@ -88,6 +105,11 @@
         nowMin >= timeToMin(p.hdebut) && nowMin < timeToMin(p.hfin)
       );
       if (current) {
+        const emissionKey = `${current.designation}:${current.hdebut}`;
+        if (lastEmissionKey && emissionKey !== lastEmissionKey) {
+          notifyNewEmission(current);
+        }
+        lastEmissionKey = emissionKey;
         isOnAir = true;
         const name = decodeHtml(current.designation);
         const host = current.presentateur ? decodeHtml(current.presentateur) : '';
@@ -712,6 +734,11 @@
     // ── Émission en cours : fetch immédiat + refresh chaque minute ───────
     fetchCurrentEmission();
     const emissionInterval = setInterval(fetchCurrentEmission, 60 * 1000);
+
+    // ── Notifications de changement de programme ──────────────────────────
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
     // ────────────────────────────────────────────────────────────────────
 
     return () => {
