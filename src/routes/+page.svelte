@@ -1635,7 +1635,7 @@
     box-shadow: 0 2px 14px rgba(0,0,0,0.07);
   }
   .wc-header {
-    background: linear-gradient(135deg, #1a56db 0%, #0a2d8a 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #0b0e16 100%);
     padding: 0.85rem 1.1rem;
     display: flex;
     align-items: center;
@@ -1661,7 +1661,7 @@
   .wc-date-nav span {
     font-size: 0.73rem;
     font-weight: 600;
-    color: #1a3a7a;
+    color: #b90000;
     text-transform: capitalize;
     text-align: center;
     flex: 1;
@@ -1671,15 +1671,15 @@
     border: 1px solid #c5d3ef; border-radius: 50%;
     background: #fff; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    font-size: 0.95rem; color: #1a56db; flex-shrink: 0;
+    font-size: 0.95rem; color: #ee0f0f; flex-shrink: 0;
     transition: background 0.18s, border-color 0.18s, color 0.18s;
   }
-  .wc-nav-btn:hover { background: #1a56db; border-color: #1a56db; color: #fff; }
+  .wc-nav-btn:hover { background: #ff0000; border-color: #ff0000; color: #fff; }
   .wc-matches-list { max-height: 490px; overflow-y: auto; }
   .wc-match-group {
     padding: 0.38rem 0.9rem;
     font-size: 0.62rem; font-weight: 700;
-    color: #1a56db; letter-spacing: 0.09em; text-transform: uppercase;
+    color: #eb0000; letter-spacing: 0.09em; text-transform: uppercase;
     background: #eef2fb;
     border-bottom: 1px solid #d8e3f7;
     border-top: 1px solid #d8e3f7;
