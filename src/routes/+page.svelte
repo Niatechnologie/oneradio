@@ -1747,7 +1747,18 @@
         <span class="pub-text pub-text-1">Pub.</span>
         <span class="pub-text pub-text-2">Promo</span>
       </div>
-      <a href="#"><img src="{pub2}" alt="Publicité" /></a>
+      <div class="pub-bar-slider">
+        {#each pub1Slides as slide, i}
+          <a href="{slide.lien}" class="pub-bar-slide {i === pub1ActiveIndex ? 'active' : ''}">
+            <img src="{slide.url}" alt="Publicité" />
+          </a>
+        {/each}
+        {#if pub1Slides.length === 0}
+          <a href="#" class="pub-bar-slide active">
+            <img src="{pub2}" alt="Publicité" />
+          </a>
+        {/if}
+      </div>
     </div>
 
     <!-- Structure HTML -->
