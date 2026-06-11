@@ -1,6 +1,6 @@
 
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   
   import pub1 from "$lib/img/pubspa.jpg";
   import pub2 from "$lib/img/pubspa2.png";
@@ -470,6 +470,168 @@
             });
         }
     }
+
+    // ─────────────────────────────────────────────
+    // GSAP — Timeline · Stagger · ScrollTrigger · Morphing
+    // ─────────────────────────────────────────────
+    let _gsap = null;
+    let _st   = null;
+
+    onMount(async () => {
+        const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+            import('gsap'),
+            import('gsap/ScrollTrigger')
+        ]);
+        gsap.registerPlugin(ScrollTrigger);
+        _gsap = gsap;
+        _st   = ScrollTrigger;
+
+        // ── 1. Page entrance ──────────────────────────────
+        gsap.timeline({ delay: 0.05 })
+            .from('.pub-bar',  { y: -45, opacity: 0, duration: 0.9, ease: 'power3.out' })
+            .from('.slider',   { opacity: 0, duration: 1,   ease: 'power2.out' }, '-=0.6');
+
+        // ── 2. Section titles: clip-path wipe left→right ──
+        gsap.utils.toArray('.section h1').forEach(el => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+                clipPath: 'inset(0 100% 0 0)',
+                opacity: 0,
+                duration: 1,
+                ease: 'power4.out'
+            });
+        });
+
+        // ── 3. Section badges scale pop ──────────────────
+        gsap.utils.toArray('.section-badge').forEach(el => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: 'top 92%', once: true },
+                scale: 0, opacity: 0,
+                duration: 0.5, ease: 'back.out(2)'
+            });
+        });
+
+        // ── 4. Pub promo: split left / right ─────────────
+        gsap.from('.pub-text-side', {
+            scrollTrigger: { trigger: '.pub-promo-section', start: 'top 82%', once: true },
+            x: -70, opacity: 0, duration: 0.85, ease: 'power3.out'
+        });
+        gsap.from('.pub-carousel-side', {
+            scrollTrigger: { trigger: '.pub-promo-section', start: 'top 82%', once: true },
+            x: 70, opacity: 0, duration: 0.85, ease: 'power3.out', delay: 0.15
+        });
+
+        // ── 5. News cards stagger cascade ────────────────
+        gsap.from('.news-card', {
+            scrollTrigger: { trigger: '.news-grid', start: 'top 82%', once: true },
+            y: 80, opacity: 0, duration: 0.75, stagger: 0.11, ease: 'power3.out'
+        });
+
+        // ── 6. Events cards stagger + rotation morph ─────
+        gsap.from('.events-card', {
+            scrollTrigger: { trigger: '.events-grid', start: 'top 82%', once: true },
+            y: 65, opacity: 0, rotation: 4, duration: 0.7, stagger: 0.09, ease: 'back.out(1.5)'
+        });
+
+        // ── 7. Artists carousel items ─────────────────────
+        ScrollTrigger.create({
+            trigger: '.artists-section',
+            start: 'top 80%',
+            once: true,
+            onEnter: () => {
+                gsap.from('.carousel-item', {
+                    y: 55, opacity: 0, scale: 0.88,
+                    duration: 0.65, stagger: 0.055, ease: 'power3.out'
+                });
+            }
+        });
+
+        // ── 8. Zone animateur main timeline ──────────────
+        // Split H1 into letter <span>s
+        const zaH1 = document.querySelector('#zone-animateur h1');
+        if (zaH1) {
+            const raw = zaH1.textContent;
+            zaH1.innerHTML = raw.split('').map(c =>
+                c === ' '
+                    ? '<span class="h1c" style="display:inline-block;white-space:pre"> </span>'
+                    : `<span class="h1c" style="display:inline-block">${c}</span>`
+            ).join('');
+        }
+
+        const zaTl = gsap.timeline({
+            scrollTrigger: { trigger: '#zone-animateur', start: 'top 72%', once: true }
+        });
+
+        zaTl
+            // Red accent line scales from center
+            .from('.zone-accent-line', {
+                scaleX: 0, transformOrigin: '50% 50%',
+                duration: 1, ease: 'expo.out'
+            })
+            // H1 chars: 3-D flip entrance with stagger
+            .from('#zone-animateur h1 .h1c', {
+                y: 55, opacity: 0, rotationX: -90,
+                transformOrigin: '50% 100%',
+                duration: 0.65, stagger: 0.03, ease: 'back.out(2)'
+            }, '-=0.55')
+            // Red underline draws
+            .from('.h1-underline', {
+                scaleX: 0, transformOrigin: '50% 50%',
+                duration: 0.5, ease: 'power3.out'
+            }, '-=0.25')
+            // Subtitle: letter-spacing morph from 0 → wide
+            .from('.owl-subtitle', {
+                opacity: 0, letterSpacing: '0em',
+                duration: 0.85, ease: 'power2.out'
+            }, '-=0.3');
+
+        // ── 9. SVG wave continuous morphing ──────────────
+        const wavePath = document.querySelector('.zone-wave-path');
+        if (wavePath) {
+            gsap.to(wavePath, {
+                attr: { d: 'M0,35 C200,10 500,55 800,20 C950,5 1100,40 1200,22 L1200,0 L0,0 Z' },
+                duration: 4.5,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+        }
+
+        // ── 10. Gallery items (async: wait for owl to render)
+        const checkGallery = setInterval(() => {
+            const items = document.querySelectorAll('#zone-animateur .gallery-item');
+            if (items.length > 0) {
+                clearInterval(checkGallery);
+                gsap.from(items, {
+                    scrollTrigger: {
+                        trigger: '#zone-animateur .gallery-carousel',
+                        start: 'top 78%',
+                        once: true
+                    },
+                    y: 90, opacity: 0, scale: 0.9,
+                    duration: 0.85, stagger: 0.09, ease: 'back.out(1.4)'
+                });
+            }
+        }, 400);
+        setTimeout(() => clearInterval(checkGallery), 12000);
+
+        return () => ScrollTrigger.getAll().forEach(t => t.kill());
+    });
+
+    // ── Hero slider: animate text on each slide change ──
+    $effect(() => {
+        const idx = activeIndex; // track reactive state
+        tick().then(() => {
+            if (!_gsap) return;
+            const content = document.querySelector('.slide.active .slide-content');
+            if (!content) return;
+            _gsap.fromTo(
+                Array.from(content.children),
+                { y: 35, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.75, stagger: 0.18, ease: 'power3.out', overwrite: 'auto' }
+            );
+        });
+    });
 
 
 </script>
@@ -1024,18 +1186,28 @@
     .zone_animateur {
         width: 100%;
         background: #050c12;
-        background: linear-gradient( rgba(255, 0, 0, 0.1) 0%, #050c12 55%);
+        background: linear-gradient( rgba(255, 0, 0, 1) 0%, #050c12 55%);
         padding: 3.5rem 0 4rem;
         position: relative;
         overflow: hidden;
     }
-    .zone_animateur::before {
-        content: '';
+    .zone-accent-line {
         position: absolute;
         top: 0; left: 0; right: 0;
-        height: 1px;
-        background: linear-gradient(90deg, transparent 0%, #bb0000 30%, #ff4444 50%, #bb0000 70%, transparent 100%);
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, #bb0000 28%, #ff4444 50%, #bb0000 72%, transparent 100%);
+        transform-origin: 50% 50%;
+        z-index: 2;
     }
+    .zone-wave-svg {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 55px;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .zone-wave-path { fill: rgba(200, 0, 0, 0.05); }
     /* owl carousel */
     .container-owl {
         font-family: 'Segoe UI', Arial, sans-serif;
@@ -1043,6 +1215,7 @@
         margin: 0 auto;
         padding: 0 2rem 2rem;
         position: relative;
+        z-index: 1;
     }
     .owl-section-header {
         text-align: center;
@@ -1058,14 +1231,13 @@
         display: inline-block;
         position: relative;
     }
-    .container-owl h1::after {
-        content: '';
-        display: block;
+    .h1-underline {
         width: 50px;
         height: 3px;
         background: #ff0000;
-        margin: 0.5rem auto 0;
+        margin: 0.5rem auto 0.2rem;
         border-radius: 2px;
+        transform-origin: 50% 50%;
     }
     .owl-subtitle {
         color: rgba(255, 255, 255, 0.38);
@@ -1593,10 +1765,15 @@
   </section>
  
 </div>
-<div class="zone_animateur">
+<div id="zone-animateur" class="zone_animateur">
+  <div class="zone-accent-line"></div>
+  <svg class="zone-wave-svg" viewBox="0 0 1200 55" preserveAspectRatio="none" aria-hidden="true">
+    <path class="zone-wave-path" d="M0,28 C300,55 900,0 1200,28 L1200,0 L0,0 Z" />
+  </svg>
   <div class="container-owl">
     <div class="owl-section-header">
       <h1>Team OneRadio</h1>
+      <div class="h1-underline"></div>
       <p class="owl-subtitle">Animateurs &amp; Équipe</p>
     </div>
 
