@@ -598,18 +598,25 @@
         }
 
         // ── 10. Gallery items (async: wait for owl to render)
+        // Use set+to pattern to avoid owl-clone duplicates & overflow clipping
         const checkGallery = setInterval(() => {
-            const items = document.querySelectorAll('#zone-animateur .gallery-item');
+            // Target only real items, not owl clones
+            const items = document.querySelectorAll(
+                '#zone-animateur .owl-item:not(.owl-clone) .gallery-item'
+            );
             if (items.length > 0) {
                 clearInterval(checkGallery);
-                gsap.from(items, {
-                    scrollTrigger: {
-                        trigger: '#zone-animateur .gallery-carousel',
-                        start: 'top 78%',
-                        once: true
-                    },
-                    y: 90, opacity: 0, scale: 0.9,
-                    duration: 0.85, stagger: 0.09, ease: 'back.out(1.4)'
+                gsap.set(items, { opacity: 0, y: 30 });
+                ScrollTrigger.create({
+                    trigger: '#zone-animateur .gallery-carousel',
+                    start: 'top 85%',
+                    once: true,
+                    onEnter: () => {
+                        gsap.to(items, {
+                            opacity: 1, y: 0,
+                            duration: 0.8, stagger: 0.08, ease: 'power3.out'
+                        });
+                    }
                 });
             }
         }, 400);
@@ -1186,10 +1193,9 @@
     .zone_animateur {
         width: 100%;
         background: #050c12;
-        background: linear-gradient( rgba(255, 0, 0, 1) 0%, #050c12 55%);
         padding: 3.5rem 0 4rem;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
     }
     .zone-accent-line {
         position: absolute;
