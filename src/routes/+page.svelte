@@ -2070,7 +2070,7 @@
   </svg>
   <div class="container-owl">
     <div class="owl-section-header">
-      <h1>Team OneRadio</h1>
+      <h3>Team OneRadio</h3>
       <div class="h1-underline"></div>
       <p class="owl-subtitle">Animateurs &amp; Équipe</p>
     </div>
