@@ -1886,7 +1886,9 @@
   <section class="section news-col">
     <div class="news-section-header">
       <span class="section-badge"><i class="bi bi-newspaper"></i> Actualités</span>
-      <h1>Dernières Actualités</h1>
+      
+        <a class="section-badge" href="/news">Voir Plus <i class="bi bi-arrow-right"></i></a>
+     
     </div>
 
     {#if isLoading_news}
@@ -1959,9 +1961,7 @@
       </div>
     {/if}
 
-    <div class="voir-plus">
-      <a class="load-more-button" href="/news">Voir toutes les actualités <i class="bi bi-arrow-right"></i></a>
-    </div>
+  
   </section>
 
   <!-- ── Coupe du Monde 2026 Sidebar ── -->

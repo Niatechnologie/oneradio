@@ -5,10 +5,14 @@
 /* ── Section header ────────────────────────────────── */
 .news-section-header {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 1rem;
     margin-bottom: 1rem;
     flex-wrap: wrap;
+}
+
+.news-section-header a.section-badge {
+    margin-left: auto;
 }
 
 /* ── Layout wrapper ────────────────────────────────── */
