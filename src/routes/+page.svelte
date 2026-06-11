@@ -521,10 +521,25 @@
             x: 70, opacity: 0, duration: 0.85, ease: 'power3.out', delay: 0.15
         });
 
-        // ── 5. News cards stagger cascade ────────────────
-        gsap.from('.news-card', {
-            scrollTrigger: { trigger: '.news-grid', start: 'top 82%', once: true },
-            y: 80, opacity: 0, duration: 0.75, stagger: 0.11, ease: 'power3.out'
+        // ── 5. News — MSN layout stagger ─────────────────
+        ScrollTrigger.create({
+            trigger: '.msn-layout',
+            start: 'top 82%',
+            once: true,
+            onEnter: () => {
+                // Hero
+                gsap.from('.msn-hero', {
+                    y: 50, opacity: 0, duration: 0.9, ease: 'power3.out'
+                });
+                // Side stack cards
+                gsap.from('.msn-side-card', {
+                    x: 40, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out', delay: 0.15
+                });
+                // Bottom grid cards
+                gsap.from('.msn-grid-card', {
+                    y: 50, opacity: 0, duration: 0.65, stagger: 0.07, ease: 'power3.out', delay: 0.25
+                });
+            }
         });
 
         // ── 6. Events cards stagger + rotation morph ─────
@@ -1688,33 +1703,75 @@
       <h1>Dernières Actualités</h1>
     </div>
 
-    <div class="news-grid">
-      {#if isLoading_news}
-        <p style="text-align:center;grid-column:1/-1;padding:2rem 0;color:#999;">Chargement en cours…</p>
-      {:else if error_news}
-        <p style="color:#e53e3e;grid-column:1/-1;">Erreur : {error_news.message}</p>
-      {:else}
-        {#each datanews as item, i}
-          <article class="news-card {i === 0 ? 'news-card--featured' : ''}">
-            <div class="news-image">
-              <a href="/news/{item.slug}">
-                <img src="https://adminradio.oneradio.ci/cropavatar/img/{item.photo}" alt={item.titre}>
-                <span class="news-category">{item.categorie}</span>
-              </a>
-            </div>
-            <div class="news-content">
-              <h3>{item.titre}</h3>
-              <p class="news-excerpt">{item.description.substring(0, i === 0 ? 260 : 160)}…</p>
-              <div class="news-meta">
-                <span><i class="bi bi-calendar3"></i> {item.datepub}</span>
-                <span><i class="bi bi-person-circle"></i> {item.auteur}</span>
+    {#if isLoading_news}
+      <p style="text-align:center;padding:2rem 0;color:#999;">Chargement en cours…</p>
+    {:else if error_news}
+      <p style="color:#e53e3e;">Erreur : {error_news.message}</p>
+    {:else if datanews.length > 0}
+      <div class="msn-layout">
+
+        <!-- ── Top row : Hero + Side stack ── -->
+        <div class="msn-top-row">
+
+          <!-- Hero (1er article) -->
+          <article class="msn-hero">
+            <a href="/news/{datanews[0].slug}" class="msn-hero-link">
+              <div class="msn-hero-media">
+                <img src="https://adminradio.oneradio.ci/cropavatar/img/{datanews[0].photo}" alt={datanews[0].titre}>
               </div>
-              <a href="/news/{item.slug}" class="read-more">Lire la suite <i class="bi bi-arrow-right"></i></a>
-            </div>
+              <div class="msn-hero-body">
+                <span class="msn-cat">{datanews[0].categorie}</span>
+                <h2>{datanews[0].titre}</h2>
+                <div class="msn-hero-meta">
+                  <span><i class="bi bi-calendar3"></i> {datanews[0].datepub}</span>
+                  <span><i class="bi bi-person-circle"></i> {datanews[0].auteur}</span>
+                </div>
+              </div>
+            </a>
           </article>
-        {/each}
-      {/if}
-    </div>
+
+          <!-- Side stack (articles 2-4) -->
+          <div class="msn-side-stack">
+            {#each datanews.slice(1, 4) as item}
+              <article class="msn-side-card">
+                <a href="/news/{item.slug}" class="msn-side-link">
+                  <div class="msn-side-thumb">
+                    <img src="https://adminradio.oneradio.ci/cropavatar/img/{item.photo}" alt={item.titre}>
+                  </div>
+                  <div class="msn-side-text">
+                    <span class="msn-cat">{item.categorie}</span>
+                    <h3>{item.titre}</h3>
+                    <span class="msn-time"><i class="bi bi-calendar3"></i> {item.datepub}</span>
+                  </div>
+                </a>
+              </article>
+            {/each}
+          </div>
+
+        </div>
+
+        <!-- ── Bottom grid (articles 5+) ── -->
+        {#if datanews.length > 4}
+          <div class="msn-grid">
+            {#each datanews.slice(4) as item}
+              <article class="msn-grid-card">
+                <a href="/news/{item.slug}">
+                  <div class="msn-grid-img">
+                    <img src="https://adminradio.oneradio.ci/cropavatar/img/{item.photo}" alt={item.titre}>
+                  </div>
+                  <div class="msn-grid-body">
+                    <span class="msn-cat">{item.categorie}</span>
+                    <h3>{item.titre}</h3>
+                    <span class="msn-time"><i class="bi bi-calendar3"></i> {item.datepub}</span>
+                  </div>
+                </a>
+              </article>
+            {/each}
+          </div>
+        {/if}
+
+      </div>
+    {/if}
 
     <div class="voir-plus">
       <a class="load-more-button" href="/news">Voir toutes les actualités <i class="bi bi-arrow-right"></i></a>
