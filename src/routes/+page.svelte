@@ -1683,49 +1683,42 @@
   </section>
 
   <section class="section">
-    <h1>Dernières Actualités</h1>
+    <div class="news-section-header">
+      <span class="section-badge"><i class="bi bi-newspaper"></i> Actualités</span>
+      <h1>Dernières Actualités</h1>
+    </div>
 
-    <!-- Structure HTML -->
     <div class="news-grid">
-     
-
-        {#if isLoading_news}
-        <p style="text-align: center;">Chargement en cours...</p>
-        {:else if error_news}
-        <p>Erreur: {error_news.message}</p>
-        {:else}
-    
-            {#each datanews as item}
-              <article class="news-card">
-                <div class="news-image">
-                   <a href="/news/{item.slug}">
-                    <img src="https://adminradio.oneradio.ci/cropavatar/img/{item.photo}" alt="Article 1">
-                    <span class="news-category">{item.categorie}</span>
-                   </a>
-                </div>
-                <div class="news-content">
-                    <h3>{item.titre}</h3>
-                    <p class="news-excerpt">{item.description.substring(0, 180)} ...</p>
-                    <div class="news-meta">
-                        <span><i class="bi bi-calendar3"></i><strong> {item.datepub}</strong></span>
-                        <span><i class="bi bi-person-circle"></i> {item.auteur}</span>
-                    </div>
-                    <a href="/news/{item.slug}" class="read-more">Lire la suite <i class="bi bi-arrow-right"></i></a>
-                </div>
-            </article>
-            {/each}
-      
-        {/if}
-
- 
-    </div>
-     <div class="voir-plus">
-      <!-- {#if showLoadMoreButton} -->
-
-        <a class="load-more-button" href="/news">Voir Plus <i class="bi bi-chevron-double-right"></i></a>
-      <!-- {/if} -->
+      {#if isLoading_news}
+        <p style="text-align:center;grid-column:1/-1;padding:2rem 0;color:#999;">Chargement en cours…</p>
+      {:else if error_news}
+        <p style="color:#e53e3e;grid-column:1/-1;">Erreur : {error_news.message}</p>
+      {:else}
+        {#each datanews as item, i}
+          <article class="news-card {i === 0 ? 'news-card--featured' : ''}">
+            <div class="news-image">
+              <a href="/news/{item.slug}">
+                <img src="https://adminradio.oneradio.ci/cropavatar/img/{item.photo}" alt={item.titre}>
+                <span class="news-category">{item.categorie}</span>
+              </a>
+            </div>
+            <div class="news-content">
+              <h3>{item.titre}</h3>
+              <p class="news-excerpt">{item.description.substring(0, i === 0 ? 260 : 160)}…</p>
+              <div class="news-meta">
+                <span><i class="bi bi-calendar3"></i> {item.datepub}</span>
+                <span><i class="bi bi-person-circle"></i> {item.auteur}</span>
+              </div>
+              <a href="/news/{item.slug}" class="read-more">Lire la suite <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </article>
+        {/each}
+      {/if}
     </div>
 
+    <div class="voir-plus">
+      <a class="load-more-button" href="/news">Voir toutes les actualités <i class="bi bi-arrow-right"></i></a>
+    </div>
   </section>
   
   <section class="section">
