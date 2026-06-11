@@ -976,19 +976,20 @@
     display: block;
   }
 
-  .pub-bar img {
-    width: 100%;
-    height: auto;
-    display: block;
-    max-height: 120px;
-    /* object-fit: cover; */
-  }
-
   .pub-bar-slider {
     position: relative;
     width: 100%;
-    height: 120px;
+    height: clamp(70px, 10vw, 600px);
     overflow: hidden;
+    background: #000;
+  }
+
+  @media (min-width: 1920px) {
+    .pub-bar-slider { height: clamp(180px, 10vw, 320px); }
+  }
+
+  @media (min-width: 3840px) {
+    .pub-bar-slider { height: clamp(280px, 8vw, 480px); }
   }
 
   .pub-bar-slide {
@@ -997,6 +998,7 @@
     inset: 0;
     opacity: 0;
     transition: opacity 0.9s ease;
+    background: #000;
   }
 
   .pub-bar-slide.active {
@@ -1005,10 +1007,9 @@
 
   .pub-bar-slide img {
     width: 100%;
-    height: 120px;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain;
     display: block;
-    max-height: 120px;
   }
 .pub-indic {
   color: #ff0000;
