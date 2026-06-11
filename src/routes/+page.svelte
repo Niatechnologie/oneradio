@@ -1021,114 +1021,182 @@
     .indicator.active {
         background-color: white;
     }
-    .zone_animateur{
-     background: #00090d;
-     background: linear-gradient(107deg, rgba(0, 9, 13, 1) 33%, rgba(255, 0, 0, 1) 43%, rgba(235, 113, 113, 1) 46%, rgba(255, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 62%);
-    }
-    /* owl carrousel */
-    .container-owl {
-        font-family: Arial, sans-serif;
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 2rem;
+    .zone_animateur {
+        width: 100%;
+        background: #050c12;
+        background: radial-gradient(ellipse at 50% 115%, rgba(255, 0, 0, 0.1) 0%, #050c12 55%);
+        padding: 5rem 0 4rem;
         position: relative;
-        /* background: #000000; */
+        overflow: hidden;
     }
-
-    .container-owl h1 {
+    .zone_animateur::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, #bb0000 30%, #ff4444 50%, #bb0000 70%, transparent 100%);
+    }
+    /* owl carousel */
+    .container-owl {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem 2rem;
+        position: relative;
+    }
+    .owl-section-header {
         text-align: center;
-        font-size: 1.5rem;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
+    }
+    .container-owl h1 {
+        font-size: 2.2rem;
+        font-weight: 900;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
         color: #ffffff;
+        margin: 0 0 0.4rem;
+        display: inline-block;
+        position: relative;
+    }
+    .container-owl h1::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: #ff0000;
+        margin: 0.5rem auto 0;
+        border-radius: 2px;
+    }
+    .owl-subtitle {
+        color: rgba(255, 255, 255, 0.38);
+        font-size: 0.73rem;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        margin: 0.9rem 0 0;
     }
 
     .gallery-item {
         position: relative;
-        border-radius: 8px;
+        border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
     }
-
+    .gallery-item:hover {
+        border-color: rgba(255, 0, 0, 0.45);
+        box-shadow: 0 0 0 1px rgba(255, 0, 0, 0.28), 0 14px 45px rgba(255, 0, 0, 0.18), 0 6px 20px rgba(0, 0, 0, 0.65);
+        transform: translateY(-5px);
+    }
     .gallery-item img {
         width: 100%;
-        height: 350px; /* Increased height to fill the frame */
+        height: 360px;
         object-fit: cover;
-        transition: transform 0.3s ease;
+        object-position: top;
+        transition: transform 0.5s ease;
+        display: block;
     }
-
     .gallery-item:hover img {
-        transform: scale(1.05);
+        transform: scale(1.07);
     }
-
+    .card-bottom-info {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        padding: 2.5rem 1.2rem 1.2rem;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.93) 0%, rgba(0, 0, 0, 0.55) 60%, transparent 100%);
+        transition: opacity 0.35s ease;
+        z-index: 2;
+        pointer-events: none;
+    }
+    .gallery-item:hover .card-bottom-info {
+        opacity: 0;
+    }
+    .card-bottom-info h3 {
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: 0.04em;
+    }
+    .card-bottom-info h2 {
+        color: #ff4d4d;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin: 0.2rem 0 0;
+    }
     .image-overlay {
         position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.5);
-        overflow: hidden;
-        width: 100%;
-        height: 0;
-        transition: 0.5s ease;
+        inset: 0;
+        background: linear-gradient(160deg, rgba(0, 0, 0, 0.88) 0%, rgba(130, 0, 0, 0.52) 100%);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 0.2rem;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 3;
     }
-
     .gallery-item:hover .image-overlay {
-        height: 100%;
-    }
-
-    .gallery-item h3 {
-        color: white;
-        font-size: 1.5rem;
-        text-align: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        margin: 0;
-    }
-.gallery-item h2 {
-        color: #ff7f2a;
-        font-size: 1rem;
-        text-align: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        margin: 0.25rem 0 0;
-    }
-    .gallery-item:hover h3, .gallery-item:hover h2 {
         opacity: 1;
     }
-
+    .image-overlay h3 {
+        color: #ffffff;
+        font-size: 1.35rem;
+        font-weight: 800;
+        text-align: center;
+        letter-spacing: 0.05em;
+        margin: 0;
+        transform: translateY(10px);
+        transition: transform 0.4s ease;
+    }
+    .image-overlay h2 {
+        color: #ff5555;
+        font-size: 0.76rem;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin: 0.25rem 0 0;
+        transform: translateY(10px);
+        transition: transform 0.4s ease 0.05s;
+    }
+    .gallery-item:hover .image-overlay h3,
+    .gallery-item:hover .image-overlay h2 {
+        transform: translateY(0);
+    }
     .gallery-share {
         display: flex;
-        gap: 0.5rem;
-        margin-top: 0.75rem;
+        gap: 0.6rem;
+        margin-top: 1.1rem;
+        transform: translateY(14px);
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.4s ease 0.12s, transform 0.4s ease 0.12s;
     }
-
     .gallery-item:hover .gallery-share {
         opacity: 1;
+        transform: translateY(0);
     }
-
     .gallery-share-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
-        background: rgba(255,255,255,0.15);
+        background: rgba(255, 255, 255, 0.1);
         color: #fff;
-        font-size: 14px;
+        font-size: 15px;
         text-decoration: none;
-        transition: background 0.2s, transform 0.2s;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: background 0.25s, transform 0.25s, border-color 0.25s;
     }
-
     .gallery-share-btn:hover {
-        background: #ff0000;
-        transform: scale(1.15);
+        background: #cc0000;
+        border-color: #ff2222;
+        transform: scale(1.18);
     }
 
     :global(.owl-carousel .owl-nav) {
@@ -1525,14 +1593,21 @@
   </section>
  
 </div>
-<div style="width: 100%;" class="zone_animateur">
+<div class="zone_animateur">
   <div class="container-owl">
-    <h1>Team OneRadio</h1>
-    
+    <div class="owl-section-header">
+      <h1>Team OneRadio</h1>
+      <p class="owl-subtitle">Animateurs &amp; Équipe</p>
+    </div>
+
     <div bind:this={carouselElement} class="owl-carousel gallery-carousel">
         {#each galleryItems as item}
             <div class="gallery-item">
                 <img src={item.src} alt={item.alt}>
+                <div class="card-bottom-info">
+                    <h3>{item.title}</h3>
+                    <h2>{item.fonction}</h2>
+                </div>
                 <div class="image-overlay">
                     <h3>{item.title}</h3>
                     <h2>{item.fonction}</h2>
