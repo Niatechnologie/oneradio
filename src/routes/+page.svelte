@@ -1887,7 +1887,7 @@
     <div class="news-section-header">
       <span class="section-badge"><i class="bi bi-newspaper"></i> Actualités National et International</span>
       
-        <a style="text-decoration:none" class="section-badge" href="/news">Voir Plus <i class="bi bi-arrow-right"></i></a>
+        <a style="text-decoration:none" class="section-badge" href="/news"><i class="bi bi-plus"> Voir Plus <i class="bi bi-arrow-right"></i></a>
      
     </div>
 

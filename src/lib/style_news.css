@@ -118,8 +118,7 @@
 /* ── Category badge ────────────────────────────────── */
 .msn-cat {
     display: inline-block;
-    background: #e53e3e;
-    color: #fff;
+    color: #636363;
     font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: 0.1em;
