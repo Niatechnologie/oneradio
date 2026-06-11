@@ -1585,7 +1585,7 @@
   .pub-slide-item {
     position: relative;
     border-radius: 10px;
-    /* overflow: hidden; */
+    background: #000;
   }
 
   .pub-slide-item a { display: block; }
@@ -1593,7 +1593,7 @@
   .pub-slide-item img {
     width: 100%;
     height: 320px;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
   }
 
