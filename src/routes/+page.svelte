@@ -1024,8 +1024,8 @@
     .zone_animateur {
         width: 100%;
         background: #050c12;
-        background: radial-gradient(ellipse at 50% 115%, rgba(255, 0, 0, 0.1) 0%, #050c12 55%);
-        padding: 5rem 0 4rem;
+        background: linear-gradient( rgba(255, 0, 0, 0.1) 0%, #050c12 55%);
+        padding: 3.5rem 0 4rem;
         position: relative;
         overflow: hidden;
     }
@@ -1033,7 +1033,7 @@
         content: '';
         position: absolute;
         top: 0; left: 0; right: 0;
-        height: 2px;
+        height: 1px;
         background: linear-gradient(90deg, transparent 0%, #bb0000 30%, #ff4444 50%, #bb0000 70%, transparent 100%);
     }
     /* owl carousel */
