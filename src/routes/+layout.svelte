@@ -56,6 +56,53 @@
   let currentTime = $state(0);
   let volume = 1;
 
+  // ── Émission en cours ──────────────────────────────────
+  let currentEmissionText = $state('One People, One Radio');
+  let isOnAir = $state(false);
+
+  function timeToMin(t) {
+    if (!t) return 0;
+    const parts = String(t).split(':').map(Number);
+    return (parts[0] || 0) * 60 + (parts[1] || 0);
+  }
+
+  async function fetchCurrentEmission() {
+    try {
+      const res = await fetch('https://adminradio.oneradio.ci/radio_one/programmes.php');
+      if (!res.ok) return;
+      const data = await res.json();
+      const dayNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+      const today = dayNames[new Date().getDay()];
+      const now = new Date();
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      const programs = Array.isArray(data[today]) ? data[today] : [];
+      const current = programs.find(p =>
+        nowMin >= timeToMin(p.hdebut) && nowMin < timeToMin(p.hfin)
+      );
+      if (current) {
+        isOnAir = true;
+        currentEmissionText =
+          `🎙 EN COURS : ${current.designation}` +
+          (current.presentateur ? `  •  Présenté par ${current.presentateur}` : '') +
+          `  •  ${current.hdebut} – ${current.hfin}` +
+          `        `;
+      } else {
+        isOnAir = false;
+        // Chercher la prochaine émission
+        const next = programs
+          .filter(p => timeToMin(p.hdebut) > nowMin)
+          .sort((a, b) => timeToMin(a.hdebut) - timeToMin(b.hdebut))[0];
+        if (next) {
+          currentEmissionText = `⏱ Prochaine émission : ${next.designation}  •  ${next.hdebut}        `;
+        } else {
+          currentEmissionText = 'One People, One Radio  •  oneradio.ci';
+        }
+      }
+    } catch (_) {
+      // conserve le texte par défaut
+    }
+  }
+
   // Formatage du temps
   function formatTime(seconds) {
     if (isNaN(seconds)) return "00:00";
@@ -650,8 +697,14 @@
     setInterval(chargerPubs, 5 * 60 * 1000);
     // ────────────────────────────────────────────────────────────────────
 
+    // ── Émission en cours : fetch immédiat + refresh chaque minute ───────
+    fetchCurrentEmission();
+    const emissionInterval = setInterval(fetchCurrentEmission, 60 * 1000);
+    // ────────────────────────────────────────────────────────────────────
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      clearInterval(emissionInterval);
     };
   });
 </script>
@@ -1001,6 +1054,24 @@
     font-weight: 600;
     font-size: 0.875rem;
     color: var(--foreground);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .on-air-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff2a2a;
+    flex-shrink: 0;
+    animation: pulse-dot 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.7); }
   }
 
   .song-artist {
@@ -1399,9 +1470,15 @@
   <div class="player-left">
     <img src="{freq}" alt="Current Song" class="current-song-image">
     <div class="current-song-info">
-      <span class="song-title">One Radio</span>
+      <span class="song-title">
+        {#if isOnAir}
+          <span class="on-air-dot"></span> En direct
+        {:else}
+          One Radio
+        {/if}
+      </span>
       <!-- svelte-ignore a11y_distracting_elements -->
-      <span class="song-artist"><marquee scrollamount="3">One People, One Radio</marquee></span>
+      <span class="song-artist"><marquee scrollamount="4">{currentEmissionText}</marquee></span>
     </div>
   </div>
 
