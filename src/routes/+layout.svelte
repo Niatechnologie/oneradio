@@ -57,13 +57,21 @@
   let volume = 1;
 
   // ── Émission en cours ──────────────────────────────────
-  let currentEmissionText = $state('One People, One Radio');
+  let currentEmissionText = $state('One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci');
   let isOnAir = $state(false);
 
   function timeToMin(t) {
     if (!t) return 0;
     const parts = String(t).split(':').map(Number);
     return (parts[0] || 0) * 60 + (parts[1] || 0);
+  }
+
+  // Décode les entités HTML retournées par l'API (ex: &amp; → &)
+  function decodeHtml(str) {
+    if (!str) return '';
+    const el = document.createElement('textarea');
+    el.innerHTML = str;
+    return el.value;
   }
 
   async function fetchCurrentEmission() {
@@ -81,21 +89,25 @@
       );
       if (current) {
         isOnAir = true;
+        const name = decodeHtml(current.designation);
+        const host = current.presentateur ? decodeHtml(current.presentateur) : '';
         currentEmissionText =
-          `🎙 EN COURS : ${current.designation}` +
-          (current.presentateur ? `  •  Présenté par ${current.presentateur}` : '') +
-          `  •  ${current.hdebut} – ${current.hfin}` +
-          `        `;
+          `🎙&nbsp;EN COURS&nbsp;:&nbsp;<strong style="color:#ff2a2a;font-weight:700">${name}</strong>` +
+          (host ? `&nbsp;&nbsp;•&nbsp;&nbsp;${host}` : '') +
+          `&nbsp;&nbsp;•&nbsp;&nbsp;${current.hdebut}&nbsp;–&nbsp;${current.hfin}` +
+          `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;
       } else {
         isOnAir = false;
-        // Chercher la prochaine émission
         const next = programs
           .filter(p => timeToMin(p.hdebut) > nowMin)
           .sort((a, b) => timeToMin(a.hdebut) - timeToMin(b.hdebut))[0];
         if (next) {
-          currentEmissionText = `⏱ Prochaine émission : ${next.designation}  •  ${next.hdebut}        `;
+          const nextName = decodeHtml(next.designation);
+          currentEmissionText =
+            `⏱&nbsp;Prochaine&nbsp;:&nbsp;<strong style="color:#ff2a2a;font-weight:700">${nextName}</strong>` +
+            `&nbsp;&nbsp;•&nbsp;&nbsp;${next.hdebut}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;
         } else {
-          currentEmissionText = 'One People, One Radio  •  oneradio.ci';
+          currentEmissionText = 'One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci';
         }
       }
     } catch (_) {
@@ -1478,7 +1490,7 @@
         {/if}
       </span>
       <!-- svelte-ignore a11y_distracting_elements -->
-      <span class="song-artist"><marquee scrollamount="4">{currentEmissionText}</marquee></span>
+      <span class="song-artist"><marquee scrollamount="4">{@html currentEmissionText}</marquee></span>
     </div>
   </div>
 
