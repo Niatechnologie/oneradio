@@ -635,6 +635,7 @@
 
     function afficherPub(pub) {
       pubEnCours = true;
+      marquerPubVue(pub);
       if (navigator.vibrate) navigator.vibrate([0, 200, 100, 200]);
 
       pubImg.src           = pub._localImgUri || pubImgUrl(pub.image);
@@ -687,7 +688,6 @@
     function planifierPubs(pubs) {
       pubs.forEach((pub) => {
         if (!peutAfficherPub(pub)) return;
-        marquerPubVue(pub);
         if (!appEnArrierePlan) pubQueue.push(pub);
 
         cacherImagePourNotif(pubImgUrl(pub.image), 'pub_' + pub.id, (localUri) => {
@@ -725,6 +725,14 @@
       } catch(e) {
         console.warn('Pubs fetch error:', e);
       }
+    }
+
+    // Reset quotidien : efface le compteur de vues chaque nouveau jour
+    const todayMidnight = new Date(); todayMidnight.setHours(0,0,0,0);
+    const lastReset = parseInt(localStorage.getItem('pubs_vues_reset') || '0', 10);
+    if (lastReset < todayMidnight.getTime()) {
+      localStorage.removeItem('pubs_vues');
+      localStorage.setItem('pubs_vues_reset', String(todayMidnight.getTime()));
     }
 
     chargerPubs();
