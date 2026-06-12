@@ -1750,7 +1750,7 @@
       </div>
       <div class="pub-bar-slider">
         {#each pub1Slides as slide, i}
-          <a href="{slide.lien}" class="pub-bar-slide {i === pub1ActiveIndex ? 'active' : ''}">
+          <a target="_blank" href="{slide.lien}" class="pub-bar-slide {i === pub1ActiveIndex ? 'active' : ''}">
             <img src="{slide.url}" alt="Publicité" />
           </a>
         {/each}
