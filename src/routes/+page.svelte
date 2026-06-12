@@ -1020,6 +1020,7 @@
   align-items: center;
   justify-content: center;
   background: #000000;
+  border-right:1px solid #ff0000;
   height: 100%;
   position: absolute;
   font-family: Impact, sans-serif;
@@ -1028,8 +1029,7 @@
   z-index: 10;
   overflow: visible; /* Indispensable pour le grand zoom */
 }
-
-.pub-indic::after {
+.pub-indic::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -1040,6 +1040,19 @@
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-left: 10px solid #000000;
+}
+
+.pub-indic::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -11px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #ff0000;
 }
 
 /* Les deux mots animés */
