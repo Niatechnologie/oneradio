@@ -38,6 +38,20 @@ function updateDay(day) {
 function getAbbreviatedDay(day) {
   return day.slice(0, 3);
 }
+
+// Heure courante, mise à jour toutes les 30 secondes
+let now = $state(new Date());
+onMount(() => {
+  const t = setInterval(() => { now = new Date(); }, 30000);
+  return () => clearInterval(t);
+});
+
+function isOnAir(hdebut, hfin) {
+  if (selectedDay !== getCurrentDay()) return false;
+  const toMin = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+  const cur = now.getHours() * 60 + now.getMinutes();
+  return cur >= toMin(hdebut) && cur < toMin(hfin);
+}
 </script>
 <svelte:head>
   <title>One Radio - Emissions</title>
@@ -107,7 +121,13 @@ function getAbbreviatedDay(day) {
     <div class="programs-container">
         <div class="programs-list">
         {#each scheduleData[selectedDay] as program}
-          <div class="program-card">
+          <div class="program-card {isOnAir(program.hdebut, program.hfin) ? 'is-live' : ''}">
+            {#if isOnAir(program.hdebut, program.hfin)}
+              <div class="live-badge">
+                <span class="live-dot"></span>
+                EN COURS DE DIFFUSION
+              </div>
+            {/if}
             <div class="program-content">
               <div class="pochette">
                 <img src="https://adminradio.oneradio.ci/emissions/{program.photo}"  alt={program.designation} width="100" height="100" style="border-radius: 0.5rem;">
@@ -306,13 +326,6 @@ function getAbbreviatedDay(day) {
       margin: 0 auto;
     }
   
-    h2 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--color-gray-900);
-      margin-bottom: 2rem;
-    }
-  
     .programs-list {
       display: flex;
       flex-direction: column;
@@ -395,5 +408,42 @@ function getAbbreviatedDay(day) {
       font-size: 1.875rem;
       font-weight: 500;
       color: #343538;
+    }
+
+    /* ── Émission en cours ── */
+    .program-card.is-live {
+      background: linear-gradient(135deg, #fff5f5 0%, #fff 60%);
+      border: 2px solid #ff2a2a;
+      box-shadow: 0 0 0 4px rgba(255, 42, 42, 0.08),
+                  0 6px 20px rgba(255, 0, 0, 0.12);
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: #ff2a2a;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 12px 4px 8px;
+      border-radius: 9999px;
+      margin-bottom: 0.85rem;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: live-blink 1.1s ease-in-out infinite;
+    }
+
+    @keyframes live-blink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.15; transform: scale(0.7); }
     }
   </style>
