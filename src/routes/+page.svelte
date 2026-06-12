@@ -1883,7 +1883,7 @@
       >
         {#if isLoading_artists}
           <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:40px;">
-            <p>Chargement des artistes...</p>
+            <p>Chargement des invités...</p>
           </div>
         {:else if error_artists}
           <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:10px 40px;">
