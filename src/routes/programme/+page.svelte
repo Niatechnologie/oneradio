@@ -413,7 +413,7 @@ function isOnAir(hdebut, hfin) {
     /* ── Émission en cours ── */
     .program-card.is-live {
       background: linear-gradient(135deg, #fff5f5 0%, #fff 60%);
-      border: 2px solid #ff2a2a;
+      border: 1px solid #ff2a2a;
     }
 
     .live-badge {
