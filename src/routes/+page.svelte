@@ -1033,7 +1033,7 @@
   content: '';
   position: absolute;
   top: 50%;
-  right: -11px;
+  right: -12px;
   transform: translateY(-50%);
   width: 0;
   height: 0;
