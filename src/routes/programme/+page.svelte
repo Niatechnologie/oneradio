@@ -414,8 +414,6 @@ function isOnAir(hdebut, hfin) {
     .program-card.is-live {
       background: linear-gradient(135deg, #fff5f5 0%, #fff 60%);
       border: 2px solid #ff2a2a;
-      box-shadow: 0 0 0 4px rgba(255, 42, 42, 0.08),
-                  0 6px 20px rgba(255, 0, 0, 0.12);
     }
 
     .live-badge {
