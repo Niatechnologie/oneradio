@@ -1033,19 +1033,6 @@
   content: '';
   position: absolute;
   top: 50%;
-  right: -10px;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid #000000;
-}
-
-.pub-indic::after {
-  content: '';
-  position: absolute;
-  top: 50%;
   right: -11px;
   transform: translateY(-50%);
   width: 0;
@@ -1053,6 +1040,19 @@
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-left: 10px solid #ff0000;
+}
+
+.pub-indic::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #000000;
 }
 
 /* Les deux mots animés */
