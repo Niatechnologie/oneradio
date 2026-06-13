@@ -29,11 +29,21 @@
     } catch (e) { console.warn('Erreur humoristes:', e); }
     finally { loadingHum = false; }
 
-    // Prochains spectacles
+    // Prochains spectacles (dédupliqués par spectacle.id — on garde la date la plus proche)
     try {
       const res  = await fetch(`${BASE}/prochains-spectacles.php?limit=6`);
       const data = await res.json();
-      if (data.success) prochains = data.prochains;
+      if (data.success) {
+        const seen = new Map();
+        for (const d of data.prochains) {
+          const id = d.spectacle?.id;
+          if (!id) continue;
+          if (!seen.has(id) || new Date(d.date_heure) < new Date(seen.get(id).date_heure)) {
+            seen.set(id, d);
+          }
+        }
+        prochains = [...seen.values()];
+      }
     } catch (e) { console.warn('Erreur spectacles:', e); }
     finally { loadingSpec = false; }
   });
