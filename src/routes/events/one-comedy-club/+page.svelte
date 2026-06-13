@@ -194,25 +194,7 @@
     <p>Faire rayonner <strong>l'humour ivoirien</strong> à travers toute l'Afrique et au-delà, en créant une plateforme de référence pour les artistes et les passionnés de comédie.</p>
   </div>
 
-  <!-- ── Contact ── -->
-  <div class="occ-contact" class:visible={isVisible}>
-    <h2><i class="bi bi-envelope-fill"></i> Nous contacter</h2>
-    <div class="occ-contact-grid">
-      <div class="occ-contact-item">
-        <i class="bi bi-envelope"></i>
-        <a href="mailto:contact@oneradio.ci">contact@oneradio.ci</a>
-      </div>
-      <div class="occ-contact-item">
-        <i class="bi bi-telephone"></i>
-        <span>+225 05 01 877 877</span>
-      </div>
-      <div class="occ-contact-item">
-        <i class="bi bi-geo-alt"></i>
-        <span>Abidjan, Côte d'Ivoire</span>
-      </div>
-    </div>
-  </div>
-
+ 
 </main>
 
 <style>
