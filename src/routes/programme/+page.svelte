@@ -182,10 +182,10 @@
     transition: transform .18s, background .18s;
   }
   .pg-soc:hover { transform: scale(1.12); }
-  .pg-soc-wa { color:#25d366; } .pg-soc-wa:hover { background:#25d366; color:#fff; }
-  .pg-soc-fb { color:#1877f2; } .pg-soc-fb:hover { background:#1877f2; color:#fff; }
-  .pg-soc-yt { color:#ff0000; } .pg-soc-yt:hover { background:#ff0000; color:#fff; }
-  .pg-soc-tt { color:#fff;    } .pg-soc-tt:hover { background:#333; color:#fff; }
+  .pg-soc-wa { color:#ffffff; } .pg-soc-wa:hover { background:#25d366; color:#fff; }
+  .pg-soc-fb { color:#ffffff; } .pg-soc-fb:hover { background:#1877f2; color:#fff; }
+  .pg-soc-yt { color:#ffffff; } .pg-soc-yt:hover { background:#ff0000; color:#fff; }
+  .pg-soc-tt { color:#ffffff;    } .pg-soc-tt:hover { background:#333; color:#fff; }
 
   /* ── Tabs ── */
   .pg-tabs-wrap {
