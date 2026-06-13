@@ -1245,9 +1245,9 @@
   .buffer-spinner {
     width: 45px;
     height: 45px;
-    border: 4px solid rgba(255, 42, 42, 0.3);
+    border: 4px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    border-top-color: #ff2a2a;
+    border-top-color: #ffffff;
     animation: spin 1s linear infinite;
     top: 50px;
     right: 100px;
@@ -1258,7 +1258,7 @@
     top: -18px;
     left: -5px;
     font-size: 10px;
-    color: #ff2a2a;
+    color: #ffffff;
     white-space: nowrap;
   }
 
