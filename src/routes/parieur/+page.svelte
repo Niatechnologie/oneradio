@@ -54,7 +54,7 @@
 <div class="sp-page">
 
   <!-- Hero -->
-  <div class="sp-hero">
+  <!-- <div class="sp-hero">
     <div class="sp-hero-inner">
       <div class="sp-hero-text">
         <div class="sp-hero-label">
@@ -65,7 +65,7 @@
       </div>
       <img src={img_p} alt="Super Parieur" class="sp-hero-img" />
     </div>
-  </div>
+  </div> -->
 
   <!-- Body -->
   <div class="sp-body">
