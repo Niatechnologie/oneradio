@@ -151,65 +151,6 @@
     {/if}
   {/if}
 
-  <!-- ── Programme / Comédiens ── -->
-  <section class="occ-section" class:visible={isVisible}>
-    <div class="occ-section-header">
-      <h2>Programme Comedy Club</h2>
-    </div>
-
-    {#if loadingHum}
-      <div class="occ-loader">
-        <div class="occ-spinner"></div>
-      </div>
-    {:else if comediens.length === 0}
-      <p class="occ-empty">Aucun humoriste disponible pour le moment.</p>
-    {:else}
-      <div class="comedy-program">
-        {#each comediens as c}
-          <a href="/events/one-comedy-club/{c.id}" class="comedy-card">
-            {#if c.photo}
-              <img src={c.photo} alt={c.nom} />
-            {:else}
-              <div class="comedy-avatar">{c.nom.charAt(0).toUpperCase()}</div>
-            {/if}
-
-            <div class="nom">{c.nom}</div>
-
-            {#if c.description}
-              <div class="description">{c.description}</div>
-            {/if}
-
-            <!-- Réseaux sociaux -->
-            {#if Object.keys(c.reseaux).length > 0}
-              <div class="social-links">
-                {#each RESEAUX as r}
-                  {#if c.reseaux[r.key]}
-                    <a href={c.reseaux[r.key]} target="_blank" rel="noopener"
-                       class="social-link" title={r.key}
-                       style="color:{r.color};"
-                       onclick={(e) => e.stopPropagation()}>
-                      <i class="bi {r.icon}"></i>
-                    </a>
-                  {/if}
-                {/each}
-              </div>
-            {/if}
-
-            <!-- Vidéo -->
-            {#if c.video}
-              <div class="footer">
-                <a href={c.video} target="_blank" rel="noopener" class="video-link"
-                   onclick={(e) => e.stopPropagation()}>
-                  <i class="bi bi-play-circle-fill"></i> Voir la vidéo
-                </a>
-              </div>
-            {/if}
-          </a>
-        {/each}
-      </div>
-    {/if}
-  </section>
-
   <!-- ── Activités ── -->
   <section class="occ-section" class:visible={isVisible}>
     <div class="occ-section-header">

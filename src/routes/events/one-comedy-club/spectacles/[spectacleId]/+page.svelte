@@ -20,8 +20,9 @@
 
   const humoriste     = s?.humoriste;
   const humNom        = humoriste ? (humoriste.nom_artiste || `${humoriste.prenom} ${humoriste.nom}`.trim()) : '';
-  const datesAVenir   = (s?.dates ?? []).filter(d => !d.passe);
-  const datesPassees  = (s?.dates ?? []).filter(d => d.passe);
+  const sortAsc = (a, b) => new Date(a.date_heure) - new Date(b.date_heure);
+  const datesAVenir  = (s?.dates ?? []).filter(d => !d.passe).sort(sortAsc);
+  const datesPassees = (s?.dates ?? []).filter(d =>  d.passe).sort(sortAsc);
 </script>
 
 <svelte:head>
