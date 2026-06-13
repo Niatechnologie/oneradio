@@ -1616,7 +1616,7 @@
 
   .pub-slide-item img {
     width: 100%;
-    height: clamp(200px, 22vw, 480px);
+    height: clamp(200px, 23vw, 480px);
     object-fit: contain;
     display: block;
   }
