@@ -1756,6 +1756,83 @@
     .wc-widget { position: static; }
   }
 
+  /* ── Section events (home) ── */
+  .ev-section-head {
+    display: flex; align-items: center; gap: .75rem;
+    margin-bottom: 1.5rem; padding-bottom: .75rem;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  .ev-section-head h2 {
+    font-size: 1.3rem; font-weight: 800; color: #111;
+    display: flex; align-items: center; gap: .45rem; margin: 0;
+  }
+  .ev-section-head h2 i { color: #ff1919; }
+  .ev-section-badge-link {
+    margin-left: auto;
+    display: inline-flex; align-items: center; gap: .25rem;
+    background: #ff1919; color: #fff;
+    font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    padding: .3rem .75rem; border-radius: 20px; text-decoration: none;
+    transition: background .18s;
+  }
+  .ev-section-badge-link:hover { background: #cc0000; }
+
+  .ev-grid-home {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin: 0 0 1.25rem;
+  }
+
+  .ev-card-home {
+    border-radius: 14px; overflow: hidden;
+    box-shadow: 0 2px 14px rgba(0,0,0,.08);
+    background: #fff; border: 1px solid #eee;
+    display: flex; flex-direction: column;
+    transition: transform .22s, box-shadow .22s;
+  }
+  .ev-card-home:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,.13); }
+
+  .ev-card-img-wrap { position: relative; overflow: hidden; display: block; }
+  .ev-card-img {
+    width: 100%; height: 200px; object-fit: cover; display: block;
+    transition: transform .35s ease;
+  }
+  .ev-card-home:hover .ev-card-img { transform: scale(1.04); }
+  .ev-card-cat {
+    position: absolute; top: .6rem; left: .6rem;
+    background: #ff1919; color: #fff;
+    font-size: .65rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    padding: .2rem .6rem; border-radius: 20px;
+  }
+
+  .ev-card-body {
+    padding: 1rem 1.1rem 1.25rem; display: flex; flex-direction: column; flex: 1; gap: .45rem;
+  }
+  .ev-card-meta {
+    display: flex; align-items: center; gap: .35rem;
+    font-size: .75rem; color: #aaa;
+  }
+  .ev-card-meta i { color: #ff1919; }
+  .ev-card-title {
+    font-size: .97rem; font-weight: 700; color: #111; margin: 0; line-height: 1.35;
+  }
+  .ev-card-title a { text-decoration: none; color: inherit; }
+  .ev-card-title a:hover { color: #ff1919; }
+  .ev-card-link {
+    display: inline-flex; align-items: center; gap: .2rem;
+    color: #ff1919; font-size: .82rem; font-weight: 700;
+    text-decoration: none; margin-top: auto; width: fit-content;
+    transition: gap .18s;
+  }
+  .ev-card-link:hover { gap: .45rem; }
+
+  .voir-plus { display: flex; justify-content: center; margin-top: 1.5rem; }
+
+  @media (max-width: 600px) {
+    .ev-grid-home { grid-template-columns: 1fr; }
+  }
+
   /* ── Large screens 1440px ── */
   @media (min-width: 1440px) {
     .container, .container-owl { max-width: min(1400px, 90vw); }
@@ -2086,45 +2163,38 @@
   </div>
 
   <section class="section">
-    <h1>Evènements</h1>
-    
-    <!-- Structure HTML -->
-    <div class="events-grid">
+    <div class="ev-section-head">
+      <h2><i class="bi bi-calendar3"></i> Événements</h2>
+      <a class="ev-section-badge-link" href="/events">Voir tout <i class="bi bi-arrow-right-short"></i></a>
+    </div>
+
+    <div class="ev-grid-home">
       {#each dataevents as event}
-          <article class="events-card">
-              <div class="events-image-container">
-                <a href="/events/{event.slug}">
-                  <img src="https://adminradio.oneradio.ci/cropavatar/img/{event.photo}" alt={event.titre} class="events-image" />
-                  <span class="events-category">{event.categorie}</span>
-                </a>
-              </div>
-              <div class="events-content">
-                  <div class="events-metadata">
-                       <div class="events-metadata-item">
-                         <small>Publié </small>
-                          {event.pastdate}
-                      </div>
-                  </div>
-                  <h2 class="events-title">{event.titre}</h2>
-                  <!-- <p class="events-excerpt">{event.excerpt}</p> -->
-                  <a href="/events/{event.slug}" class="events-read-more">
-                      Voir plus
-                      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                  </a>
-              </div>
-          </article>
+        <article class="ev-card-home">
+          <a href="/events/{event.slug}" class="ev-card-img-wrap">
+            <img src="https://adminradio.oneradio.ci/cropavatar/img/{event.photo}"
+                 alt={event.titre} class="ev-card-img" />
+            <span class="ev-card-cat">{event.categorie}</span>
+          </a>
+          <div class="ev-card-body">
+            <div class="ev-card-meta">
+              <i class="bi bi-calendar3"></i>
+              <span>{event.pastdate}</span>
+            </div>
+            <h3 class="ev-card-title">
+              <a href="/events/{event.slug}">{event.titre}</a>
+            </h3>
+            <a href="/events/{event.slug}" class="ev-card-link">
+              Voir plus <i class="bi bi-arrow-right-short"></i>
+            </a>
+          </div>
+        </article>
       {/each}
     </div>
-     <div class="voir-plus">
-      <!-- {#if showLoadMoreButton} -->
 
-        <a class="events-load-more-button" href="/events">Voir Plus <i class="bi bi-chevron-double-right"></i></a>
-      <!-- {/if} -->
+    <div class="voir-plus">
+      <a class="events-load-more-button" href="/events">Voir Plus <i class="bi bi-chevron-double-right"></i></a>
     </div>
-
   </section>
  
 </div>
