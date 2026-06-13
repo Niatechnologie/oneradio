@@ -21,8 +21,9 @@
   const humoriste     = s?.humoriste;
   const humNom        = humoriste ? (humoriste.nom_artiste || `${humoriste.prenom} ${humoriste.nom}`.trim()) : '';
   const sortAsc = (a, b) => new Date(a.date_heure) - new Date(b.date_heure);
-  const datesAVenir  = (s?.dates ?? []).filter(d => !d.passe).sort(sortAsc);
-  const datesPassees = (s?.dates ?? []).filter(d =>  d.passe).sort(sortAsc);
+  const now = new Date();
+  const datesAVenir  = (s?.dates ?? []).filter(d => !d.passe && new Date(d.date_heure) > now).sort(sortAsc);
+  const datesPassees = (s?.dates ?? []).filter(d =>  d.passe || new Date(d.date_heure) <= now).sort(sortAsc);
 </script>
 
 <svelte:head>
@@ -248,7 +249,7 @@
 
   .billet-btn {
     display:inline-flex; align-items:center; gap:.4rem;
-    background:#ff0000; color:#1a0a00; font-weight:700;
+    background:#ff0000; color:#ffffff; font-weight:700;
     padding:.5rem 1.1rem; border-radius:8px; text-decoration:none;
     font-size:.85rem; transition:background .18s;
   }
