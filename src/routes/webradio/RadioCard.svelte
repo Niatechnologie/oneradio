@@ -11,18 +11,13 @@
   let imgError    = $state(false);
   let imgSrcIndex = $state(0);
 
-  // Essaie plusieurs formats d'URL selon la structure du serveur
   const pochetteSrcs = (() => {
-    const base = 'https://oneradiomobile.oneradio.ci/image';
     const srcs = [];
     if (radio.pochette) {
-      if (radio.repertoire) srcs.push(`${base}/${radio.repertoire}/${radio.pochette}`);
-      srcs.push(`${base}/${radio.pochette}`);
+      srcs.push(`https://adminradio.oneradio.ci/webradios/${radio.pochette}`);
     }
     return srcs;
   })();
-
-  const pochettePath = pochetteSrcs[0] ?? null;
 
   function onImgError() {
     if (imgSrcIndex + 1 < pochetteSrcs.length) {
