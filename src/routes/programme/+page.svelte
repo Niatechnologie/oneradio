@@ -293,7 +293,7 @@
   .pg-presenter i, .pg-cat i { color: #ff1919; font-size: .72rem; }
   .pg-desc {
     font-size: .8rem; color: #666; line-height: 1.5;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     margin: 0;
   }
 

@@ -1,36 +1,10 @@
 <script>
-  import { onMount } from 'svelte';
-
   let { phone = "(+225) 05 01 877 877", email = "contact@oneradio.ci", address = "Abidjan Cocody, Angré 8ème tranche — One Radio, 2ème étage Porte B3" } = $props();
 
   let currentYear = $state(new Date().getFullYear());
-
-  /** @type {Array<{id:number,icon:string,left:number,duration:number,size:number}>} */
-  let notes = $state([]);
-  let noteId = 0;
-  const musicIcons = ['♪','♫','♬','♩'];
-
-  function spawnNote() {
-    const id = noteId++;
-    const dur = 3 + Math.random() * 3;
-    notes = [...notes, { id, icon: musicIcons[Math.floor(Math.random() * musicIcons.length)], left: Math.random() * 100, duration: dur, size: 0.7 + Math.random() * 0.9 }];
-    setTimeout(() => { notes = notes.filter(n => n.id !== id); }, dur * 1000);
-  }
-
-  onMount(() => {
-    for (let i = 0; i < 4; i++) setTimeout(spawnNote, i * 600);
-    const iv = setInterval(spawnNote, 1000 + Math.random() * 1200);
-    return () => clearInterval(iv);
-  });
 </script>
 
 <footer>
-  <div class="floating-notes">
-    {#each notes as note (note.id)}
-      <span class="music-note" style="left:{note.left}%;animation-duration:{note.duration}s;font-size:{note.size}rem;">{note.icon}</span>
-    {/each}
-  </div>
-
   <div class="footer-inner">
 
     <!-- Branding -->
@@ -100,20 +74,6 @@
     position: relative;
     overflow: hidden;
     border-top: 3px solid #ff1919;
-  }
-
-  /* Notes flottantes */
-  .floating-notes { position:absolute; inset:0; pointer-events:none; z-index:0; }
-  .music-note {
-    position:absolute; bottom:-1rem; color:#ff1919; opacity:0;
-    animation: floatUp linear forwards;
-    text-shadow: 0 0 5px rgba(255,25,25,.35);
-  }
-  @keyframes floatUp {
-    0%   { opacity:0;   transform:translateY(0) rotate(0deg); }
-    15%  { opacity:.75; }
-    70%  { opacity:.45; }
-    100% { opacity:0;   transform:translateY(-320px) rotate(18deg); }
   }
 
   /* Layout principal */
