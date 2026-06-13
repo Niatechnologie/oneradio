@@ -993,38 +993,39 @@
   .equalizer-container {
     display: inline-flex !important;
     align-items: center;
-    height: 22px;
+    height: 20px;
+    margin-left: 10px;
     opacity: 0;
     transition: opacity 0.3s ease;
-    position: static;
+    position: absolute;
+    right: 160px;
   }
   .active_equalier { opacity: 1 !important; }
 
   .equalizer-bars {
     display: flex;
     align-items: flex-end;
-    gap: 2px;
     height: 100%;
   }
 
   .equalizer-bar {
     width: 3px;
-    border-radius: 2px;
-    background: #ff2a2a;
+    background-color: #ff2a2a;
+    margin: 0 1px;
     height: 30%;
-    animation-duration: 0.75s;
+    animation-duration: 0.8s;
     animation-iteration-count: infinite;
     animation-direction: alternate;
     animation-timing-function: ease-in-out;
   }
   .equalizer-bar:nth-child(1) { animation-name: equalizer1; height: 40%; }
-  .equalizer-bar:nth-child(2) { animation-name: equalizer2; height: 65%; animation-delay: .1s; }
-  .equalizer-bar:nth-child(3) { animation-name: equalizer3; height: 85%; animation-delay: .2s; }
-  .equalizer-bar:nth-child(4) { animation-name: equalizer4; height: 50%; animation-delay: .3s; }
+  .equalizer-bar:nth-child(2) { animation-name: equalizer2; height: 60%; animation-delay: 0.1s; }
+  .equalizer-bar:nth-child(3) { animation-name: equalizer3; height: 80%; animation-delay: 0.2s; }
+  .equalizer-bar:nth-child(4) { animation-name: equalizer4; height: 50%; animation-delay: 0.3s; }
 
-  @keyframes equalizer1 { 0% { height: 40%; } 100% { height: 75%; } }
-  @keyframes equalizer2 { 0% { height: 65%; } 100% { height: 95%; } }
-  @keyframes equalizer3 { 0% { height: 85%; } 100% { height: 45%; } }
+  @keyframes equalizer1 { 0% { height: 40%; } 100% { height: 70%; } }
+  @keyframes equalizer2 { 0% { height: 60%; } 100% { height: 90%; } }
+  @keyframes equalizer3 { 0% { height: 80%; } 100% { height: 50%; } }
   @keyframes equalizer4 { 0% { height: 50%; } 100% { height: 80%; } }
 
   /* Audio Player */
@@ -1123,12 +1124,11 @@
 
   .player-center {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     flex: 1;
     padding: 0 1rem;
-    gap: 0.75rem;
   }
 
   .player-controls {
