@@ -10,9 +10,7 @@
   const PROMO_CODE = 'OA7245400';
   const AKWABET_URL = 'https://akwabet.com/prematch';
 
-  onMount(() => {
-    isVisible = true;
-  });
+  onMount(() => { isVisible = true; });
 
   function fallbackCopy(text) {
     const ta = document.createElement('textarea');
@@ -29,30 +27,20 @@
     navigator.clipboard.writeText(PROMO_CODE).then(() => {
       copySuccess = true;
       setTimeout(() => { copySuccess = false; }, 2000);
-    }).catch(() => {
-      fallbackCopy(PROMO_CODE);
-    });
+    }).catch(() => { fallbackCopy(PROMO_CODE); });
   }
 
   function ouvrirAkwabet() {
-    try {
-      navigator.clipboard.writeText(PROMO_CODE).catch(() => {});
-    } catch(e) {
-      try { fallbackCopy(PROMO_CODE); } catch(e2) {}
-    }
+    try { navigator.clipboard.writeText(PROMO_CODE).catch(() => {}); }
+    catch(e) { try { fallbackCopy(PROMO_CODE); } catch(e2) {} }
 
-    const popup = window.open(
-      AKWABET_URL,
-      'akwabet_popup',
-      'width=1000,height=700,left=100,top=60,scrollbars=yes,resizable=yes'
-    );
+    const popup = window.open(AKWABET_URL, 'akwabet_popup',
+      'width=1000,height=700,left=100,top=60,scrollbars=yes,resizable=yes');
 
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-      popupBlocked = true;
-      toastVisible = false;
+      popupBlocked = true; toastVisible = false;
     } else {
-      toastVisible = true;
-      popupBlocked = false;
+      toastVisible = true; popupBlocked = false;
       setTimeout(() => { toastVisible = false; }, 5000);
     }
   }
@@ -60,696 +48,377 @@
 
 <svelte:head>
   <title>One Radio - Super Parieur</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </svelte:head>
 
-<div class="container">
-  <!-- Header -->
-  <header class="header">
-    <div class="header-content">
-      <i class="bi bi-trophy-fill header-icon"></i>
-      <h1>SUPER PARIEUR</h1>
-    </div>
-    <p class="header-sub">les analyses qui transforment  tes pronostics en gains !</p>
-  </header>
+<div class="sp-page">
 
-  <!-- Hero Banner -->
-  <div class="hero-banner" class:visible={isVisible}>
-    <div class="hero-overlay"></div>
-    <img src={img_p} alt="Super Parieur" class="hero-img" />
-    <div class="hero-text">
-      <h2>Tu aimes le sport ?<br>Tu aimes les défis ?</h2>
-      <p>Deviens le <strong>SUPER PARIEUR</strong> de One Radio & Partenaires chaque jour et gagne du <strong>CASH</strong> !</p>
+  <!-- Hero -->
+  <div class="sp-hero">
+    <div class="sp-hero-inner">
+      <div class="sp-hero-text">
+        <div class="sp-hero-label">
+          <i class="bi bi-broadcast-pin"></i> One Radio
+        </div>
+        <h1>Super Parieur</h1>
+        <p>Les analyses qui transforment tes pronostics en gains</p>
+      </div>
+      <img src={img_p} alt="Super Parieur" class="sp-hero-img" />
     </div>
   </div>
 
-  <!-- Steps Section -->
-  <section class="steps-section">
-    <h2 class="section-title">Comment participer ?</h2>
-    <div class="steps-grid">
-      <div class="step-card step-card--promo" class:visible={isVisible}>
-        <div class="promo-card-header">
-          <div class="step-number step-number--inline">1</div>
-          <div class="badge">Offre exclusive</div>
-          <h3>Bonus de bienvenue +100%</h3>
-          <p>Utilisez le code ci-dessous sur Akwabet</p>
-        </div>
-        <div class="promo-card-body">
-          <div class="code-box">
-            <span class="code-label">Code</span>
-            <span class="code-value">{PROMO_CODE}</span>
-            <button class="btn-copy" class:copied={copySuccess} onclick={copierCode}>
-              {copySuccess ? 'Copié !' : 'Copier'}
-            </button>
+  <!-- Body -->
+  <div class="sp-body">
+
+    <!-- Steps -->
+    <section class="sp-section">
+      <h2 class="sp-section-title">
+        <i class="bi bi-list-check"></i> Comment participer ?
+      </h2>
+      <div class="sp-grid">
+
+        <!-- Step 1: Promo -->
+        <div class="sp-card sp-card--promo" class:visible={isVisible}>
+          <div class="sp-card-head">
+            <span class="sp-step-num">1</span>
+            <span class="sp-badge">Offre exclusive</span>
+            <h3>Bonus de bienvenue +100%</h3>
+            <p>Utilisez le code ci-dessous sur Akwabet</p>
           </div>
-          <ul class="avantages">
-            <li>Bonus de 100% sur votre premier dépôt</li>
-            <li>Offre valable 48h après inscription</li>
-            <li>Collez le code dans le champ "Code promo"</li>
-          </ul>
-          <button class="btn-open" onclick={ouvrirAkwabet}>
-            Ouvrir Akwabet et utiliser le code
-          </button>
-          <p class="hint">Le code sera copié automatiquement dans votre presse-papier</p>
-          {#if toastVisible}
-            <div class="toast">
-              Code copié ! Collez-le avec <strong>Ctrl+V</strong> dans le champ "Code promo" sur Akwabet.
+          <div class="sp-card-body">
+            <div class="sp-code-box">
+              <div class="sp-code-label">
+                <i class="bi bi-tag"></i> Code promo
+              </div>
+              <div class="sp-code-val">{PROMO_CODE}</div>
+              <button class="sp-btn-copy" class:copied={copySuccess} onclick={copierCode}>
+                {#if copySuccess}
+                  <i class="bi bi-check-lg"></i> Copié
+                {:else}
+                  <i class="bi bi-clipboard"></i> Copier
+                {/if}
+              </button>
             </div>
-          {/if}
-          {#if popupBlocked}
-            <div class="popup-blocked">
-              Votre navigateur a bloqué la fenêtre.
-              <a href={AKWABET_URL} target="_blank">Cliquez ici pour ouvrir Akwabet</a>
-              — puis collez le code <strong>{PROMO_CODE}</strong> avec Ctrl+V.
-            </div>
-          {/if}
+            <ul class="sp-avantages">
+              <li><i class="bi bi-check2-circle"></i> Bonus de 100% sur votre premier dépôt</li>
+              <li><i class="bi bi-check2-circle"></i> Offre valable 48h après inscription</li>
+              <li><i class="bi bi-check2-circle"></i> Collez le code dans le champ "Code promo"</li>
+            </ul>
+            <button class="sp-btn-open" onclick={ouvrirAkwabet}>
+              <i class="bi bi-box-arrow-up-right"></i> Ouvrir Akwabet
+            </button>
+            <p class="sp-hint">
+              <i class="bi bi-info-circle"></i> Le code sera copié automatiquement dans votre presse-papier
+            </p>
+            {#if toastVisible}
+              <div class="sp-toast">
+                <i class="bi bi-clipboard-check"></i>
+                Code copié ! Collez avec <strong>Ctrl+V</strong> dans le champ "Code promo" sur Akwabet.
+              </div>
+            {/if}
+            {#if popupBlocked}
+              <div class="sp-popup-blocked">
+                <i class="bi bi-exclamation-triangle"></i>
+                Fenêtre bloquée —
+                <a href={AKWABET_URL} target="_blank" rel="noopener">Ouvrir Akwabet</a>
+                puis coller <strong>{PROMO_CODE}</strong>.
+              </div>
+            {/if}
+          </div>
         </div>
+
+        <!-- Step 2: Timing -->
+        <div class="sp-card sp-card--timing" class:visible={isVisible}>
+          <span class="sp-step-num sp-step-num--abs">2</span>
+          <div class="sp-timing-icon"><i class="bi bi-ticket-perforated"></i></div>
+          <h3>Fais ton pari</h3>
+          <p>Place tes pronostics sur les matchs de ton choix</p>
+          <div class="sp-timing-block">
+            <div class="sp-timing-head">
+              <i class="bi bi-clock"></i> Horaires de diffusion
+            </div>
+            <div class="sp-timing-pills">
+              <span class="sp-pill">10h30</span>
+              <span class="sp-pill">12h30</span>
+              <span class="sp-pill">14h30</span>
+            </div>
+          </div>
+        </div>
+
       </div>
+    </section>
 
-      <div class="step-card" class:visible={isVisible}>
-        <div class="step-number">2</div>
-        <div class="step-icon"><i class="bi bi-ticket-perforated-fill"></i></div>
-        <h3>Fais ton pari</h3>
-        <p>Place tes pronostics sur les matchs de ton choix</p>
-        Nos horaires :
-        <ul class="avantages" style="margin: 0.5rem auto 0; width: fit-content;">
-          <li>10h30</li>
-          <li>12h30</li>
-          <li>14h30</li>
-        </ul>
+    <!-- Winner -->
+    <div class="sp-winner" class:visible={isVisible}>
+      <i class="bi bi-award sp-winner-icon"></i>
+      <div class="sp-winner-text">
+        <h2>Deviens le Super Parieur du jour</h2>
+        <p>Celui qui fait le plus de <strong>gros pronostics gagnants</strong> devient le <strong>Super Parieur</strong> du jour !</p>
       </div>
-
     </div>
-  </section>
 
-  <!-- Winner Section -->
-  <section class="winner-section" class:visible={isVisible}>
-    <div class="winner-card">
-      <div class="winner-icon"><i class="bi bi-star-fill"></i></div>
-      <h2>Deviens le SUPER PARIEUR du jour !</h2>
-      <p>Celui qui fait le plus de <strong>GROS pronostics gagnants</strong> devient le <strong>SUPER PARIEUR</strong> du jour !</p>
-    </div>
-  </section>
-
-  <!-- Warning Section -->
-  <section class="warning-section" class:visible={isVisible}>
-    <div class="warning-card">
-      <div class="warning-header">
-        <i class="bi bi-exclamation-triangle-fill"></i>
+    <!-- Warning -->
+    <div class="sp-warning" class:visible={isVisible}>
+      <i class="bi bi-shield-exclamation sp-warning-icon"></i>
+      <div>
         <h3>Rappel important</h3>
+        <p>Sans le code promo <strong>{PROMO_CODE}</strong>, ta participation n'est pas valable !</p>
       </div>
-      <p>Sans le <strong>CODE PROMO : OA7245400</strong>, ta participation n'est pas valable !</p>
     </div>
-  </section>
 
-  <!-- CTA Section -->
-  <section class="cta-section" class:visible={isVisible}>
-    <div class="cta-card">
-      <i class="bi bi-broadcast-pin cta-icon"></i>
-      <h2>SUPER PARIEUR – ONE RADIO</h2>
+    <!-- CTA -->
+    <div class="sp-cta" class:visible={isVisible}>
+      <i class="bi bi-broadcast-pin sp-cta-icon"></i>
+      <h2>Super Parieur – One Radio</h2>
       <p>Le jeu qui transforme tes pronostics en gains !</p>
-      <!-- <a href="https://wa.me/2250500877877" target="_blank" class="cta-btn">
-        <i class="bi bi-whatsapp"></i> Participer maintenant
-      </a> -->
     </div>
-  </section>
+
+  </div>
 </div>
 
 <style>
-  :root {
-    --red: #ff1919;
-    --red-dark: #cc0000;
-    --gold: #FFD700;
-    --dark: #1a1a1a;
-    --gray-600: #4b5563;
-    --gray-900: #111827;
-  }
+  .sp-page { background: #f8f8f8; min-height: 60vh; }
 
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
-
-  /* Header */
-  .header {
-    text-align: center;
-    margin-bottom: 2.5rem;
+  /* ── Hero ── */
+  .sp-hero {
     background: #fff;
-    box-shadow: none;
-    border-radius: 1rem;
+    border-bottom: 1px solid #ebebeb;
+    position: relative; overflow: hidden;
   }
-
-  .header-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .header-icon {
-    font-size: 2rem;
-    color: var(--gold);
-  }
-
-  h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--gray-900);
-    letter-spacing: 0.05em;
-  }
-
-  .header-sub {
-    color: var(--gray-600);
-    font-size: 1.05rem;
-  }
-
-  /* Hero Banner */
-  .hero-banner {
-    position: relative;
-    background: linear-gradient(135deg, var(--dark) 0%, #2d0000 50%, var(--red-dark) 100%);
-    border-radius: 1rem;
-    padding: 3rem 2rem;
-    margin-bottom: 3rem;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease;
-  }
-
-  .hero-banner.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 80% 20%, rgba(255, 25, 25, 0.3), transparent 60%);
-  }
-
-  .hero-img {
-    position: absolute;
-    right: -1rem;
-    bottom: 0;
-    height: 100%;
-    max-height: 280px;
-    width: auto;
-    object-fit: contain;
-    z-index: 0;
-    opacity: 0.85;
-    pointer-events: none;
-  }
-
-  .hero-text {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    color: white;
-  }
-
-  .hero-text h2 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-    line-height: 1.4;
-  }
-
-  .hero-text p {
-    font-size: 1.15rem;
-    color: #e0e0e0;
-  }
-
-  .hero-text strong {
-    color: var(--gold);
-  }
-
-  /* Steps Section */
-  .steps-section {
-    margin-bottom: 3rem;
-  }
-
-  .section-title {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--gray-900);
-    margin-bottom: 2rem;
-    position: relative;
-  }
-
-  .section-title::after {
+  .sp-hero::after {
     content: '';
-    position: absolute;
-    bottom: -0.6rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: var(--red);
-    border-radius: 2px;
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #ff1919 25%, #ff4444 50%, #ff1919 75%, transparent 100%);
+  }
+  .sp-hero-inner {
+    max-width: 860px; margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  }
+  .sp-hero-label {
+    display: inline-flex; align-items: center; gap: .4rem;
+    color: #aaa;
+    font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    margin-bottom: .5rem;
+  }
+  .sp-hero-label i { color: #ff1919; }
+  .sp-hero-text h1 {
+    font-size: 2rem; font-weight: 800; color: #111;
+    margin: 0 0 .35rem; letter-spacing: .02em;
+  }
+  .sp-hero-text p { font-size: .88rem; color: #888; margin: 0; }
+  .sp-hero-img { height: 160px; width: auto; object-fit: contain; opacity: .9; flex-shrink: 0; }
+
+  /* ── Body ── */
+  .sp-body {
+    max-width: 860px; margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    display: flex; flex-direction: column; gap: 1.5rem;
   }
 
-  .steps-grid {
+  /* ── Section title ── */
+  .sp-section-title {
+    font-size: 1rem; font-weight: 700; color: #222;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: .4rem;
+  }
+  .sp-section-title i { color: #ff1919; }
+
+  /* ── Grid ── */
+  .sp-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
-  .step-card {
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem 1.5rem;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    position: relative;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
-    transition-delay: 0.1s;
-  }
-
-  .step-card:nth-child(2) { transition-delay: 0.25s; }
-
-  .step-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .step-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  }
-
-  .step-number {
-    position: absolute;
-    top: -0.8rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2rem;
-    height: 2rem;
-    background: var(--red);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-  }
-
-  .step-icon {
-    font-size: 2.5rem;
-    color: var(--red);
-    margin-bottom: 1rem;
-  }
-
-  .step-card h3 {
-    font-size: 1.2rem;
-    color: var(--gray-900);
-    margin-bottom: 0.5rem;
-  }
-
-  .step-card p {
-    color: var(--gray-600);
-    line-height: 1.5;
-  }
-
-  .promo-code {
-    margin-top: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: linear-gradient(135deg, var(--red), var(--red-dark));
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 2rem;
-    font-weight: 700;
-    font-size: 1rem;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-  }
-
-  .inscription-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.8rem;
-    padding: 0.6rem 1.2rem;
-    background: var(--gold);
-    color: var(--dark);
-    border-radius: 2rem;
-    text-decoration: none;
-    font-weight: 700;
-    transition: all 0.3s ease;
-  }
-
-  .inscription-btn:hover {
-    background: #e6c200;
-    transform: scale(1.05);
-  }
-
-  .whatsapp-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    padding: 0.6rem 1.2rem;
-    background: #25D366;
-    color: white;
-    border-radius: 2rem;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-  }
-
-  .whatsapp-btn:hover {
-    background: #1da851;
-    transform: scale(1.05);
-  }
-
-  /* Step 1 Promo Card */
-  .step-card--promo {
-    padding: 0;
+  /* ── Cards base ── */
+  .sp-card {
+    background: #fff;
+    border: 1px solid #e8e8e8; border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
     overflow: hidden;
-    text-align: left;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity .4s ease, transform .4s ease, box-shadow .2s;
   }
+  .sp-card.visible { opacity: 1; transform: translateY(0); }
+  .sp-card:nth-child(2) { transition-delay: .1s; }
+  .sp-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.09); }
 
-  .step-number--inline {
-    position: static;
-    transform: none;
-    margin: 0 auto 0.75rem;
+  /* Step number */
+  .sp-step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #ff1919; color: #fff;
+    font-size: .72rem; font-weight: 700; flex-shrink: 0;
   }
+  .sp-step-num--abs { position: absolute; top: 1rem; right: 1rem; }
 
-  .promo-card-header {
-    background: #1a1a2e;
-    padding: 1.5rem;
-    text-align: center;
-  }
+  /* ── Promo card ── */
+  .sp-card--promo { text-align: left; }
 
-  .badge {
-    display: inline-block;
-    background: #f0b429;
-    color: #3d2700;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-bottom: 10px;
-  }
-
-  .promo-card-header h3 {
-    color: #fff;
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
-
-  .promo-card-header p {
-    color: #aaa;
-    font-size: 13px;
-  }
-
-  .promo-card-body {
-    padding: 1.5rem;
-  }
-
-  .code-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  .sp-card-head {
     background: #f8f8f8;
-    border: 1.5px dashed #ccc;
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding: 1.25rem 1.5rem;
+    display: flex; flex-direction: column; gap: .3rem;
+  }
+  .sp-card-head .sp-step-num { margin-bottom: .1rem; }
+  .sp-badge {
+    display: inline-block; width: fit-content;
+    background: rgba(255,25,25,.1); color: #cc0000;
+    font-size: .65rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    padding: 2px 9px; border-radius: 20px;
+  }
+  .sp-card-head h3 { color: #111; font-size: 1rem; font-weight: 700; margin: 0; }
+  .sp-card-head p { color: #888; font-size: .78rem; margin: 0; }
+
+  .sp-card-body { padding: 1.25rem 1.5rem; }
+
+  .sp-code-box {
+    border: 1.5px dashed #ddd; border-radius: 10px;
+    padding: .85rem 1rem; margin-bottom: .9rem;
+    display: flex; align-items: center; flex-wrap: wrap; gap: .5rem;
+  }
+  .sp-code-label {
+    font-size: .68rem; color: #999; text-transform: uppercase; letter-spacing: .05em;
+    display: flex; align-items: center; gap: .2rem; white-space: nowrap;
+  }
+  .sp-code-label i { color: #ff1919; }
+  .sp-code-val {
+    flex: 1; text-align: center;
+    font-size: 1.3rem; font-weight: 800; letter-spacing: .22em;
+    color: #111; font-family: monospace;
+  }
+  .sp-btn-copy {
+    background: none; border: 1px solid #ddd; border-radius: 6px;
+    padding: 5px 10px; font-size: .72rem; cursor: pointer;
+    color: #555; display: inline-flex; align-items: center; gap: .25rem;
+    transition: border-color .15s, color .15s; white-space: nowrap;
+  }
+  .sp-btn-copy:hover { border-color: #ff1919; color: #ff1919; }
+  .sp-btn-copy.copied { border-color: #22c55e; color: #16a34a; }
+
+  .sp-avantages { list-style: none; padding: 0; margin: 0 0 1rem; }
+  .sp-avantages li {
+    display: flex; align-items: center; gap: .5rem;
+    font-size: .8rem; color: #555; padding: .28rem 0;
+  }
+  .sp-avantages li i { color: #ff1919; font-size: .78rem; flex-shrink: 0; }
+
+  .sp-btn-open {
+    width: 100%; padding: .75rem 1rem;
+    background: #ff1919; color: #fff;
+    font-size: .88rem; font-weight: 600;
+    border: none; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: .4rem;
+    transition: background .15s;
+  }
+  .sp-btn-open:hover { background: #cc0000; }
+
+  .sp-hint {
+    font-size: .7rem; color: #bbb; text-align: center;
+    margin-top: .55rem; display: flex; align-items: center; justify-content: center; gap: .25rem;
   }
 
-  .code-label {
-    font-size: 11px;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
+  .sp-toast {
+    margin-top: .75rem;
+    background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
+    padding: .65rem .9rem; font-size: .78rem; color: #166534;
+    display: flex; align-items: flex-start; gap: .35rem;
+  }
+  .sp-popup-blocked {
+    margin-top: .75rem;
+    background: #fefce8; border: 1px solid #fde68a; border-radius: 8px;
+    padding: .65rem .9rem; font-size: .78rem; color: #92400e;
+    display: flex; align-items: flex-start; gap: .35rem; flex-wrap: wrap;
+  }
+  .sp-popup-blocked a { color: #92400e; font-weight: 600; }
+
+  /* ── Timing card ── */
+  .sp-card--timing {
+    padding: 2rem 1.5rem; text-align: center; position: relative;
+    display: flex; flex-direction: column; align-items: center; gap: .7rem;
+  }
+  .sp-timing-icon {
+    font-size: 1.75rem; color: #ff1919;
+    width: 52px; height: 52px; border-radius: 50%;
+    background: #fff5f5; border: 1px solid #ffd0d0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sp-card--timing h3 { font-size: 1.05rem; font-weight: 700; color: #111; margin: 0; }
+  .sp-card--timing p { font-size: .82rem; color: #777; margin: 0; line-height: 1.5; }
+  .sp-timing-block {
+    width: 100%; border-top: 1px solid #f0f0f0; padding-top: .75rem; margin-top: .1rem;
+  }
+  .sp-timing-head {
+    font-size: .75rem; color: #999;
+    display: flex; align-items: center; justify-content: center; gap: .3rem; margin-bottom: .55rem;
+  }
+  .sp-timing-head i { color: #ff1919; }
+  .sp-timing-pills { display: flex; justify-content: center; gap: .45rem; flex-wrap: wrap; }
+  .sp-pill {
+    background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 20px;
+    padding: .28rem .8rem; font-size: .83rem; font-weight: 600; color: #333;
   }
 
-  .code-value {
-    flex: 1;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: #1a1a2e;
+  /* ── Winner ── */
+  .sp-winner {
+    display: flex; align-items: flex-start; gap: 1.25rem;
+    background: #fff; border: 1px solid #e8e8e8; border-radius: 12px;
+    padding: 1.4rem 1.75rem; box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    opacity: 0; transform: translateY(16px);
+    transition: opacity .4s ease .18s, transform .4s ease .18s;
+  }
+  .sp-winner.visible { opacity: 1; transform: translateY(0); }
+  .sp-winner-icon { font-size: 1.9rem; color: #ff1919; flex-shrink: 0; margin-top: .1rem; }
+  .sp-winner-text h2 { font-size: 1rem; font-weight: 700; color: #111; margin: 0 0 .35rem; }
+  .sp-winner-text p { font-size: .85rem; color: #666; line-height: 1.6; margin: 0; }
+  .sp-winner-text strong { color: #ff1919; }
+
+  /* ── Warning ── */
+  .sp-warning {
+    display: flex; align-items: flex-start; gap: 1rem;
+    background: #fff; border: 1px solid #e8e8e8; border-left: 4px solid #ff1919;
+    border-radius: 8px; padding: 1.15rem 1.5rem;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity .4s ease .28s, transform .4s ease .28s;
+  }
+  .sp-warning.visible { opacity: 1; transform: translateY(0); }
+  .sp-warning-icon { font-size: 1.3rem; color: #ff1919; flex-shrink: 0; margin-top: .05rem; }
+  .sp-warning h3 { font-size: .9rem; font-weight: 700; color: #111; margin: 0 0 .2rem; }
+  .sp-warning p { font-size: .82rem; color: #666; margin: 0; }
+  .sp-warning strong { color: #ff1919; }
+
+  /* ── CTA ── */
+  .sp-cta {
+    background: #fff;
+    border: 1px solid #e8e8e8; border-radius: 12px; padding: 2.5rem 2rem;
     text-align: center;
+    position: relative; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    opacity: 0; transform: translateY(16px);
+    transition: opacity .4s ease .38s, transform .4s ease .38s;
   }
-
-  .btn-copy {
-    background: none;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 12px;
-    cursor: pointer;
-    color: #444;
-    transition: background 0.15s;
-  }
-
-  .btn-copy:hover { background: #eee; }
-  .btn-copy.copied { border-color: #22c55e; color: #16a34a; }
-
-  .avantages {
-    list-style: none;
-    margin-bottom: 1.25rem;
-    padding: 0;
-  }
-
-  .avantages li {
-    font-size: 13px;
-    color: #444;
-    padding: 5px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .avantages li::before {
+  .sp-cta::before {
     content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background: #ff0000;
-    border-radius: 50%;
-    flex-shrink: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3E%3Cpath d='M13 4L6.5 11 3 7.5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #ff1919 25%, #ff4444 50%, #ff1919 75%, transparent 100%);
   }
+  .sp-cta.visible { opacity: 1; transform: translateY(0); }
+  .sp-cta-icon { font-size: 1.6rem; color: #ff1919; display: block; margin-bottom: .65rem; }
+  .sp-cta h2 { font-size: 1.15rem; font-weight: 800; margin: 0 0 .4rem; letter-spacing: .02em; color: #111; }
+  .sp-cta p { font-size: .85rem; color: #888; margin: 0; }
 
-  .btn-open {
-    width: 100%;
-    padding: 14px;
-    background: #ff0000;
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 600;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.15s, transform 0.1s;
-  }
-
-  .btn-open:hover { background: #830505; }
-  .btn-open:active { transform: scale(0.98); }
-
-  .hint {
-    font-size: 11px;
-    color: #999;
-    text-align: center;
-    margin-top: 10px;
-  }
-
-  .toast {
-    margin-top: 14px;
-    background: #f0fdf4;
-    border: 1px solid #86efac;
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 13px;
-    color: #166534;
-    text-align: center;
-  }
-
-  .popup-blocked {
-    margin-top: 14px;
-    background: #fefce8;
-    border: 1px solid #fde047;
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 13px;
-    color: #713f12;
-  }
-
-  .popup-blocked a {
-    color: #92400e;
-    font-weight: 600;
-  }
-
-  /* Winner Section */
-  .winner-section {
-    margin-bottom: 2.5rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease 0.3s;
-  }
-
-  .winner-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .winner-card {
-    background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
-    border: 2px solid var(--gold);
-    border-radius: 1rem;
-    padding: 2.5rem 2rem;
-    text-align: center;
-  }
-
-  .winner-icon {
-    font-size: 2.5rem;
-    color: var(--gold);
-    margin-bottom: 1rem;
-  }
-
-  .winner-card h2 {
-    font-size: 1.4rem;
-    color: var(--gray-900);
-    margin-bottom: 0.75rem;
-  }
-
-  .winner-card p {
-    color: var(--gray-600);
-    font-size: 1.05rem;
-    line-height: 1.6;
-  }
-
-  .winner-card strong {
-    color: var(--red);
-  }
-
-  /* Warning Section */
-  .warning-section {
-    margin-bottom: 2.5rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease 0.4s;
-  }
-
-  .warning-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .warning-card {
-    background: #fff5f5;
-    border-left: 4px solid var(--red);
-    border-radius: 0.75rem;
-    padding: 1.5rem 2rem;
-  }
-
-  .warning-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .warning-header i {
-    color: var(--red);
-    font-size: 1.3rem;
-  }
-
-  .warning-header h3 {
-    color: var(--red);
-    font-size: 1.1rem;
-  }
-
-  .warning-card p {
-    color: var(--gray-600);
-    font-size: 1rem;
-  }
-
-  .warning-card strong {
-    color: var(--red);
-  }
-
-  /* CTA Section */
-  .cta-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease 0.5s;
-  }
-
-  .cta-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .cta-card {
-    background: linear-gradient(135deg, var(--dark) 0%, #2d0000 100%);
-    border-radius: 1rem;
-    padding: 3rem 2rem;
-    text-align: center;
-    color: white;
-  }
-
-  .cta-icon {
-    font-size: 2.5rem;
-    color: var(--red);
-    margin-bottom: 1rem;
-  }
-
-  .cta-card h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .cta-card p {
-    color: #ccc;
-    margin-bottom: 1.5rem;
-    font-size: 1.05rem;
-  }
-
-  .cta-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 2rem;
-    background: var(--red);
-    color: white;
-    border-radius: 2rem;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-  }
-
-  .cta-btn:hover {
-    background: var(--red-dark);
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(255, 25, 25, 0.4);
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    h1 { font-size: 1.5rem; }
-    .hero-text h2 { font-size: 1.25rem; }
-    .hero-banner { padding: 2rem 1.5rem; }
-    .steps-grid { grid-template-columns: 1fr; }
-    .winner-card { padding: 2rem 1.5rem; }
-    .cta-card { padding: 2rem 1.5rem; }
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .sp-hero-inner { flex-direction: column; align-items: flex-start; padding: 1.5rem 1rem; }
+    .sp-hero-img { display: none; }
+    .sp-hero-text h1 { font-size: 1.5rem; }
+    .sp-body { padding: 1.5rem 1rem 3rem; }
+    .sp-grid { grid-template-columns: 1fr; }
+    .sp-code-box { flex-direction: column; }
+    .sp-code-val { font-size: 1.1rem; }
+    .sp-winner { flex-direction: column; gap: .75rem; padding: 1.25rem; }
+    .sp-cta { padding: 1.75rem 1.25rem; }
   }
 </style>
