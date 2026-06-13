@@ -279,7 +279,7 @@
 
   /* Gradient tops */
   .ih-card-bg {
-    height: 140px; display: flex; align-items: center; justify-content: center;
+    height: 200px; display: flex; align-items: center; justify-content: center;
     position: relative;
   }
   .ih-card--orma .ih-card-bg {
