@@ -218,7 +218,7 @@
 <style>
   :root {
     --occ-yellow:      #ff0000;
-    --occ-yellow-dark: #ff0000;
+    --occ-yellow-dark: #ec0202;
     --occ-dark:        #1a0a00;
     --occ-dark2:       #2a1800;
     --occ-white:       #ffffff;
@@ -227,7 +227,7 @@
     --occ-radius:      0.75rem;
   }
 
-  /* ── Hero ── */
+  /* ── Hero 2── */
   .occ-hero {
     background: linear-gradient(135deg, var(--occ-dark) 0%, rgb(0, 0, 0)100%);
     padding: 2rem 1.25rem;
