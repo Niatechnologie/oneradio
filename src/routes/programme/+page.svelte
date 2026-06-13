@@ -144,7 +144,6 @@
   /* ── Hero ── */
   .pg-hero {
     background: linear-gradient(135deg, #110000 0%, #1a0000 60%, #2d0000 100%);
-    border-bottom: 3px solid #ff1919;
     padding: 1.75rem 1.5rem;
     display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 1rem;
@@ -153,7 +152,6 @@
   .pg-hero-glow {
     position: absolute; top: -60px; left: 30%; transform: translateX(-50%);
     width: 400px; height: 200px;
-    background: radial-gradient(ellipse, rgba(255,25,25,.18) 0%, transparent 70%);
     pointer-events: none;
   }
   .pg-hero-inner {
