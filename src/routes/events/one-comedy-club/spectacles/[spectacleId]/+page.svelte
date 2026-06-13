@@ -39,17 +39,7 @@
 {:else}
 <div class="spec-page">
 
-  <!-- Breadcrumb -->
-  <div class="breadcrumb">
-    <a href="/events/one-comedy-club">ONE COMEDY CLUB</a>
-    <i class="bi bi-chevron-right"></i>
-    {#if humoriste}
-      <a href="/events/one-comedy-club/{humoriste.id}">{humNom}</a>
-      <i class="bi bi-chevron-right"></i>
-    {/if}
-    <span>{s.titre}</span>
-  </div>
-
+ 
   <div class="spec-layout">
 
     <!-- Colonne gauche : affiche + humoriste -->
@@ -176,7 +166,7 @@
     justify-content:center; min-height:40vh; gap:1rem; color:#aaa;
   }
   .not-found i { font-size:3rem; }
-  .not-found a { color:#c9a000; font-weight:600; text-decoration:none; }
+  .not-found a { color:#db0303; font-weight:600; text-decoration:none; }
 
   .spec-page { max-width:1050px; margin:0 auto; padding:1.5rem 1.25rem 4rem; }
 
@@ -184,7 +174,7 @@
     display:flex; align-items:center; gap:.5rem;
     font-size:.82rem; color:#888; margin-bottom:2rem; flex-wrap:wrap;
   }
-  .breadcrumb a { color:#c9a000; text-decoration:none; font-weight:600; }
+  .breadcrumb a { color:#db0303; text-decoration:none; font-weight:600; }
   .breadcrumb a:hover { text-decoration:underline; }
   .breadcrumb i { font-size:.65rem; }
 
@@ -199,7 +189,7 @@
   .spec-affiche-placeholder {
     width:100%; height:200px; border-radius:14px; background:#f5f1e8;
     display:flex; align-items:center; justify-content:center;
-    font-size:3rem; color:#c9a000; margin-bottom:1.25rem;
+    font-size:3rem; color:#db0303; margin-bottom:1.25rem;
   }
 
   .hum-mini-card {
@@ -208,14 +198,14 @@
     box-shadow:0 2px 12px rgba(0,0,0,.07); text-decoration:none; color:inherit;
     border:2px solid transparent; transition:border-color .18s;
   }
-  .hum-mini-card:hover { border-color:#f5c518; }
+  .hum-mini-card:hover { border-color:#ff0000; }
   .hum-mini-photo { width:48px; height:48px; border-radius:50%; object-fit:cover; flex-shrink:0; }
   .hum-mini-avatar {
-    width:48px; height:48px; border-radius:50%; background:#c9a000; color:#fff;
+    width:48px; height:48px; border-radius:50%; background:#db0303; color:#fff;
     display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0;
   }
   .hum-mini-nom { font-weight:700; font-size:.9rem; color:#1a1a1a; }
-  .hum-mini-link { font-size:.78rem; color:#c9a000; font-weight:600; }
+  .hum-mini-link { font-size:.78rem; color:#db0303; font-weight:600; }
 
   /* Main */
   .spec-titre { font-size:clamp(1.4rem,3vw,2rem); font-weight:800; color:#1a0a00; margin:0 0 1rem; }
@@ -228,7 +218,7 @@
   .dates-title {
     font-size:1.1rem; font-weight:700; color:#1a1a1a;
     display:flex; align-items:center; gap:.5rem; margin-bottom:1rem;
-    padding-bottom:.5rem; border-bottom:2px solid #f5c518;
+    padding-bottom:.5rem; border-bottom:2px solid #ff0000;
   }
 
   .dates-list { display:flex; flex-direction:column; gap:.85rem; }
@@ -236,7 +226,7 @@
 
   .date-card {
     background:#fff; border-radius:12px; padding:1.1rem 1.25rem;
-    box-shadow:0 2px 12px rgba(0,0,0,.07); border-left:4px solid #f5c518;
+    box-shadow:0 2px 12px rgba(0,0,0,.07); border-left:4px solid #ff0000;
   }
   .date-card--past { border-left-color:#ddd; opacity:.7; }
 
@@ -254,15 +244,15 @@
 
   .date-card-mid { display:flex; flex-direction:column; gap:.35rem; margin-bottom:.9rem; }
   .date-info-item { display:flex; align-items:center; gap:.45rem; font-size:.84rem; color:#555; }
-  .date-info-item i { color:#c9a000; }
+  .date-info-item i { color:#db0303; }
 
   .billet-btn {
     display:inline-flex; align-items:center; gap:.4rem;
-    background:#f5c518; color:#1a0a00; font-weight:700;
+    background:#ff0000; color:#1a0a00; font-weight:700;
     padding:.5rem 1.1rem; border-radius:8px; text-decoration:none;
     font-size:.85rem; transition:background .18s;
   }
-  .billet-btn:hover { background:#c9a000; }
+  .billet-btn:hover { background:#db0303; }
   .billet-btn--disabled {
     background:#f0f0f0; color:#999; font-weight:700;
     padding:.5rem 1.1rem; border-radius:8px; font-size:.85rem;
