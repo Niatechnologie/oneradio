@@ -288,7 +288,7 @@
   }
   .ih-card--occ .ih-card-bg {
     background:
-      url('https://images.unsplash.com/photo-1527224538127-2104bb71c51b?auto=format&fit=crop&w=700&q=80') center/cover no-repeat;
+      url('https://www.republicoftogo.com/var/site/storage/images/toutes-les-rubriques/societe/mourir-de-rire/2973351-1-fre-FR/mourir-de-rire_i1920.jpg') center/cover no-repeat;
   }
   .ih-card--sport .ih-card-bg {
     background:
