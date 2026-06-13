@@ -7,7 +7,7 @@
   let loadingHum    = $state(true);
   let loadingSpec   = $state(true);
 
-  const BASE = 'https://adminradio.oneradio.ci/radio_one';
+  const BASE= 'https://adminradio.oneradio.ci/radio_one';
 
   onMount(async () => {
     isVisible = true;
@@ -204,7 +204,7 @@
       </div>
       <div class="occ-contact-item">
         <i class="bi bi-telephone"></i>
-        <span>+225 05 00 877 877</span>
+        <span>+225 05 01 877 877</span>
       </div>
       <div class="occ-contact-item">
         <i class="bi bi-geo-alt"></i>
@@ -217,8 +217,8 @@
 
 <style>
   :root {
-    --occ-yellow:      #f5c518;
-    --occ-yellow-dark: #c9a000;
+    --occ-yellow:      #ff0000;
+    --occ-yellow-dark: #ff0000;
     --occ-dark:        #1a0a00;
     --occ-dark2:       #2a1800;
     --occ-white:       #ffffff;
@@ -229,8 +229,8 @@
 
   /* ── Hero ── */
   .occ-hero {
-    background: linear-gradient(135deg, var(--occ-dark) 0%, #3a1a00 100%);
-    padding: 4rem 1.25rem 3rem;
+    background: linear-gradient(135deg, var(--occ-dark) 0%, rgb(0, 0, 0)100%);
+    padding: 2rem 1.25rem;
     text-align: center;
   }
   .occ-tagline {
@@ -306,7 +306,7 @@
   .spec-affiche-placeholder {
     height:120px; background:#f5f1e8;
     display:flex; align-items:center; justify-content:center;
-    font-size:2.5rem; color:#c9a000; position:relative;
+    font-size:2.5rem; color:#ff0000; position:relative;
   }
   .spec-statut-badge {
     position:absolute; top:.6rem; right:.6rem;
@@ -446,7 +446,7 @@
 
   /* ── Responsive ── */
   @media (max-width: 768px) {
-    .occ-hero { padding:3.5rem 1rem 2.5rem; }
+    .occ-hero { padding:1.5rem 1rem  }
     .spec-grid { grid-template-columns: 1fr; }
     .occ-activities-grid { grid-template-columns: 1fr; }
     .occ-ambition { padding:2rem 1.25rem; }
