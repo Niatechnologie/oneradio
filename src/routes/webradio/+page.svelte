@@ -321,7 +321,7 @@
 		align-items: center;
 		gap: 1.25rem;
 		background: linear-gradient(135deg, #1a0000 0%, #2d0000 100%);
-		border: 1px solid #F0033;
+		border: 1px solid #ff0033;
 		border-radius: 1rem;
 		padding: 1.75rem 2rem;
 		margin-top: 3rem;
