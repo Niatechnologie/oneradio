@@ -378,7 +378,7 @@
   /* ── Warning ── */
   .sp-warning {
     display: flex; align-items: flex-start; gap: 1rem;
-    background: #fff; border: 1px solid #e8e8e8; border-left: 4px solid #ff1919;
+    background: #fff; border: 1px solid #e8e8e8; 
     border-radius: 8px; padding: 1.15rem 1.5rem;
     opacity: 0; transform: translateY(16px);
     transition: opacity .4s ease .28s, transform .4s ease .28s;
