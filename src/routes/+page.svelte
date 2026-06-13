@@ -1612,7 +1612,7 @@
 
   .pub-slide-item img {
     width: 100%;
-    height: clamp(200px, 18vw, 480px);
+    height: clamp(200px, 20vw, 480px);
     object-fit: contain;
     display: block;
   }
