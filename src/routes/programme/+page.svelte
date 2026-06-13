@@ -1,447 +1,328 @@
 <script>
-    // Data source
-  
-    import {onMount} from 'svelte';
+  import { onMount } from 'svelte';
 
-    let { data } = $props();
-    const success=data.status;
-    let scheduleData=data.programme;
+  let { data } = $props();
+  const scheduleData = data.programme;
 
-    let isLoading = true;
-    let error = null;
+  const weekDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
-const weekDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+  function getCurrentDay() {
+    return ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'][new Date().getDay()];
+  }
 
-// Get the current day of the week and set it as the default selected day
-const getCurrentDay = () => {
-  const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-  const currentDayIndex = new Date().getDay(); // 0 = Dimanche, 1 = Lundi, etc.
-  return days[currentDayIndex];
-};
+  let selectedDay = $state(getCurrentDay());
+  let now = $state(new Date());
 
-let selectedDay = $state(getCurrentDay());
+  onMount(() => {
+    const t = setInterval(() => { now = new Date(); }, 30000);
+    return () => clearInterval(t);
+  });
 
-// Icons as SVG strings
-const icons = {
-  Culture: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>',
-  Politique: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.4"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg>',
-  talk: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
-  clock: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>'
-};
+  function isOnAir(hdebut, hfin) {
+    if (selectedDay !== getCurrentDay()) return false;
+    const toMin = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+    const cur = now.getHours() * 60 + now.getMinutes();
+    return cur >= toMin(hdebut) && cur < toMin(hfin);
+  }
 
-// Handle day selection
-function updateDay(day) {
-  selectedDay = day;
-}
+  const categoryIcon = {
+    'Culture':   'bi-music-note-beamed',
+    'Politique': 'bi-megaphone-fill',
+    'talk':      'bi-people-fill',
+    'Sport':     'bi-trophy-fill',
+    'Info':      'bi-newspaper',
+    'Religion':  'bi-star-fill',
+  };
 
-// Helper function to get abbreviated day name
-function getAbbreviatedDay(day) {
-  return day.slice(0, 3);
-}
-
-// Heure courante, mise à jour toutes les 30 secondes
-let now = $state(new Date());
-onMount(() => {
-  const t = setInterval(() => { now = new Date(); }, 30000);
-  return () => clearInterval(t);
-});
-
-function isOnAir(hdebut, hfin) {
-  if (selectedDay !== getCurrentDay()) return false;
-  const toMin = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
-  const cur = now.getHours() * 60 + now.getMinutes();
-  return cur >= toMin(hdebut) && cur < toMin(hfin);
-}
+  function getCatIcon(cat) {
+    return categoryIcon[cat] ?? 'bi-broadcast';
+  }
 </script>
+
 <svelte:head>
-  <title>One Radio - Emissions</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <title>Émissions – One Radio</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 </svelte:head>
-  
-  <div class="container">
-    <!-- Header -->
-    <header style="background:#fff !important;" class="header">
-      <div class="header-content">
-        <div class="header-left">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="radio-icon">
-            <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path>
-            <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.4"></path>
-            <circle cx="12" cy="12" r="2"></circle>
-            <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4"></path>
-            <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path>
-          </svg>
-          <div>
-            <h1>Emissions</h1>
-            <p class="header-subtitle">Programme des Emissions hebdomadaires</p>
-          </div>
-        </div>
-        <div class="header-divider"></div>
-        <div class="header-right">
-        <span style=" padding-top:5px" >Suivez nous en direct</span>
-          <a href="tel:+2250501877877" class="phone-number">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.42 2 2 0 0 1 3.57 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.46 16z"></path></svg>
-            (+225) 0500 877 877
-          </a>
-          <div class="social-links">
-           <a href="https://wa.me/2250501877877" target="_blank" rel="noopener noreferrer" class="social-link whatsapp" aria-label="WhatsApp">
-             <i class="bi bi-whatsapp"></i>
-           </a>
-            <a href="https://www.facebook.com/oneradioci" target="_blank" rel="noopener noreferrer" class="social-link facebook" aria-label="Facebook">
-              <i class="bi bi-facebook"></i>
-            </a>
-            <a href="https://www.youtube.com/@oneradiocotedivoire6837" target="_blank" rel="noopener noreferrer" class="social-link youtube" aria-label="YouTube">
-              <i class="bi bi-youtube"></i>
-            </a>
-            <a href="https://www.tiktok.com/@oneradioci?_r=1&_t=ZS-95MxlXMAaPv" target="_blank" rel="noopener noreferrer" class="social-link tiktok" aria-label="YouTube">
-              <i class="bi bi-tiktok"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </header>
-  
-    <!-- Day Navigation -->
-    <div class="tabs-container">
-      <div class="tabs">
-        <nav id="dayTabs">
-          {#each weekDays as day}
-            <button 
-              class="tab-button {selectedDay === day ? 'active' : ''}" 
-              onclick={() => updateDay(day)}
-            >
-              {getAbbreviatedDay(day)}
-            </button>
-          {/each}
-        </nav>
+
+<div class="pg-page">
+
+  <!-- Hero -->
+  <div class="pg-hero">
+    <div class="pg-hero-glow"></div>
+    <div class="pg-hero-inner">
+      <i class="bi bi-broadcast-pin pg-hero-icon"></i>
+      <div>
+        <h1>Nos Émissions</h1>
+        <p>Programme hebdomadaire de One Radio</p>
       </div>
     </div>
-  
-    <!-- Programs Section -->
-    <div class="programs-container">
-        <div class="programs-list">
-        {#each scheduleData[selectedDay] as program}
-          <div class="program-card {isOnAir(program.hdebut, program.hfin) ? 'is-live' : ''}">
-            {#if isOnAir(program.hdebut, program.hfin)}
-              <div class="live-badge">
-                <span class="live-dot"></span>
-                EN COURS DE DIFFUSION
-              </div>
-            {/if}
-            <div class="program-content">
-              <div class="pochette">
-                <img src="https://adminradio.oneradio.ci/emissions/{program.photo}"  alt={program.designation} width="100" height="100" style="border-radius: 0.5rem;">
-              </div>
-              <div class="program-info">
-                <h3 class="program-title">{program.designation}</h3>
-                <p class="program-host">Par {program.presentateur} | <span class="program-type">{@html icons[program.categorie]}  <span>{program.categorie}</span></span></p>
-                
-                <p class="program-description">{@html program.description}</p>
-              </div>
-              <div class="program-time">
-                {@html icons.clock}
-                <span>{program.hdebut} - {program.hfin}</span>
-              </div>
-            </div>
-          </div>
-        {/each}
+    <div class="pg-hero-contact">
+      <a href="tel:+2250501877877" class="pg-phone">
+        <i class="bi bi-telephone-fill"></i> (+225) 05 01 877 877
+      </a>
+      <div class="pg-socials">
+        <a href="https://wa.me/2250501877877"                                target="_blank" rel="noopener" class="pg-soc pg-soc-wa"  aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+        <a href="https://www.facebook.com/oneradioci"                        target="_blank" rel="noopener" class="pg-soc pg-soc-fb"  aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.youtube.com/@oneradiocotedivoire6837"           target="_blank" rel="noopener" class="pg-soc pg-soc-yt"  aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        <a href="https://www.tiktok.com/@oneradioci?_r=1&_t=ZS-95MxlXMAaPv" target="_blank" rel="noopener" class="pg-soc pg-soc-tt"  aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
       </div>
     </div>
   </div>
-  
-  <style>
-    /* Base styles */
-    :root {
-      --color-indigo-50: #eef2ff;
-      --color-indigo-600: #ff0000;
-      --color-purple-50: #faf5ff;
-      --color-gray-500: #6b7280;
-      --color-gray-600: #4b5563;
-      --color-gray-700: #374151;
-      --color-gray-900: #111827;
-    }
-  
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-  
-    :global(body) {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(to bottom right, var(--color-indigo-50), var(--color-purple-50));
-    }
-  
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
-  
-    /* Header styles */
-    .header {
-      margin-bottom: 3rem;
-    }
-  
-    .header-content {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      margin-bottom: 0.5rem;
-    }
 
-    .header-left {
-      flex: 0 0 50%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      padding-right: 1.5rem;
-    }
+  <!-- Onglets jours -->
+  <div class="pg-tabs-wrap">
+    <nav class="pg-tabs">
+      {#each weekDays as day}
+        <button class="pg-tab" class:pg-tab--active={selectedDay === day} onclick={() => selectedDay = day}>
+          <span class="pg-tab-short">{day.slice(0,3)}</span>
+          <span class="pg-tab-full">{day}</span>
+          {#if day === getCurrentDay()}<span class="pg-tab-dot"></span>{/if}
+        </button>
+      {/each}
+    </nav>
+  </div>
 
-    .header-divider {
-      width: 2px;
-      align-self: stretch;
-      background-color: #e00;
-      border-radius: 1px;
-      flex-shrink: 0;
-    }
+  <!-- Liste émissions -->
+  <div class="pg-body">
+    <div class="pg-list">
+      {#if scheduleData[selectedDay]?.length}
+        {#each scheduleData[selectedDay] as program}
+          {@const live = isOnAir(program.hdebut, program.hfin)}
+          <div class="pg-card" class:pg-card--live={live}>
 
-    .header-subtitle {
-      color: var(--color-gray-600);
-      margin: 0;
-      text-align: left;
-    }
+            {#if live}
+              <div class="pg-live-badge">
+                <span class="pg-live-dot"></span> EN COURS DE DIFFUSION
+              </div>
+            {/if}
 
-    .header-right {
-      flex: 0 0 50%;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
-      padding-left: 1.5rem;
-    }
+            <div class="pg-card-inner">
 
-    .phone-number {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: var(--color-gray-900);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+              <!-- Pochette -->
+              <div class="pg-pochette" class:pg-pochette--live={live}>
+                <img src="https://adminradio.oneradio.ci/emissions/{program.photo}"
+                     alt={program.designation}
+                     onerror={(e) => e.currentTarget.style.display='none'} />
+                <div class="pg-pochette-fallback"><i class="bi bi-mic-fill"></i></div>
+              </div>
 
-    .phone-number:hover {
-      color: #ff2a2a;
-    }
+              <!-- Infos -->
+              <div class="pg-info">
+                <h3 class="pg-title">{program.designation}</h3>
+                <div class="pg-meta">
+                  <span class="pg-presenter"><i class="bi bi-person-fill"></i> {program.presentateur}</span>
+                  <span class="pg-cat"><i class="bi {getCatIcon(program.categorie)}"></i> {program.categorie}</span>
+                </div>
+                <p class="pg-desc">{@html program.description}</p>
+              </div>
 
-    .social-links {
-      display: flex;
-      gap: 0.5rem;
-    }
+              <!-- Horaire -->
+              <div class="pg-time" class:pg-time--live={live}>
+                <i class="bi bi-clock-fill"></i>
+                <span class="pg-time-val">{program.hdebut}</span>
+                <span class="pg-time-sep">—</span>
+                <span class="pg-time-val">{program.hfin}</span>
+              </div>
 
-    .social-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      color: #fff;
-      text-decoration: none;
-      transition: opacity 0.2s, transform 0.2s;
-    }
+            </div>
+          </div>
+        {/each}
+      {:else}
+        <div class="pg-empty">
+          <i class="bi bi-calendar-x"></i>
+          <p>Aucune émission ce jour.</p>
+        </div>
+      {/if}
+    </div>
+  </div>
 
-    .social-link:hover {
-      opacity: 0.85;
-      transform: scale(1.1);
-    }
+</div>
 
-    .social-link.youtube  { background: #FF0000; }
-    .social-link.facebook { background: #1877F2; }
-    .social-link.tiktok   { background: #000000; }
-    .social-link.whatsapp { background: #25D366; }
-  
-    .radio-icon {
-      width: 2rem;
-      height: 2rem;
-      color: var(--color-indigo-600);
-    }
-  
-    h1 {
-      font-size: 1.875rem;
-      font-weight: bold;
-      color: var(--color-gray-900);
-    }
-  
+<style>
+  .pg-page { background: #f8f8f8; min-height: 60vh; }
 
-  
-    /* Tabs styles */
-    .tabs-container {
-      max-width: 48rem;
-      margin: 0 auto 3rem;
-    }
-  
-    .tabs {
-      background: white;
-      border-radius: 15rem;
-      padding: 0rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        overflow: hidden;
-    }
-  
-    nav {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-    }
-  
-    .tab-button {
-      padding: 0.95rem;
-      border: none;
-      background: none;
-      cursor: pointer;
-      position: relative;
-      color: var(--color-gray-500);
-      transition: color 0.3s;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-  
-    .tab-button:hover {
-      color: var(--color-gray-700);
-    }
-  
-    .tab-button.active {
-      color: #fff;
-      font-weight: 600;
-      background: #ff2a2a;
-    }
-  
-    /* Programs styles */
-    .programs-container {
-      max-width: 64rem;
-      margin: 0 auto;
-    }
-  
-    .programs-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-  
-    .program-card {
-      background: white;
-      border-radius: 0.75rem;
-      padding: 1.5rem;
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      transition: box-shadow 0.3s;
-    }
-  
-    .program-card:hover {
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
-  
-    .program-content {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-  
-    .program-info {
-      flex-grow: 1;
-    }
-  
-    .program-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--color-gray-900);
-      margin-bottom: 0.25rem;
-    }
-  
-    .program-host {
-      color: var(--color-gray-600);
-      margin-bottom: 0.5rem;
-    }
-  
-    .program-type {
-        margin-bottom: 0.75rem;
-    }
-  
-    .program-type :global(svg) {
-      width: 1rem;
-      height: 1rem;
-      color: var(--color-indigo-600);
-    }
-  
-    .program-type span {
-      font-size: 0.875rem;
-      color: var(--color-indigo-600);
-      font-weight: 500;
-      text-transform: capitalize;
-    }
-  
-    .program-description {
-      color: var(--color-gray-600);
-    }
-  
-    .program-time {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background:rgba(255, 127, 42, 0.051);
-      padding: 0.5rem 1rem;
-      border-radius: 9999px;
-      white-space: nowrap;
-      height: 2rem;
-    }
-  
-    .program-time :global(svg) {
-      width: 1rem;
-      height: 1rem;
-      color:#111827;
-    }
-  
-    .program-time span {
-      font-size: 1.875rem;
-      font-weight: 500;
-      color: #343538;
-    }
+  /* ── Hero ── */
+  .pg-hero {
+    background: linear-gradient(135deg, #110000 0%, #1a0000 60%, #2d0000 100%);
+    border-bottom: 3px solid #ff1919;
+    padding: 1.75rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+    position: relative; overflow: hidden;
+  }
+  .pg-hero-glow {
+    position: absolute; top: -60px; left: 30%; transform: translateX(-50%);
+    width: 400px; height: 200px;
+    background: radial-gradient(ellipse, rgba(255,25,25,.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .pg-hero-inner {
+    display: flex; align-items: center; gap: 1rem; position: relative; z-index: 1;
+  }
+  .pg-hero-icon { font-size: 2.2rem; color: #ff1919; }
+  .pg-hero-inner h1 { font-size: 1.6rem; font-weight: 800; color: #fff; margin: 0; }
+  .pg-hero-inner p  { font-size: .8rem; color: #888; margin: 0; }
 
-    /* ── Émission en cours ── */
-    .program-card.is-live {
-      background: linear-gradient(135deg, #fff5f5 0%, #fff 60%);
-      border: 1px solid #ff2a2a;
-    }
+  .pg-hero-contact {
+    display: flex; flex-direction: column; align-items: flex-end; gap: .5rem;
+    position: relative; z-index: 1;
+  }
+  .pg-phone {
+    display: inline-flex; align-items: center; gap: .4rem;
+    color: #fff; font-weight: 700; font-size: .95rem; text-decoration: none;
+    transition: color .18s;
+  }
+  .pg-phone i { color: #ff1919; }
+  .pg-phone:hover { color: #ff6666; }
 
-    .live-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      background: #ff2a2a;
-      color: #fff;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 4px 12px 4px 8px;
-      border-radius: 9999px;
-      margin-bottom: 0.85rem;
-    }
+  .pg-socials { display: flex; gap: .4rem; }
+  .pg-soc {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .85rem; text-decoration: none;
+    transition: transform .18s, background .18s;
+  }
+  .pg-soc:hover { transform: scale(1.12); }
+  .pg-soc-wa { color:#25d366; } .pg-soc-wa:hover { background:#25d366; color:#fff; }
+  .pg-soc-fb { color:#1877f2; } .pg-soc-fb:hover { background:#1877f2; color:#fff; }
+  .pg-soc-yt { color:#ff0000; } .pg-soc-yt:hover { background:#ff0000; color:#fff; }
+  .pg-soc-tt { color:#fff;    } .pg-soc-tt:hover { background:#333; color:#fff; }
 
-    .live-dot {
-      width: 8px;
-      height: 8px;
-      background: #fff;
-      border-radius: 50%;
-      flex-shrink: 0;
-      animation: live-blink 1.1s ease-in-out infinite;
-    }
+  /* ── Tabs ── */
+  .pg-tabs-wrap {
+    background: #fff; border-bottom: 1px solid #eee;
+    padding: .5rem 1.25rem;
+    position: sticky; top: 0; z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+  .pg-tabs {
+    max-width: 860px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: .25rem;
+  }
+  .pg-tab {
+    padding: .55rem .25rem; border: none; background: none; cursor: pointer;
+    border-radius: 8px; font-size: .82rem; font-weight: 600; color: #888;
+    transition: background .18s, color .18s;
+    position: relative; display: flex; flex-direction: column; align-items: center; gap: .15rem;
+  }
+  .pg-tab:hover { background: #f5f5f5; color: #333; }
+  .pg-tab--active { background: #ff1919; color: #fff !important; }
+  .pg-tab-short { display: block; }
+  .pg-tab-full  { display: none; }
+  .pg-tab-dot   {
+    width: 5px; height: 5px; border-radius: 50%; background: currentColor;
+    position: absolute; bottom: .25rem;
+  }
+  .pg-tab--active .pg-tab-dot { background: rgba(255,255,255,.7); }
 
-    @keyframes live-blink {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.15; transform: scale(0.7); }
-    }
-  </style>
+  @media (min-width: 640px) {
+    .pg-tab-short { display: none; }
+    .pg-tab-full  { display: block; }
+  }
+
+  /* ── Body ── */
+  .pg-body {
+    max-width: 860px; margin: 0 auto;
+    padding: 1.5rem 1.25rem 4rem;
+  }
+  .pg-list { display: flex; flex-direction: column; gap: .75rem; }
+
+  /* ── Cards ── */
+  .pg-card {
+    background: #fff; border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 6px rgba(0,0,0,.05);
+    overflow: hidden;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .pg-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); transform: translateY(-1px); }
+  .pg-card--live {
+    border-color: #ff1919;
+    background: linear-gradient(135deg, #fff8f8 0%, #fff 70%);
+    box-shadow: 0 0 0 2px rgba(255,25,25,.15), 0 4px 16px rgba(0,0,0,.08);
+  }
+
+  .pg-live-badge {
+    display: flex; align-items: center; gap: .4rem;
+    background: #ff1919; color: #fff;
+    font-size: .65rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    padding: .3rem 1rem;
+  }
+  .pg-live-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: #fff;
+    animation: liveBlink 1.1s ease-in-out infinite; flex-shrink: 0;
+  }
+  @keyframes liveBlink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.2;transform:scale(.65)} }
+
+  .pg-card-inner {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: .9rem 1rem;
+  }
+
+  /* Pochette */
+  .pg-pochette {
+    width: 72px; height: 72px; border-radius: 10px; overflow: hidden;
+    flex-shrink: 0; background: #f0f0f0; position: relative;
+    border: 2px solid #eee;
+  }
+  .pg-pochette--live { border-color: #ff1919; }
+  .pg-pochette img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    position: relative; z-index: 1;
+  }
+  .pg-pochette-fallback {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; color: #ff1919; background: #f9f0f0; z-index: 0;
+  }
+
+  /* Infos */
+  .pg-info { flex: 1; min-width: 0; }
+  .pg-title {
+    font-size: 1rem; font-weight: 700; color: #111;
+    margin: 0 0 .3rem; line-height: 1.25;
+  }
+  .pg-meta {
+    display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .4rem;
+  }
+  .pg-presenter, .pg-cat {
+    display: inline-flex; align-items: center; gap: .3rem;
+    font-size: .75rem; color: #888;
+  }
+  .pg-presenter i, .pg-cat i { color: #ff1919; font-size: .72rem; }
+  .pg-desc {
+    font-size: .8rem; color: #666; line-height: 1.5;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    margin: 0;
+  }
+
+  /* Horaire */
+  .pg-time {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: .1rem; flex-shrink: 0; min-width: 64px;
+    background: #f5f5f5; border-radius: 10px;
+    padding: .5rem .65rem; text-align: center;
+  }
+  .pg-time--live { background: #ff1919; color: #fff; }
+  .pg-time i { font-size: .75rem; color: #999; }
+  .pg-time--live i { color: rgba(255,255,255,.7); }
+  .pg-time-val { font-size: .9rem; font-weight: 700; color: #111; line-height: 1.1; }
+  .pg-time--live .pg-time-val { color: #fff; }
+  .pg-time-sep { font-size: .65rem; color: #bbb; }
+  .pg-time--live .pg-time-sep { color: rgba(255,255,255,.6); }
+
+  /* Empty */
+  .pg-empty {
+    display: flex; flex-direction: column; align-items: center;
+    gap: .75rem; padding: 4rem; color: #ccc; text-align: center;
+  }
+  .pg-empty i { font-size: 3rem; }
+
+  @media (max-width: 560px) {
+    .pg-hero { flex-direction: column; align-items: flex-start; padding: 1.25rem 1rem; }
+    .pg-hero-contact { align-items: flex-start; }
+    .pg-card-inner { gap: .65rem; }
+    .pg-pochette { width: 56px; height: 56px; }
+  }
+</style>
