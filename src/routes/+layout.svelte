@@ -996,6 +996,7 @@
     height: 22px;
     opacity: 0;
     transition: opacity 0.3s ease;
+    position: static;
   }
   .active_equalier { opacity: 1 !important; }
 
@@ -1122,17 +1123,18 @@
 
   .player-center {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
     flex: 1;
     padding: 0 1rem;
+    gap: 0.75rem;
   }
 
   .player-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
   }
 
   .play-pause-btn {
