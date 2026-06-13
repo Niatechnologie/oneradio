@@ -64,37 +64,27 @@
 
 <div class="rc" class:rc--playing={isPlaying}>
 
-  <!-- Artwork -->
+  <!-- Pochette -->
   <div class="rc-art">
     {#if !imgError && pochetteSrcs.length > 0}
-      <img src={pochetteSrcs[imgSrcIndex]} alt={radio.designation}
-           class="rc-img"
-           onerror={onImgError} />
+      <img src={pochetteSrcs[imgSrcIndex]} alt={radio.designation} class="rc-img" onerror={onImgError} />
     {:else}
-      <div class="rc-img-fallback">
-        <i class="bi bi-broadcast"></i>
-        <span>{radio.designation}</span>
-      </div>
+      <div class="rc-img-fallback"><i class="bi bi-broadcast"></i></div>
     {/if}
-
-    <!-- LIVE badge -->
-    {#if isPlaying}
-      <span class="rc-live">● LIVE</span>
-    {/if}
+    {#if isPlaying}<span class="rc-live">● LIVE</span>{/if}
   </div>
 
-  <!-- Infos -->
+  <!-- Infos + contrôles -->
   <div class="rc-body">
-    <div class="rc-name">{radio.designation}</div>
-    <div class="rc-desc">{radio.description}</div>
-
-    <!-- Status -->
-    <div class="rc-status" class:rc-status--playing={status === 'playing'} class:rc-status--err={status === 'error'}>
-      <span class="rc-dot"></span>
-      <span>{statusText}</span>
+    <div class="rc-top">
+      <div class="rc-name">{radio.designation}</div>
+      <div class="rc-status" class:rc-status--playing={status === 'playing'} class:rc-status--err={status === 'error'}>
+        <span class="rc-dot"></span><span>{statusText}</span>
+      </div>
     </div>
 
-    <!-- Controls -->
+    <div class="rc-desc">{radio.description}</div>
+
     <div class="rc-controls">
       <button class="rc-play" class:rc-play--on={isPlaying} onclick={onTogglePlay} disabled={isLoading} aria-label={isPlaying ? 'Pause' : 'Écouter'}>
         {#if isLoading}
@@ -105,18 +95,13 @@
           <i class="bi bi-play-fill"></i>
         {/if}
       </button>
-
       <div class="rc-vol">
         <i class="bi bi-volume-{volume === 0 ? 'mute' : volume < 50 ? 'down' : 'up'}-fill"></i>
-        <input type="range" min="0" max="100" bind:value={volume}
-               oninput={handleVolumeInput} class="rc-slider" aria-label="Volume" />
-        <span class="rc-vol-val">{volume}%</span>
+        <input type="range" min="0" max="100" bind:value={volume} oninput={handleVolumeInput} class="rc-slider" aria-label="Volume" />
       </div>
     </div>
 
-    {#if errorMsg}
-      <p class="rc-err">{errorMsg}</p>
-    {/if}
+    {#if errorMsg}<p class="rc-err">{errorMsg}</p>{/if}
   </div>
 </div>
 
@@ -124,36 +109,35 @@
   .rc {
     background: #1a1a1a;
     border: 1px solid #2a2a2a;
-    border-radius: 16px;
+    border-radius: 14px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     overflow: hidden;
-    transition: transform .25s, box-shadow .25s, border-color .25s;
-    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+    transition: transform .22s, box-shadow .22s, border-color .22s;
+    box-shadow: 0 2px 12px rgba(0,0,0,.35);
   }
-  .rc:hover     { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,.5); }
-  .rc--playing  { border-color: #ff1919; box-shadow: 0 0 0 2px rgba(255,25,25,.25), 0 12px 36px rgba(0,0,0,.5); }
+  .rc:hover    { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.5); }
+  .rc--playing { border-color: #ff1919; box-shadow: 0 0 0 2px rgba(255,25,25,.2), 0 8px 24px rgba(0,0,0,.5); }
 
-  /* Art */
+  /* Pochette */
   .rc-art {
     position: relative;
-    width: 100%; aspect-ratio: 1;
+    width: 90px; height: 90px;
+    flex-shrink: 0;
     background: linear-gradient(135deg, #1f0000 0%, #3a0000 100%);
     overflow: hidden;
   }
   .rc-img {
     width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: transform .5s ease;
+    transition: transform .4s ease;
   }
-  .rc--playing .rc-img { transform: scale(1.04); }
+  .rc:hover .rc-img { transform: scale(1.06); }
   .rc-img-fallback {
     width: 100%; height: 100%;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: .6rem; color: #ff1919;
+    display: flex; align-items: center; justify-content: center;
+    color: #ff1919; font-size: 2rem;
     background: linear-gradient(135deg, #1a0000 0%, #2d0000 100%);
   }
-  .rc-img-fallback i    { font-size: 3rem; }
-  .rc-img-fallback span { font-size: .75rem; color: #888; text-align: center; padding: 0 .5rem; }
 
   /* LIVE badge */
   .rc-live {
@@ -183,66 +167,62 @@
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
 
+  /* Body */
+  .rc-body {
+    flex: 1; min-width: 0;
+    padding: .65rem .75rem;
+    display: flex; flex-direction: column; gap: .35rem;
+    justify-content: center;
+  }
+  .rc-top { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+  .rc-name { font-size: .9rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rc-desc { font-size: .72rem; color: #666; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
   /* Status */
   .rc-status {
-    display: inline-flex; align-items: center; gap: .4rem;
-    font-size: .72rem; color: #666; background: #111;
-    padding: .25rem .6rem; border-radius: 20px; width: fit-content;
+    display: inline-flex; align-items: center; gap: .3rem;
+    font-size: .65rem; color: #666; flex-shrink: 0;
   }
-  .rc-dot {
-    width: 7px; height: 7px; border-radius: 50%; background: #444;
-    flex-shrink: 0; transition: background .3s;
-  }
+  .rc-dot { width: 6px; height: 6px; border-radius: 50%; background: #444; flex-shrink: 0; }
   .rc-status--playing .rc-dot { background: #4caf50; animation: dotPulse 1.4s ease-in-out infinite; }
   .rc-status--err     .rc-dot { background: #f44336; }
   @keyframes dotPulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
 
   /* Controls */
-  .rc-controls {
-    display: flex; align-items: center; gap: .75rem; margin-top: .25rem;
-  }
+  .rc-controls { display: flex; align-items: center; gap: .5rem; }
 
   .rc-play {
-    width: 44px; height: 44px; border-radius: 50%; border: none; flex-shrink: 0;
-    background: #ff1919; color: #fff; font-size: 1.2rem;
+    width: 34px; height: 34px; border-radius: 50%; border: none; flex-shrink: 0;
+    background: #ff1919; color: #fff; font-size: 1rem;
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: background .18s, transform .18s, box-shadow .18s;
-    box-shadow: 0 4px 14px rgba(255,25,25,.35);
+    cursor: pointer; transition: background .18s, transform .18s;
+    box-shadow: 0 2px 8px rgba(255,25,25,.4);
   }
-  .rc-play:hover:not(:disabled) { background: #cc0000; transform: scale(1.08); }
-  .rc-play:active:not(:disabled){ transform: scale(.95); }
-  .rc-play--on { background: #fff; color: #ff1919; box-shadow: 0 4px 14px rgba(255,255,255,.15); }
-  .rc-play--on:hover:not(:disabled) { background: #f0f0f0; color: #cc0000; }
+  .rc-play:hover:not(:disabled)  { background: #cc0000; transform: scale(1.08); }
+  .rc-play:active:not(:disabled) { transform: scale(.95); }
+  .rc-play--on { background: #fff; color: #ff1919; }
+  .rc-play--on:hover:not(:disabled) { background: #f0f0f0; }
   .rc-play:disabled { opacity: .7; cursor: not-allowed; }
 
   .rc-spinner {
-    width: 20px; height: 20px; border-radius: 50%;
-    border: 2px solid rgba(255,255,255,.3);
-    border-top-color: #fff;
-    animation: spin .7s linear infinite;
-    display: block;
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
+    animation: spin .7s linear infinite; display: block;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   /* Volume */
-  .rc-vol {
-    flex: 1; display: flex; align-items: center; gap: .4rem;
-    font-size: .85rem; color: #888;
-  }
+  .rc-vol { flex: 1; display: flex; align-items: center; gap: .35rem; color: #555; font-size: .8rem; }
   .rc-slider {
-    flex: 1; height: 4px; border-radius: 4px;
+    flex: 1; height: 3px; border-radius: 4px;
     background: #333; outline: none; -webkit-appearance: none; cursor: pointer;
     accent-color: #ff1919;
   }
   .rc-slider::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 13px; height: 13px; border-radius: 50%;
-    background: #ff1919; cursor: pointer; box-shadow: 0 0 4px rgba(255,25,25,.5);
+    -webkit-appearance: none; width: 11px; height: 11px; border-radius: 50%;
+    background: #ff1919; cursor: pointer;
   }
-  .rc-slider::-moz-range-thumb {
-    width: 13px; height: 13px; border-radius: 50%;
-    background: #ff1919; cursor: pointer; border: none;
-  }
-  .rc-vol-val { font-size: .7rem; color: #555; min-width: 2.5ch; text-align: right; }
+  .rc-slider::-moz-range-thumb { width: 11px; height: 11px; border-radius: 50%; background: #ff1919; cursor: pointer; border: none; }
 
-  .rc-err { font-size: .75rem; color: #f44336; margin: 0; }
+  .rc-err { font-size: .7rem; color: #f44336; margin: 0; }
 </style>
