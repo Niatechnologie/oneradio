@@ -1536,7 +1536,7 @@
     {#if isBuffering}
       <div class="buffer-container">
         <div class="buffer-spinner"></div>
-        <span class="buffer-text">Chargement...</span>
+        <!-- <span class="buffer-text">Chargement...</span> -->
       </div>
     {:else}
       <div class="equalizer-container">
