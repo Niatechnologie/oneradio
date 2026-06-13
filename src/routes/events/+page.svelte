@@ -72,7 +72,6 @@
             <div class="ih-card-icon"><i class="bi bi-trophy-fill"></i></div>
           </div>
           <div class="ih-card-body">
-            <span class="ih-badge">IN HOUSE</span>
             <h3>ONE RADIO MUSIC AWARD</h3>
             <p class="ih-sub">La grande messe annuelle de la musique urbaine et africaine</p>
             <p class="ih-desc">
@@ -101,7 +100,6 @@
             <div class="ih-card-icon"><i class="bi bi-emoji-laughing-fill"></i></div>
           </div>
           <div class="ih-card-body">
-            <span class="ih-badge ih-badge--occ">IN HOUSE</span>
             <h3>ONE COMEDY CLUB</h3>
             <p class="ih-sub">La plateforme humoristique officielle de One Radio</p>
             <p class="ih-desc">
@@ -130,7 +128,6 @@
             <div class="ih-card-icon"><i class="bi bi-dribbble"></i></div>
           </div>
           <div class="ih-card-body">
-            <span class="ih-badge ih-badge--sport">IN HOUSE</span>
             <h3>ONE SPORT</h3>
             <p class="ih-sub">La billetterie officielle des matchs et événements sportifs</p>
             <p class="ih-desc">
