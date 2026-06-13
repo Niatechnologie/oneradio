@@ -1165,6 +1165,7 @@
     position: absolute;
     background: orange;
     opacity: 0;
+    left:-30px
   }
 
   .time {
