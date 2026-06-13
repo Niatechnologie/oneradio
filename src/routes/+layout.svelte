@@ -1526,6 +1526,13 @@
   </div>
 
   <div class="player-center">
+    <div class="player-controls">
+      <!-- svelte-ignore a11y_consider_explicit_label -->
+      <button class="play-pause-btn">
+        <i style="font-size:34px" class="bi bi-play"></i>
+      </button>
+    </div>
+
     {#if isBuffering}
       <div class="buffer-container">
         <div class="buffer-spinner"></div>
@@ -1544,13 +1551,6 @@
 
     <div class="progress-container">
       <span class="time current-time">{formatTime(currentTime)}</span>
-    </div>
-
-    <div class="player-controls">
-      <!-- svelte-ignore a11y_consider_explicit_label -->
-      <button class="play-pause-btn">
-        <i style="font-size:34px" class="bi bi-play"></i>
-      </button>
     </div>
   </div>
 
