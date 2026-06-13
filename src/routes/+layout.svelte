@@ -1026,203 +1026,243 @@
   @keyframes equalizer3 { 0% { height: 85%; } 100% { height: 45%; } }
   @keyframes equalizer4 { 0% { height: 50%; } 100% { height: 80%; } }
 
-  /* ── Audio Player ── */
+  /* Audio Player */
   .audio-player {
     position: fixed;
-    bottom: 1.25rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 44%;
-    max-width: 820px;
-    min-width: 320px;
-    height: 4.5rem;
-    background: rgba(14, 14, 14, 0.96);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 25, 25, 0.25);
-    border-top: 2px solid #ff1919;
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255,255,255,.04);
-    border-radius: 1rem;
-    padding: 0 1rem;
+    bottom: 1.5rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 40%;
+    max-width: 64rem;
+    height: 4rem;
+    background-color: rgba(255, 255, 255, 0.784) !important;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 0.75rem;
+    padding: 0.5rem;
     z-index: 50;
     display: flex;
     align-items: center;
-    gap: 0;
-    animation: slide-up 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    animation: slide-up 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    transition: all 0.3s ease;
   }
+
   .audio-player:hover {
-    box-shadow: 0 12px 50px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255,25,25,.2);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
   }
 
-  @media (max-width: 1126px) { .audio-player { width: 62%; } }
-  @media (max-width: 767px)  { .audio-player { width: 84%; height: 4rem; } }
-  @media (max-width: 480px)  { .audio-player { width: 96%; border-radius: .75rem; padding: 0 .75rem; } }
+  @media (min-width: 768px) {
+    .audio-player { height: 5rem; }
+  }
+  @media (max-width: 1126px) {
+    .audio-player { height: 5rem; width: 60%; }
+  }
+  @media (max-width: 767px) {
+    .audio-player { height: 7rem; width: 80%; }
+  }
+  @media (max-width: 567px) {
+    .audio-player { height: 5rem; width: 95%; }
+  }
 
-  /* Left */
   .player-left {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    flex: 1;
-    min-width: 0;
+    gap: 0.75rem;
+    width: 33.333333%;
   }
 
   .current-song-image {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 0.5rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 0.25rem;
     object-fit: cover;
-    flex-shrink: 0;
-    border: 1px solid rgba(255,255,255,.08);
-    box-shadow: 0 2px 10px rgba(0,0,0,.4);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
   }
-  .audio-player:hover .current-song-image { transform: scale(1.06); }
+
+  .audio-player:hover .current-song-image {
+    transform: scale(1.05);
+  }
 
   .current-song-info {
     display: flex;
     flex-direction: column;
-    min-width: 0;
-    gap: 0.1rem;
   }
 
   .song-title {
-    font-weight: 700;
-    font-size: 0.8rem;
-    color: #fff;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--foreground);
     display: flex;
     align-items: center;
     gap: 0.35rem;
-    white-space: nowrap;
   }
 
   .on-air-dot {
-    width: 6px; height: 6px;
+    display: inline-block;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: #ff2a2a;
     flex-shrink: 0;
-    box-shadow: 0 0 5px #ff2a2a;
     animation: pulse-dot 1.4s ease-in-out infinite;
   }
+
   @keyframes pulse-dot {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: 0.35; transform: scale(0.65); }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.7); }
   }
 
   .song-artist {
-    font-size: 0.72rem;
-    color: #888;
-    overflow: hidden;
-    white-space: nowrap;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
   }
 
-  /* Center */
   .player-center {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    gap: 0.75rem;
-    flex-shrink: 0;
-    padding: 0 0.75rem;
-    position: relative;
+    flex: 1;
+    padding: 0 1rem;
   }
 
   .player-controls {
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 1rem;
   }
 
   .play-pause-btn {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
+    background-color: var(--primary);
+    color: white;
     border: none;
-    background: #ff1919;
-    color: #fff;
+    border-radius: 9999px;
+    width: 4rem;
+    height: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 0 16px rgba(255, 25, 25, 0.45);
-    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-    flex-shrink: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(196, 118, 1, 0.3);
   }
+
   .play-pause-btn:hover {
-    background: #cc0000;
     transform: scale(1.1);
-    box-shadow: 0 0 24px rgba(255, 25, 25, 0.65);
+    background-color: var(--primary-dark);
+    box-shadow: 0 4px 12px rgb(180, 87, 0);
   }
-  .play-pause-btn:active { transform: scale(0.95); }
 
-  .progress-container { display: none; }
+  .progress-container {
+    display: flex;
+    align-items: center;
+    margin-top: 0.25rem;
+    position: absolute;
+    opacity: 0;
+  }
 
-  /* Right */
+  .time {
+    font-size: 1.25rem;
+    color: var(--muted-foreground);
+    transition: color 0.3s ease;
+  }
+
+  .audio-player:hover .time {
+    color: var(--foreground);
+  }
+
   .player-right {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    flex-shrink: 0;
+    width: 20%;
+    justify-content: flex-end;
   }
 
   .volume-btn {
     background: none;
     border: none;
     cursor: pointer;
-    color: #888;
-    font-size: 1rem;
+    color: var(--foreground);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.2s;
-    padding: 0.25rem;
+    transition: color 0.3s ease;
   }
-  .volume-btn:hover { color: #ff1919; }
+
+  .volume-btn:hover {
+    color: var(--primary);
+  }
 
   .volume-slider {
     width: 5rem;
-    height: 4px;
-    background: rgba(255,255,255,.12);
+    height: 0.25rem;
+    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 9999px;
     overflow: hidden;
     position: relative;
-    cursor: pointer;
     display: none;
-    transition: height .2s;
+    cursor: pointer;
+    transition: height 0.3s ease;
   }
-  @media (min-width: 640px) { .volume-slider { display: block; } }
-  .audio-player:hover .volume-slider { height: 5px; }
+
+  @media (min-width: 768px) {
+    .volume-slider { display: block; }
+  }
+
+  .audio-player:hover .volume-slider {
+    height: 0.375rem;
+  }
 
   .volume-fill {
     position: absolute;
-    left: 0; top: 0;
+    left: 0;
+    top: 0;
     height: 100%;
-    background: #ff1919;
-    width: 70%;
+    background-color: var(--primary);
+    width: 100%;
     border-radius: 9999px;
+    transition: background-color 0.3s ease;
   }
 
-  /* Buffer spinner */
+  .audio-player:hover .volume-fill {
+    background-color: var(--primary-dark);
+  }
+
+  /* Spinner de chargement */
   .buffer-container {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
+    position: absolute;
+    top: 50%;
+    width: 45px;
+    transform: translateY(-50%);
   }
+
   .buffer-spinner {
-    width: 18px; height: 18px;
-    border: 2px solid rgba(255, 42, 42, 0.25);
-    border-top-color: #ff2a2a;
+    width: 45px;
+    height: 45px;
+    border: 4px solid rgba(255, 42, 42, 0.3);
     border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    flex-shrink: 0;
+    border-top-color: #ff2a2a;
+    animation: spin 1s linear infinite;
+    top: 50px;
+    right: 100px;
   }
+
   .buffer-text {
-    font-size: 0.7rem;
+    position: absolute;
+    top: -18px;
+    left: -5px;
+    font-size: 10px;
     color: #ff2a2a;
     white-space: nowrap;
   }
+
   @keyframes spin {
-    to { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
   /* Ticker */
