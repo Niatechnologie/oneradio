@@ -9,8 +9,28 @@
   let isLoading   = $state(false);
   let errorMsg    = $state('');
   let imgError    = $state(false);
+  let imgSrcIndex = $state(0);
 
-  const pochettePath = `https://oneradiomobile.oneradio.ci/image/${radio.pochette}`;
+  // Essaie plusieurs formats d'URL selon la structure du serveur
+  const pochetteSrcs = (() => {
+    const base = 'https://oneradiomobile.oneradio.ci/image';
+    const srcs = [];
+    if (radio.pochette) {
+      if (radio.repertoire) srcs.push(`${base}/${radio.repertoire}/${radio.pochette}`);
+      srcs.push(`${base}/${radio.pochette}`);
+    }
+    return srcs;
+  })();
+
+  const pochettePath = pochetteSrcs[0] ?? null;
+
+  function onImgError() {
+    if (imgSrcIndex + 1 < pochetteSrcs.length) {
+      imgSrcIndex += 1;
+    } else {
+      imgError = true;
+    }
+  }
 
   function setupAudioEvents() {
     if (!audio) return;
@@ -46,13 +66,14 @@
 
   <!-- Artwork -->
   <div class="rc-art">
-    {#if !imgError}
-      <img src={pochettePath} alt={radio.designation}
-           class="rc-img" class:rc-img--spin={isPlaying}
-           onerror={() => imgError = true} />
+    {#if !imgError && pochetteSrcs.length > 0}
+      <img src={pochetteSrcs[imgSrcIndex]} alt={radio.designation}
+           class="rc-img"
+           onerror={onImgError} />
     {:else}
-      <div class="rc-img-fallback" class:rc-img--spin={isPlaying}>
+      <div class="rc-img-fallback">
         <i class="bi bi-broadcast"></i>
+        <span>{radio.designation}</span>
       </div>
     {/if}
 
@@ -127,9 +148,12 @@
   .rc--playing .rc-img { transform: scale(1.04); }
   .rc-img-fallback {
     width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 3.5rem; color: #ff1919;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: .6rem; color: #ff1919;
+    background: linear-gradient(135deg, #1a0000 0%, #2d0000 100%);
   }
+  .rc-img-fallback i    { font-size: 3rem; }
+  .rc-img-fallback span { font-size: .75rem; color: #888; text-align: center; padding: 0 .5rem; }
 
   /* LIVE badge */
   .rc-live {
