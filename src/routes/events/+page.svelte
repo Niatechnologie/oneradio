@@ -284,9 +284,21 @@
     height: 140px; display: flex; align-items: center; justify-content: center;
     position: relative;
   }
-  .ih-card--orma  .ih-card-bg { background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 50%, #cc0000 100%); }
-  .ih-card--occ   .ih-card-bg { background: linear-gradient(135deg, #0f0020 0%, #1a0040 50%, #3d0080 100%); }
-  .ih-card--sport .ih-card-bg { background: linear-gradient(135deg, #001a00 0%, #003300 50%, #005500 100%); }
+  .ih-card--orma .ih-card-bg {
+    background:
+      linear-gradient(135deg, rgba(26,0,0,.72) 0%, rgba(180,0,0,.55) 100%),
+      url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=700&q=80') center/cover no-repeat;
+  }
+  .ih-card--occ .ih-card-bg {
+    background:
+      linear-gradient(135deg, rgba(15,0,32,.72) 0%, rgba(80,0,160,.55) 100%),
+      url('https://images.unsplash.com/photo-1527224538127-2104bb71c51b?auto=format&fit=crop&w=700&q=80') center/cover no-repeat;
+  }
+  .ih-card--sport .ih-card-bg {
+    background:
+      linear-gradient(135deg, rgba(0,30,0,.72) 0%, rgba(0,100,0,.55) 100%),
+      url('https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=700&q=80') center/cover no-repeat;
+  }
   .ih-card-icon { font-size: 3.5rem; opacity: .85; }
   .ih-card--orma  .ih-card-icon { color: #ffd700; }
   .ih-card--occ   .ih-card-icon { color: #f5c518; }
@@ -341,12 +353,12 @@
     width: fit-content; transition: all .2s ease;
     margin-top: .25rem;
   }
-  .ih-btn--orma  { background: linear-gradient(135deg,#ff1919,#cc0000); color:#fff; }
-  .ih-btn--orma:hover  { background: linear-gradient(135deg,#cc0000,#990000); transform:scale(1.04); box-shadow:0 4px 14px rgba(255,25,25,.35); }
-  .ih-btn--occ   { background: linear-gradient(135deg,#f5c518,#d4a800); color:#121212; }
-  .ih-btn--occ:hover   { background: linear-gradient(135deg,#d4a800,#a07800); transform:scale(1.04); }
-  .ih-btn--sport { background: linear-gradient(135deg,#28a745,#1e7e34); color:#fff; }
-  .ih-btn--sport:hover { background: linear-gradient(135deg,#1e7e34,#155724); transform:scale(1.04); }
+  .ih-btn--orma  { background: #ff1919; color:#fff; }
+  .ih-btn--orma:hover  { background: #cc0000; transform:scale(1.04); box-shadow:0 4px 14px rgba(255,25,25,.35); }
+  .ih-btn--occ   { background: #ff1919; color:#fff; }
+  .ih-btn--occ:hover   { background: #cc0000; transform:scale(1.04); }
+  .ih-btn--sport { background: #28a745; color:#fff; }
+  .ih-btn--sport:hover { background: #1e7e34; transform:scale(1.04); }
 
   /* ── Others grid ── */
   .ev-grid {
