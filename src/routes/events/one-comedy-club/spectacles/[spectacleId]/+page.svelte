@@ -21,6 +21,13 @@
   const humoriste     = s?.humoriste;
   const humNom        = humoriste ? (humoriste.nom_artiste || `${humoriste.prenom} ${humoriste.nom}`.trim()) : '';
   const sortAsc = (a, b) => new Date(a.date_heure) - new Date(b.date_heure);
+
+  let lightboxOpen = $state(false);
+
+  function openLightbox()  { lightboxOpen = true;  document.body.style.overflow = 'hidden'; }
+  function closeLightbox() { lightboxOpen = false; document.body.style.overflow = ''; }
+
+  function onKeydown(e) { if (e.key === 'Escape') closeLightbox(); }
   const now = new Date();
   const datesAVenir  = (s?.dates ?? []).filter(d => !d.passe && new Date(d.date_heure) > now).sort(sortAsc);
   const datesPassees = (s?.dates ?? []).filter(d =>  d.passe || new Date(d.date_heure) <= now).sort(sortAsc);
@@ -30,6 +37,8 @@
   <title>{s ? s.titre : 'Spectacle'} – ONE COMEDY CLUB</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 </svelte:head>
+
+<svelte:window onkeydown={onKeydown} />
 
 {#if !s}
   <div class="not-found">
@@ -46,7 +55,10 @@
     <!-- Colonne gauche : affiche + humoriste -->
     <aside class="spec-aside">
       {#if s.affiche}
-        <img src={s.affiche} alt={s.titre} class="spec-affiche" />
+        <button class="spec-affiche-btn" onclick={openLightbox} aria-label="Agrandir l'affiche">
+          <img src={s.affiche} alt={s.titre} class="spec-affiche" />
+          <span class="spec-affiche-zoom"><i class="bi bi-zoom-in"></i></span>
+        </button>
       {:else}
         <div class="spec-affiche-placeholder"><i class="bi bi-ticket-perforated"></i></div>
       {/if}
@@ -161,6 +173,14 @@
 </div>
 {/if}
 
+<!-- Lightbox -->
+{#if lightboxOpen && s?.affiche}
+  <div class="lightbox" onclick={closeLightbox} role="dialog" aria-modal="true">
+    <button class="lightbox-close" onclick={closeLightbox} aria-label="Fermer"><i class="bi bi-x-lg"></i></button>
+    <img src={s.affiche} alt={s.titre} class="lightbox-img" onclick={(e) => e.stopPropagation()} />
+  </div>
+{/if}
+
 <style>
   .not-found {
     display:flex; flex-direction:column; align-items:center;
@@ -183,15 +203,62 @@
 
   /* Aside */
   .spec-aside { position:sticky; top:5rem; }
+
+  .spec-affiche-btn {
+    display:block; width:100%; padding:0; background:none; border:none;
+    cursor:zoom-in; position:relative; border-radius:14px; overflow:hidden;
+    margin-bottom:1.25rem;
+  }
+  .spec-affiche-btn:focus-visible { outline:3px solid #ff0000; outline-offset:2px; }
   .spec-affiche {
     width:100%; border-radius:14px;
-    box-shadow:0 4px 20px rgba(0,0,0,.15); display:block; margin-bottom:1.25rem;
+    box-shadow:0 4px 20px rgba(0,0,0,.15); display:block;
+    transition: transform .3s ease;
   }
+  .spec-affiche-btn:hover .spec-affiche { transform: scale(1.03); }
+  .spec-affiche-zoom {
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0); color:#fff; font-size:2rem;
+    opacity:0; transition:opacity .25s, background .25s;
+  }
+  .spec-affiche-btn:hover .spec-affiche-zoom { opacity:1; background:rgba(0,0,0,.25); }
+
   .spec-affiche-placeholder {
     width:100%; height:200px; border-radius:14px; background:#f5f1e8;
     display:flex; align-items:center; justify-content:center;
     font-size:3rem; color:#db0303; margin-bottom:1.25rem;
   }
+
+  /* Lightbox */
+  .lightbox {
+    position:fixed; inset:0; z-index:1000;
+    background:rgba(0,0,0,.85); backdrop-filter:blur(4px);
+    display:flex; align-items:center; justify-content:center;
+    cursor:zoom-out;
+    animation: lb-in .25s ease;
+  }
+  @keyframes lb-in {
+    from { opacity:0; }
+    to   { opacity:1; }
+  }
+  .lightbox-img {
+    max-width:90vw; max-height:90vh; border-radius:14px;
+    box-shadow:0 12px 60px rgba(0,0,0,.6);
+    cursor:default;
+    animation: lb-zoom .25s ease;
+  }
+  @keyframes lb-zoom {
+    from { transform:scale(.85); opacity:0; }
+    to   { transform:scale(1);   opacity:1; }
+  }
+  .lightbox-close {
+    position:absolute; top:1.25rem; right:1.25rem;
+    background:rgba(255,255,255,.15); border:none; color:#fff;
+    width:40px; height:40px; border-radius:50%; font-size:1.1rem;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background .18s;
+  }
+  .lightbox-close:hover { background:rgba(255,255,255,.3); }
 
   .hum-mini-card {
     display:flex; align-items:center; gap:.85rem;
