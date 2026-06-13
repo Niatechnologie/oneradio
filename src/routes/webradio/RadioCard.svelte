@@ -1,348 +1,224 @@
 <script>
-	import { onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
 
-	// Props avec $props() (Svelte 5)
-	let { radio, audio, isPlaying, onTogglePlay, onVolumeChange } = $props();
+  let { radio, audio, isPlaying, onTogglePlay, onVolumeChange } = $props();
 
-	// État local avec $state (Svelte 5)
-	let status = $state('ready');
-	let statusText = $state('Prêt');
-	let volume = $state(70);
-	let errorMessage = $state('');
-	let isLoading = $state(false);
+  let status      = $state('ready');
+  let statusText  = $state('Prêt');
+  let volume      = $state(70);
+  let isLoading   = $state(false);
+  let errorMsg    = $state('');
+  let imgError    = $state(false);
 
-	// Chemin de la pochette
-	const pochettePath = $derived(
-		radio.repertoire 
-			? `https://oneradiomobile.oneradio.ci/image/${radio.pochette}` 
-			: `https://oneradiomobile.oneradio.ci/image/${radio.pochette}`
-	);
+  const pochettePath = `https://oneradiomobile.oneradio.ci/image/${radio.pochette}`;
 
-	// Configuration des événements audio
-	function setupAudioEvents() {
-		if (!audio) return;
+  function setupAudioEvents() {
+    if (!audio) return;
+    audio.addEventListener('loadstart', handleLoadStart);
+    audio.addEventListener('canplay',   handleCanPlay);
+    audio.addEventListener('playing',   handlePlaying);
+    audio.addEventListener('pause',     handlePause);
+    audio.addEventListener('ended',     handleEnded);
+    audio.addEventListener('error',     handleError);
+    audio.addEventListener('waiting',   handleWaiting);
+  }
 
-		audio.addEventListener('loadstart', handleLoadStart);
-		audio.addEventListener('canplay', handleCanPlay);
-		audio.addEventListener('playing', handlePlaying);
-		audio.addEventListener('pause', handlePause);
-		audio.addEventListener('ended', handleEnded);
-		audio.addEventListener('error', handleError);
-		audio.addEventListener('waiting', handleWaiting);
-	}
+  function handleLoadStart() { isLoading = true;  status = 'loading'; statusText = 'Chargement…'; errorMsg = ''; }
+  function handleCanPlay()   { isLoading = false; }
+  function handlePlaying()   { isLoading = false; status = 'playing'; statusText = 'En direct'; }
+  function handlePause()     { status = 'ready';  statusText = 'En pause'; }
+  function handleEnded()     { status = 'ready';  statusText = 'Terminé'; }
+  function handleWaiting()   { status = 'loading'; statusText = 'Mise en mémoire…'; }
+  function handleError(e)    { isLoading = false; status = 'error'; statusText = 'Erreur'; errorMsg = 'Impossible de charger le flux'; console.error(e); }
 
-	function handleLoadStart() {
-		isLoading = true;
-		status = 'loading';
-		statusText = 'Chargement...';
-		errorMessage = '';
-	}
+  function handleVolumeInput(e) { volume = +e.target.value; onVolumeChange(volume); }
 
-	function handleCanPlay() {
-		isLoading = false;
-	}
-
-	function handlePlaying() {
-		isLoading = false;
-		status = 'playing';
-		statusText = 'En lecture';
-	}
-
-	function handlePause() {
-		status = 'ready';
-		statusText = 'En pause';
-	}
-
-	function handleEnded() {
-		status = 'ready';
-		statusText = 'Terminé';
-	}
-
-	function handleError(e) {
-		isLoading = false;
-		status = 'error';
-		statusText = 'Erreur';
-		errorMessage = 'Impossible de charger le flux audio';
-		console.error('Erreur audio:', e);
-	}
-
-	function handleWaiting() {
-		status = 'loading';
-		statusText = 'Mise en mémoire tampon...';
-	}
-
-	// Gérer le changement de volume local
-	function handleVolumeInput(e) {
-		volume = parseInt(e.target.value);
-		onVolumeChange(volume);
-	}
-
-	// Nettoyer les événements
-	function cleanupAudioEvents() {
-		if (!audio) return;
-
-		audio.removeEventListener('loadstart', handleLoadStart);
-		audio.removeEventListener('canplay', handleCanPlay);
-		audio.removeEventListener('playing', handlePlaying);
-		audio.removeEventListener('pause', handlePause);
-		audio.removeEventListener('ended', handleEnded);
-		audio.removeEventListener('error', handleError);
-		audio.removeEventListener('waiting', handleWaiting);
-	}
-
-	// Montage du composant
-	onMount(() => {
-		setupAudioEvents();
-	});
-
-	// Démontage du composant
-	onDestroy(() => {
-		cleanupAudioEvents();
-	});
+  onMount(setupAudioEvents);
+  onDestroy(() => {
+    if (!audio) return;
+    ['loadstart','canplay','playing','pause','ended','error','waiting'].forEach(ev => {
+      audio.removeEventListener(ev, {handleLoadStart,handleCanPlay,handlePlaying,handlePause,handleEnded,handleError,handleWaiting}[`handle${ev.charAt(0).toUpperCase()+ev.slice(1)}`]);
+    });
+  });
 </script>
 
-<div class="radio-card">
-	<div class="radio-header">
-		<div class="radio-info">
-			<div class="radio-title">{radio.designation}</div>
-			<div class="radio-description">{radio.description}</div>
-		</div>
-		<img 
-			src={pochettePath} 
-			alt={radio.designation} 
-			class="radio-pochette"
-			onerror={(e) => e.target.style.display = 'none'}
-		/>
-	</div>
+<div class="rc" class:rc--playing={isPlaying}>
 
-	<div class="player-controls">
-		<button 
-			class="play-button"
-			class:playing={isPlaying}
-			class:loading={isLoading}
-			onclick={onTogglePlay}
-			disabled={isLoading}
-		>
-			{#if isLoading}
-				<div class="loader"></div>
-			{:else if isPlaying}
-				<span class="pause-icon">⏸</span>
-			{:else}
-				<span class="play-icon">▶</span>
-			{/if}
-		</button>
+  <!-- Artwork -->
+  <div class="rc-art">
+    {#if !imgError}
+      <img src={pochettePath} alt={radio.designation}
+           class="rc-img" class:rc-img--spin={isPlaying}
+           onerror={() => imgError = true} />
+    {:else}
+      <div class="rc-img-fallback" class:rc-img--spin={isPlaying}>
+        <i class="bi bi-broadcast"></i>
+      </div>
+    {/if}
 
-		<div class="volume-control">
-			<span class="volume-icon">🔊</span>
-			<input 
-				type="range" 
-				class="volume-slider" 
-				min="0" 
-				max="100" 
-				bind:value={volume}
-				oninput={handleVolumeInput}
-			/>
-		</div>
-	</div>
+    <!-- LIVE badge -->
+    {#if isPlaying}
+      <span class="rc-live">● LIVE</span>
+    {/if}
+  </div>
 
-	<div class="status-indicator">
-		<span class="status-dot" class:loading={status === 'loading'} class:playing={status === 'playing'} class:error={status === 'error'}></span>
-		<span class="status-text">{statusText}</span>
-	</div>
+  <!-- Infos -->
+  <div class="rc-body">
+    <div class="rc-name">{radio.designation}</div>
+    <div class="rc-desc">{radio.description}</div>
 
-	{#if errorMessage}
-		<div class="error-message">{errorMessage}</div>
-	{/if}
+    <!-- Status -->
+    <div class="rc-status" class:rc-status--playing={status === 'playing'} class:rc-status--err={status === 'error'}>
+      <span class="rc-dot"></span>
+      <span>{statusText}</span>
+    </div>
+
+    <!-- Controls -->
+    <div class="rc-controls">
+      <button class="rc-play" class:rc-play--on={isPlaying} onclick={onTogglePlay} disabled={isLoading} aria-label={isPlaying ? 'Pause' : 'Écouter'}>
+        {#if isLoading}
+          <span class="rc-spinner"></span>
+        {:else if isPlaying}
+          <i class="bi bi-pause-fill"></i>
+        {:else}
+          <i class="bi bi-play-fill"></i>
+        {/if}
+      </button>
+
+      <div class="rc-vol">
+        <i class="bi bi-volume-{volume === 0 ? 'mute' : volume < 50 ? 'down' : 'up'}-fill"></i>
+        <input type="range" min="0" max="100" bind:value={volume}
+               oninput={handleVolumeInput} class="rc-slider" aria-label="Volume" />
+        <span class="rc-vol-val">{volume}%</span>
+      </div>
+    </div>
+
+    {#if errorMsg}
+      <p class="rc-err">{errorMsg}</p>
+    {/if}
+  </div>
 </div>
 
 <style>
-	.radio-card {
-		background: white;
-		border-radius: 15px;
-		padding: 20px;
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-		transition: transform 0.3s ease;
-	}
+  .rc {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+  }
+  .rc:hover     { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,.5); }
+  .rc--playing  { border-color: #ff1919; box-shadow: 0 0 0 2px rgba(255,25,25,.25), 0 12px 36px rgba(0,0,0,.5); }
 
-	.radio-card:hover {
-		transform: translateY(-5px);
-	}
+  /* Art */
+  .rc-art {
+    position: relative;
+    width: 100%; aspect-ratio: 1;
+    background: linear-gradient(135deg, #1f0000 0%, #3a0000 100%);
+    overflow: hidden;
+  }
+  .rc-img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .5s ease;
+  }
+  .rc--playing .rc-img { transform: scale(1.04); }
+  .rc-img-fallback {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem; color: #ff1919;
+  }
 
-	.radio-header {
-		display: flex;
-		align-items: center;
-		margin-bottom: 15px;
-	}
+  /* LIVE badge */
+  .rc-live {
+    position: absolute; top: .6rem; left: .6rem;
+    background: #ff1919; color: #fff;
+    font-size: .65rem; font-weight: 800; letter-spacing: .06em;
+    padding: .2rem .55rem; border-radius: 20px;
+    animation: livePulse 1.8s ease-in-out infinite;
+  }
+  @keyframes livePulse {
+    0%,100% { opacity: 1; } 50% { opacity: .65; }
+  }
 
-	.radio-pochette {
-		width: 60px;
-		height: 60px;
-		border-radius: 10px;
-		object-fit: cover;
-		margin-left: 15px;
-		background: linear-gradient(135deg, #ff1b1b 0%, rgb(255, 0, 0) 100%);
-	}
+  /* Body */
+  .rc-body {
+    padding: .9rem 1rem 1rem;
+    display: flex; flex-direction: column; gap: .55rem;
+    flex: 1;
+  }
 
-	.radio-info {
-		flex: 1;
-	}
+  .rc-name {
+    font-size: 1rem; font-weight: 700; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .rc-desc {
+    font-size: .78rem; color: #888; font-style: italic; line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
 
-	.radio-title {
-		font-size: 1.2em;
-		font-weight: bold;
-		color: #333;
-		margin-bottom: 5px;
-	}
+  /* Status */
+  .rc-status {
+    display: inline-flex; align-items: center; gap: .4rem;
+    font-size: .72rem; color: #666; background: #111;
+    padding: .25rem .6rem; border-radius: 20px; width: fit-content;
+  }
+  .rc-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: #444;
+    flex-shrink: 0; transition: background .3s;
+  }
+  .rc-status--playing .rc-dot { background: #4caf50; animation: dotPulse 1.4s ease-in-out infinite; }
+  .rc-status--err     .rc-dot { background: #f44336; }
+  @keyframes dotPulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
 
-	.radio-description {
-		font-size: 0.9em;
-		color: #666;
-		font-style: italic;
-	}
+  /* Controls */
+  .rc-controls {
+    display: flex; align-items: center; gap: .75rem; margin-top: .25rem;
+  }
 
-	.player-controls {
-		display: flex;
-		align-items: center;
-		gap: 15px;
-		margin-top: 15px;
-	}
+  .rc-play {
+    width: 44px; height: 44px; border-radius: 50%; border: none; flex-shrink: 0;
+    background: #ff1919; color: #fff; font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: background .18s, transform .18s, box-shadow .18s;
+    box-shadow: 0 4px 14px rgba(255,25,25,.35);
+  }
+  .rc-play:hover:not(:disabled) { background: #cc0000; transform: scale(1.08); }
+  .rc-play:active:not(:disabled){ transform: scale(.95); }
+  .rc-play--on { background: #fff; color: #ff1919; box-shadow: 0 4px 14px rgba(255,255,255,.15); }
+  .rc-play--on:hover:not(:disabled) { background: #f0f0f0; color: #cc0000; }
+  .rc-play:disabled { opacity: .7; cursor: not-allowed; }
 
-	.play-button {
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-		border: none;
-		background: linear-gradient(135deg, #ff1b1b 0%, rgb(255, 0, 0) 100%);
-		color: white;
-		font-size: 20px;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: all 0.3s ease;
-		position: relative;
-		overflow: hidden;
-	}
+  .rc-spinner {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.3);
+    border-top-color: #fff;
+    animation: spin .7s linear infinite;
+    display: block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-	.play-button:hover:not(:disabled) {
-		transform: scale(1.1);
-		box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-	}
+  /* Volume */
+  .rc-vol {
+    flex: 1; display: flex; align-items: center; gap: .4rem;
+    font-size: .85rem; color: #888;
+  }
+  .rc-slider {
+    flex: 1; height: 4px; border-radius: 4px;
+    background: #333; outline: none; -webkit-appearance: none; cursor: pointer;
+    accent-color: #ff1919;
+  }
+  .rc-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 13px; height: 13px; border-radius: 50%;
+    background: #ff1919; cursor: pointer; box-shadow: 0 0 4px rgba(255,25,25,.5);
+  }
+  .rc-slider::-moz-range-thumb {
+    width: 13px; height: 13px; border-radius: 50%;
+    background: #ff1919; cursor: pointer; border: none;
+  }
+  .rc-vol-val { font-size: .7rem; color: #555; min-width: 2.5ch; text-align: right; }
 
-	.play-button:active:not(:disabled) {
-		transform: scale(0.95);
-	}
-
-	.play-button.playing {
-		background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-	}
-
-	.play-button:disabled {
-		cursor: not-allowed;
-		opacity: 0.8;
-	}
-
-	/* Loader (spinner) */
-	.loader {
-		width: 30px;
-		height: 30px;
-		border: 3px solid rgba(255, 255, 255, 0.3);
-		border-top: 3px solid white;
-		border-radius: 50%;
-		animation: spin 1s linear infinite;
-	}
-
-	@keyframes spin {
-		0% { transform: rotate(0deg); }
-		100% { transform: rotate(360deg); }
-	}
-
-	.play-icon,
-	.pause-icon {
-		display: inline-block;
-	}
-
-	.volume-control {
-		flex: 1;
-		display: flex;
-		align-items: center;
-		gap: 10px;
-	}
-
-	.volume-icon {
-		font-size: 20px;
-		color: #667eea;
-	}
-
-	.volume-slider {
-		flex: 1;
-		height: 5px;
-		border-radius: 5px;
-		background: #ddd;
-		outline: none;
-		-webkit-appearance: none;
-		cursor: pointer;
-	}
-
-	.volume-slider::-webkit-slider-thumb {
-		-webkit-appearance: none;
-		appearance: none;
-		width: 15px;
-		height: 15px;
-		border-radius: 50%;
-		background: #667eea;
-		cursor: pointer;
-	}
-
-	.volume-slider::-moz-range-thumb {
-		width: 15px;
-		height: 15px;
-		border-radius: 50%;
-		background: #667eea;
-		cursor: pointer;
-		border: none;
-	}
-
-	.status-indicator {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		margin-top: 10px;
-		padding: 10px;
-		background: #f5f5f5;
-		border-radius: 8px;
-		font-size: 0.85em;
-	}
-
-	.status-dot {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background: #ccc;
-	}
-
-	.status-dot.loading {
-		background: #ffa500;
-		animation: pulse 1.5s ease-in-out infinite;
-	}
-
-	.status-dot.playing {
-		background: #4caf50;
-		animation: pulse 1.5s ease-in-out infinite;
-	}
-
-	.status-dot.error {
-		background: #f44336;
-	}
-
-	@keyframes pulse {
-		0%, 100% { opacity: 1; }
-		50% { opacity: 0.5; }
-	}
-
-	.error-message {
-		color: #f44336;
-		font-size: 0.85em;
-		margin-top: 10px;
-	}
+  .rc-err { font-size: .75rem; color: #f44336; margin: 0; }
 </style>

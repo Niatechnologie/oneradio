@@ -22,12 +22,35 @@
   const humNom        = humoriste ? (humoriste.nom_artiste || `${humoriste.prenom} ${humoriste.nom}`.trim()) : '';
   const sortAsc = (a, b) => new Date(a.date_heure) - new Date(b.date_heure);
 
-  let lightboxOpen = $state(false);
+  let lightboxOpen  = $state(false);
+  let copied        = $state(false);
 
   function openLightbox()  { lightboxOpen = true;  document.body.style.overflow = 'hidden'; }
   function closeLightbox() { lightboxOpen = false; document.body.style.overflow = ''; }
+  function onKeydown(e)    { if (e.key === 'Escape') closeLightbox(); }
 
-  function onKeydown(e) { if (e.key === 'Escape') closeLightbox(); }
+  function shareUrl()  { return typeof window !== 'undefined' ? window.location.href : ''; }
+  function shareText() { return `🎤 ${s?.titre} – ONE COMEDY CLUB`; }
+
+  function shareOn(network) {
+    const url  = encodeURIComponent(shareUrl());
+    const text = encodeURIComponent(shareText());
+    const links = {
+      facebook:  `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+      twitter:   `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+      whatsapp:  `https://wa.me/?text=${text}%20${url}`,
+      telegram:  `https://t.me/share/url?url=${url}&text=${text}`,
+    };
+    window.open(links[network], '_blank', 'noopener,width=600,height=450');
+  }
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(shareUrl());
+      copied = true;
+      setTimeout(() => { copied = false; }, 2000);
+    } catch {}
+  }
   const now = new Date();
   const datesAVenir  = (s?.dates ?? []).filter(d => !d.passe && new Date(d.date_heure) > now).sort(sortAsc);
   const datesPassees = (s?.dates ?? []).filter(d =>  d.passe || new Date(d.date_heure) <= now).sort(sortAsc);
@@ -81,6 +104,26 @@
     <!-- Colonne droite : infos + dates -->
     <div class="spec-main">
       <h1 class="spec-titre">{s.titre}</h1>
+
+      <!-- Partage -->
+      <div class="share-bar">
+        <span class="share-label"><i class="bi bi-share-fill"></i> Partager</span>
+        <button class="share-btn share-fb"       onclick={() => shareOn('facebook')}  aria-label="Partager sur Facebook">
+          <i class="bi bi-facebook"></i>
+        </button>
+        <button class="share-btn share-tw"       onclick={() => shareOn('twitter')}   aria-label="Partager sur X">
+          <i class="bi bi-twitter-x"></i>
+        </button>
+        <button class="share-btn share-wa"       onclick={() => shareOn('whatsapp')}  aria-label="Partager sur WhatsApp">
+          <i class="bi bi-whatsapp"></i>
+        </button>
+        <button class="share-btn share-tg"       onclick={() => shareOn('telegram')}  aria-label="Partager sur Telegram">
+          <i class="bi bi-telegram"></i>
+        </button>
+        <button class="share-btn share-copy" class:share-copied={copied} onclick={copyLink} aria-label="Copier le lien">
+          <i class="bi {copied ? 'bi-check-lg' : 'bi-link-45deg'}"></i>
+        </button>
+      </div>
 
       {#if s.description}
         <p class="spec-desc">{s.description}</p>
@@ -338,6 +381,29 @@
   }
   .no-dates i { font-size:2.5rem; }
   .no-dates p { font-size:.95rem; margin:0; }
+
+  /* Partage */
+  .share-bar {
+    display:flex; align-items:center; gap:.5rem; flex-wrap:wrap;
+    margin-bottom:1.5rem;
+  }
+  .share-label {
+    font-size:.8rem; font-weight:600; color:#888;
+    display:flex; align-items:center; gap:.3rem; margin-right:.25rem;
+  }
+  .share-btn {
+    width:38px; height:38px; border-radius:50%; border:none;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:1rem; cursor:pointer; color:#fff;
+    transition:transform .18s, opacity .18s;
+  }
+  .share-btn:hover { transform:scale(1.12); opacity:.9; }
+  .share-fb   { background:#1877f2; }
+  .share-tw   { background:#000; }
+  .share-wa   { background:#25d366; }
+  .share-tg   { background:#229ed9; }
+  .share-copy { background:#555; transition:transform .18s, opacity .18s, background .25s; }
+  .share-copy.share-copied { background:#2e7d32; }
 
   details.dates-passees { margin-top:1.5rem; }
   details.dates-passees summary {

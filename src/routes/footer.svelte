@@ -1,356 +1,212 @@
 <script>
-    import { onMount } from 'svelte';
-    
-    
-  /**
-   * @typedef {Object} Props
-   * @property {string} [phone] - Propriétés personnalisables (optionnelles)
-   * @property {string} [email]
-   * @property {string} [address]
-   */
+  import { onMount } from 'svelte';
 
-  /** @type {Props} */
-  let { phone = "(+225) 27 22 30 54 75 | (+225) 0501 877 877", email = "contact@oneradio.ci", address = "Abidjan Cocody, Angré 8é tranche, non loin de la CNPS. One Radio 2é etage Porte B3" } = $props();
-    
-    // Mettre à jour l'année automatiquement
-    let currentYear = $state();
-    
-    /** @type {Array<{id: number, icon: string, left: number, duration: number, delay: number, size: number}>} */
-    let notes = $state([]);
-    let noteId = 0;
+  let { phone = "(+225) 05 01 877 877", email = "contact@oneradio.ci", address = "Abidjan Cocody, Angré 8ème tranche — One Radio, 2ème étage Porte B3" } = $props();
 
-    const musicIcons = ['♪', '♫', '♬', '♩', '𝅘𝅥𝅮', '𝅘𝅥𝅯'];
+  let currentYear = $state(new Date().getFullYear());
 
-    function spawnNote() {
-      const id = noteId++;
-      const note = {
-        id,
-        icon: musicIcons[Math.floor(Math.random() * musicIcons.length)],
-        left: Math.random() * 100,
-        duration: 3 + Math.random() * 4,
-        delay: 0,
-        size: 0.8 + Math.random() * 1.2
-      };
-      notes = [...notes, note];
-      setTimeout(() => {
-        notes = notes.filter(n => n.id !== id);
-      }, note.duration * 1000);
-    }
+  /** @type {Array<{id:number,icon:string,left:number,duration:number,size:number}>} */
+  let notes = $state([]);
+  let noteId = 0;
+  const musicIcons = ['♪','♫','♬','♩'];
 
-    onMount(() => {
-      currentYear = new Date().getFullYear();
+  function spawnNote() {
+    const id = noteId++;
+    const dur = 3 + Math.random() * 3;
+    notes = [...notes, { id, icon: musicIcons[Math.floor(Math.random() * musicIcons.length)], left: Math.random() * 100, duration: dur, size: 0.7 + Math.random() * 0.9 }];
+    setTimeout(() => { notes = notes.filter(n => n.id !== id); }, dur * 1000);
+  }
 
-      // Spawn initial batch
-      for (let i = 0; i < 6; i++) {
-        setTimeout(() => spawnNote(), i * 500);
-      }
+  onMount(() => {
+    for (let i = 0; i < 4; i++) setTimeout(spawnNote, i * 600);
+    const iv = setInterval(spawnNote, 1000 + Math.random() * 1200);
+    return () => clearInterval(iv);
+  });
+</script>
 
-      // Continuously spawn notes
-      const interval = setInterval(() => {
-        spawnNote();
-      }, 800 + Math.random() * 1200);
+<footer>
+  <div class="floating-notes">
+    {#each notes as note (note.id)}
+      <span class="music-note" style="left:{note.left}%;animation-duration:{note.duration}s;font-size:{note.size}rem;">{note.icon}</span>
+    {/each}
+  </div>
 
-      return () => clearInterval(interval);
-    });
-  </script>
-  
-  <footer>
-    <!-- Notes musicales flottantes -->
-    <div class="floating-notes">
-      {#each notes as note (note.id)}
-        <span
-          class="music-note"
-          style="left: {note.left}%; animation-duration: {note.duration}s; font-size: {note.size}rem;"
-        >
-          {note.icon}
-        </span>
-      {/each}
-    </div>
+  <div class="footer-inner">
 
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>Contactez-nous</h3>
-        <div class="contact-info">
-          <p><i class="bi bi-telephone-fill"></i> {phone}</p>
-          <p><i class="bi bi-envelope-fill"></i> {email}</p>
-          <p><i class="bi bi-geo-alt-fill"></i> {address}</p>
-        </div>
-      </div>
-  
-      <div class="footer-section">
-        <h3>Liens Rapides</h3>
-        <ul>
-          <!-- <li><a href="/about"><i class="bi bi-info-circle-fill"></i> À propos</a></li> -->
-          <li><a href="/news"><i class="bi bi-info"></i> Actualités</a></li>
-          <li><a href="/events"><i class="bi bi-calendar3"></i> Events</a></li>
-          <li><a href="/podcasts"><i class="bi bi-music-note-beamed"></i> PodCasts</a></li>
-          <li><a href="/webradio"><i class="bi bi-music-note-beamed"></i> Webradios</a></li>
-          <li><a href="/programme"><i class="bi bi-music-note-beamed"></i> Nos Emissions</a></li>
-          <li><a href="/contact"><i class="bi bi-chat-dots-fill"></i> Contact</a></li>
-        </ul>
-      </div>
-  
-      <div class="footer-section">
-        <h3>Suivez-nous</h3>
-        <div class="social-links">
-          <a href="https://wa.me/2250501877877" target="_blank" rel="noopener noreferrer" class="social-link whatsapp" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
-          <a href="https://www.facebook.com/oneradioci" target="_blank" rel="noopener noreferrer" class="social-link facebook" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-          <a href="https://www.youtube.com/@oneradiocotedivoire6837" target="_blank" rel="noopener noreferrer" class="social-link youtube" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-          <a href="https://www.tiktok.com/@oneradioci?_r=1&_t=ZS-95MxlXMAaPv" target="_blank" rel="noopener noreferrer" class="social-link tiktok" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
-        </div>
-        <h3>Nos Applications</h3>
-        <div class="app-links">
-          <a href="https://play.google.com/store" target="_blank" class="app-btn">
-            <i class="bi bi-google-play"></i>
-            <div class="app-btn-text">
-              <span class="app-btn-small">Télécharger sur</span>
-              <span class="app-btn-big">Google Play</span>
-            </div>
-          </a>
-          <a href="https://apps.apple.com" target="_blank" class="app-btn">
-            <i class="bi bi-apple"></i>
-            <div class="app-btn-text">
-              <span class="app-btn-small">Télécharger sur</span>
-              <span class="app-btn-big">App Store</span>
-            </div>
-          </a>
-        </div>
+    <!-- Branding -->
+    <div class="footer-brand">
+      <div class="brand-logo">ONE<span>RADIO</span></div>
+      <p class="brand-tagline">La radio de la nouvelle génération</p>
+      <div class="social-row">
+        <a href="https://wa.me/2250501877877"                                          target="_blank" rel="noopener" class="soc soc-wa"  aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+        <a href="https://www.facebook.com/oneradioci"                                  target="_blank" rel="noopener" class="soc soc-fb"  aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.youtube.com/@oneradiocotedivoire6837"                     target="_blank" rel="noopener" class="soc soc-yt"  aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        <a href="https://www.tiktok.com/@oneradioci?_r=1&_t=ZS-95MxlXMAaPv"           target="_blank" rel="noopener" class="soc soc-tt"  aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+        <a href="https://www.instagram.com/oneradioci"                                 target="_blank" rel="noopener" class="soc soc-ig"  aria-label="Instagram"><i class="bi bi-instagram"></i></a>
       </div>
     </div>
-  
-    <div class="footer-bottom">
-        <p>Copyright © {currentYear} <a href="https://niatechnologie.com" target="_blank">niatechnologie</a>  -  Tous droits reservés.</p>
+
+    <!-- Liens -->
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="/news"><i class="bi bi-newspaper"></i> Actualités</a></li>
+        <li><a href="/events"><i class="bi bi-calendar3"></i> Événements</a></li>
+        <li><a href="/events/one-comedy-club"><i class="bi bi-mic-fill"></i> ONE COMEDY CLUB</a></li>
+        <li><a href="/podcasts"><i class="bi bi-headphones"></i> Podcasts</a></li>
+        <li><a href="/webradio"><i class="bi bi-broadcast"></i> Webradios</a></li>
+        <li><a href="/programme"><i class="bi bi-tv"></i> Nos Émissions</a></li>
+        <li><a href="/contact"><i class="bi bi-chat-dots-fill"></i> Contact</a></li>
+      </ul>
     </div>
-  </footer>
-  
-  <style>
-    /* Styles du footer */
-    footer {
-      background-color: #1a1a1a;
-      color: #e0e0e0;
-      padding:3rem 1rem;
-      font-family: 'Roboto';
-      position: relative;
-      overflow: hidden;
-    }
 
-    /* Notes musicales flottantes */
-    .floating-notes {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
+    <!-- Contact + Apps -->
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul class="contact-list">
+        <li><i class="bi bi-telephone-fill"></i> <span>{phone}</span></li>
+        <li><i class="bi bi-envelope-fill"></i> <a href="mailto:{email}">{email}</a></li>
+        <li><i class="bi bi-geo-alt-fill"></i> <span>{address}</span></li>
+      </ul>
 
-    .music-note {
-      position: absolute;
-      bottom: -2rem;
-      color: #ff1919;
-      opacity: 0;
-      animation: floatUp linear forwards;
-      text-shadow: 0 0 6px rgba(255, 25, 25, 0.4);
-    }
+      <h4 style="margin-top:1.25rem;">Applications</h4>
+      <div class="app-row">
+        <a href="https://play.google.com/store" target="_blank" class="app-btn">
+          <i class="bi bi-google-play"></i>
+          <div><span>Disponible sur</span><strong>Google Play</strong></div>
+        </a>
+        <a href="https://apps.apple.com" target="_blank" class="app-btn">
+          <i class="bi bi-apple"></i>
+          <div><span>Télécharger sur</span><strong>App Store</strong></div>
+        </a>
+      </div>
+    </div>
 
-    @keyframes floatUp {
-      0% {
-        opacity: 0;
-        transform: translateY(0) rotate(0deg);
-      }
-      15% {
-        opacity: 0.9;
-      }
-      70% {
-        opacity: 0.6;
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-400px) rotate(20deg);
-      }
-    }
+  </div>
 
-    .footer-content {
-      position: relative;
-      z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      padding: 0 1rem;
-    }
-    
-    .footer-section h3 {
-      color: white;
-      font-size: 1.2rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-    }
-    
-    .footer-section h3::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -0.5rem;
-      width: 50px;
-      height: 2px;
-      background-color: #ff1919;
-    }
-    
-    .contact-info p {
-      margin: 0.8rem 0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .contact-info i {
-      font-size: 1.2rem;
-      color: #ff1919;
-    }
-    
-    ul {
-      list-style: none;
-    }
-    
-    ul li {
-      margin: 0.8rem 0;
-    }
-    
-    ul li i {
-      margin-right: 0.5rem;
-      color: #ff1919;
-    }
-    
-    a {
-      color: #e0e0e0;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-    }
-    
-    a:hover {
-      color: white;
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 0.65rem;
-    }
-    
-    .social-link {
-      width: 2.2rem;
-      height: 2.2rem;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.15);
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-    }
-    
-    .social-link i {
-      font-size: 1.05rem;
-    }
+  <div class="footer-bottom">
+    <p>© {currentYear} <a href="https://niatechnologie.com" target="_blank" rel="noopener">Niatechnologie</a> — Tous droits réservés.</p>
+    <p class="footer-bottom-right">One Radio CI · Abidjan</p>
+  </div>
+</footer>
 
-    .social-link.whatsapp { color: #25D366; }
-    .social-link.facebook { color: #1877F2; }
-    .social-link.youtube  { color: #FF0000; }
-    .social-link.tiktok   { color: #ffffff; }
+<style>
+  footer {
+    background: #111;
+    color: #ccc;
+    font-family: 'Roboto', sans-serif;
+    padding: 2rem 1.25rem 0;
+    position: relative;
+    overflow: hidden;
+    border-top: 3px solid #ff1919;
+  }
 
-    .social-link.whatsapp:hover { background: #25D366; color: #fff; border-color: #25D366; transform: translateY(-3px) scale(1.1); }
-    .social-link.facebook:hover { background: #1877F2; color: #fff; border-color: #1877F2; transform: translateY(-3px) scale(1.1); }
-    .social-link.youtube:hover  { background: #FF0000; color: #fff; border-color: #FF0000; transform: translateY(-3px) scale(1.1); }
-    .social-link.tiktok:hover   { background: #333;    color: #fff; border-color: #555;    transform: translateY(-3px) scale(1.1); }
+  /* Notes flottantes */
+  .floating-notes { position:absolute; inset:0; pointer-events:none; z-index:0; }
+  .music-note {
+    position:absolute; bottom:-1rem; color:#ff1919; opacity:0;
+    animation: floatUp linear forwards;
+    text-shadow: 0 0 5px rgba(255,25,25,.35);
+  }
+  @keyframes floatUp {
+    0%   { opacity:0;   transform:translateY(0) rotate(0deg); }
+    15%  { opacity:.75; }
+    70%  { opacity:.45; }
+    100% { opacity:0;   transform:translateY(-320px) rotate(18deg); }
+  }
 
-    /* Boutons App Store / Play Store */
-    .app-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
+  /* Layout principal */
+  .footer-inner {
+    position: relative; z-index:1;
+    max-width: 1100px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.4fr;
+    gap: 2rem;
+    padding-bottom: 1.75rem;
+  }
 
-    .app-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.5rem 1rem;
-      border: 1px solid #555;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      max-width: 200px;
-    }
+  /* Branding */
+  .brand-logo {
+    font-size: 1.6rem; font-weight: 900; color: #fff;
+    letter-spacing: .04em; line-height: 1; margin-bottom: .35rem;
+  }
+  .brand-logo span { color: #ff1919; }
+  .brand-tagline {
+    font-size: .78rem; color: #888; margin-bottom: 1rem; font-style: italic;
+  }
 
-    .app-btn:hover {
-      border-color: #ff1919;
-      background-color: rgba(255, 25, 25, 0.1);
-    }
+  .social-row { display:flex; gap:.5rem; flex-wrap:wrap; }
+  .soc {
+    width:34px; height:34px; border-radius:50%;
+    border: 1.5px solid rgba(255,255,255,.12);
+    display:flex; align-items:center; justify-content:center;
+    font-size:.95rem; text-decoration:none;
+    transition: transform .18s, background .18s, border-color .18s;
+  }
+  .soc:hover { transform:translateY(-3px) scale(1.1); }
+  .soc-wa { color:#25d366; } .soc-wa:hover { background:#25d366; color:#fff; border-color:#25d366; }
+  .soc-fb { color:#1877f2; } .soc-fb:hover { background:#1877f2; color:#fff; border-color:#1877f2; }
+  .soc-yt { color:#ff0000; } .soc-yt:hover { background:#ff0000; color:#fff; border-color:#ff0000; }
+  .soc-tt { color:#fff;    } .soc-tt:hover { background:#333;    color:#fff; border-color:#555;    }
+  .soc-ig { color:#e1306c; } .soc-ig:hover { background:#e1306c; color:#fff; border-color:#e1306c; }
 
-    .app-btn i {
-      font-size: 1.6rem;
-      color: #ff1919;
-    }
+  /* Colonnes */
+  .footer-col h4 {
+    color:#fff; font-size:.85rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:.08em;
+    margin-bottom:.75rem; padding-bottom:.4rem;
+    border-bottom: 2px solid #ff1919; display:inline-block;
+  }
 
-    .app-btn-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.2;
-    }
+  ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.45rem; }
+  ul li, ul li a {
+    display:inline-flex; align-items:flex-start; gap:.45rem;
+    font-size:.83rem; color:#bbb; text-decoration:none;
+    transition:color .18s;
+  }
+  ul li a:hover { color:#fff; }
+  ul li i { color:#ff1919; flex-shrink:0; margin-top:.1rem; font-size:.85rem; }
 
-    .app-btn-small {
-      font-size: 0.65rem;
-      color: #aaa;
-    }
+  .contact-list li { align-items:flex-start; color:#bbb; }
+  .contact-list li i { flex-shrink:0; }
+  .contact-list li span, .contact-list li a { color:#bbb; font-size:.83rem; line-height:1.45; }
+  .contact-list li a:hover { color:#fff; }
 
-    .app-btn-big {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #fff;
-    }
+  /* App buttons */
+  .app-row { display:flex; flex-direction:column; gap:.5rem; }
+  .app-btn {
+    display:inline-flex; align-items:center; gap:.55rem;
+    padding:.45rem .85rem; border:1px solid #444; border-radius:8px;
+    text-decoration:none; max-width:190px;
+    transition: border-color .18s, background .18s;
+  }
+  .app-btn:hover { border-color:#ff1919; background:rgba(255,25,25,.07); }
+  .app-btn i { font-size:1.4rem; color:#ff1919; }
+  .app-btn div { display:flex; flex-direction:column; line-height:1.2; }
+  .app-btn div span  { font-size:.62rem; color:#888; }
+  .app-btn div strong { font-size:.85rem; color:#fff; font-weight:600; }
 
-    .footer-bottom {
-      margin-top: 2rem;
-      padding-top: 2rem;
-      text-align: center;
-      border-top: 1px solid #333;
-    }
-    
-    .footer-bottom p {
-      font-size: 0.9rem;
-      color: #888;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-    
-    .text-red {
-      color: #ff4444;
-    }
-    
-    /* Media Queries pour la responsivité */
-    @media (max-width: 768px) {
-      .footer-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      
-      .footer-section h3::after {
-        left: 50%;
-        transform: translateX(-50%);
-      }
-      
-      .social-links {
-        justify-content: center;
-      }
-      
-      .contact-info p {
-        justify-content: center;
-      }
+  /* Bottom bar */
+  .footer-bottom {
+    position:relative; z-index:1;
+    border-top:1px solid #2a2a2a;
+    padding:.75rem 0;
+    max-width:1100px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:.5rem; flex-wrap:wrap;
+  }
+  .footer-bottom p { font-size:.78rem; color:#666; margin:0; display:flex; align-items:center; gap:.35rem; }
+  .footer-bottom a { color:#ff1919; text-decoration:none; }
+  .footer-bottom a:hover { text-decoration:underline; }
+  .footer-bottom-right { color:#555 !important; font-size:.75rem !important; }
 
-      .app-links {
-        align-items: center;
-      }
-    }
-  </style>
+  /* Responsive */
+  @media (max-width: 900px) {
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .footer-brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 560px) {
+    .footer-inner { grid-template-columns: 1fr; gap:1.5rem; }
+    .footer-bottom { flex-direction:column; text-align:center; }
+  }
+</style>
