@@ -1,39 +1,64 @@
 <script>
   import { page } from '$app/stores';
 
-  // Labels lisibles pour chaque segment de route
+  // Labels lisibles pour chaque segment de route (segments statiques connus)
   const routeLabels = {
-    'news': 'Actualités',
-    'events': 'Événements',
-    'awards': 'One Radio music award',
-    'podcasts': 'Podcasts',
-    'contact': 'Contact',
-    'programme': 'Programme',
-    'webradio': 'Webradios',
-    'parieur': 'Super Parieur',
-    'onetv': 'One TV'
+    'news':             'Actualités',
+    'events':           'Événements',
+    'awards':           'One Radio music award',
+    'podcasts':         'Podcasts',
+    'contact':          'Contact',
+    'programme':        'Programme',
+    'webradio':         'Webradios',
+    'parieur':          'Super Parieur',
+    'onetv':            'One TV',
+    'one-comedy-club':  'ONE COMEDY CLUB',
+    'spectacles':       'Spectacles',
+    'plus':             'En savoir plus',
+    'one-sport':        'ONE SPORT',
   };
 
-  /**
-   * @param {string} segment
-   * @returns {string}
-   */
-  function getLabel(segment) {
-    return routeLabels[segment] || decodeURIComponent(segment);
+  // Résoudre le vrai nom d'un segment dynamique depuis les données de la page
+  function getDynamicLabel(data) {
+    if (data.spectacle?.titre)  return data.spectacle.titre;
+    if (data.humoriste) {
+      return data.humoriste.nom_artiste ||
+             `${data.humoriste.prenom || ''} ${data.humoriste.nom || ''}`.trim() ||
+             'Détails';
+    }
+    if (data.detailevents) {
+      const ev = Array.isArray(data.detailevents) ? data.detailevents[0] : data.detailevents;
+      return ev?.titre || 'Détails';
+    }
+    return 'Détails';
   }
 
-  // Construire les breadcrumbs à partir de l'URL
+  // Construire les breadcrumbs à partir de l'URL et du pattern de route SvelteKit
   let breadcrumbs = $derived.by(() => {
-    const pathname = $page.url.pathname;
+    const pathname  = $page.url.pathname;
+    const routeId   = $page.route?.id ?? '';   // ex: /events/one-comedy-club/spectacles/[spectacleId]
+    const data      = $page.data ?? {};
+
     if (pathname === '/') return [];
 
-    const segments = pathname.split('/').filter(Boolean);
+    const segments      = pathname.split('/').filter(Boolean);
+    const routeSegments = routeId.split('/').filter(Boolean);
+
     return segments.map((segment, index) => {
-      const path = '/' + segments.slice(0, index + 1).join('/');
-      const isLast = index === segments.length - 1;
-      // Si c'est un paramètre dynamique (ex: un ID), on affiche "Détails"
-      const isDynamic = !routeLabels[segment] && index > 0;
-      const label = isDynamic ? 'Détails' : getLabel(segment);
+      const path         = '/' + segments.slice(0, index + 1).join('/');
+      const isLast       = index === segments.length - 1;
+      const routeSeg     = routeSegments[index] ?? segment;
+      const isParam      = routeSeg.startsWith('[');   // paramètre SvelteKit [id]
+
+      let label;
+      if (!isParam) {
+        label = routeLabels[segment] ?? decodeURIComponent(segment);
+      } else if (isLast) {
+        label = getDynamicLabel(data);
+      } else {
+        label = 'Détails';
+      }
+
       return { label, path, isLast };
     });
   });
