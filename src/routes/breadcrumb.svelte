@@ -18,25 +18,14 @@
     'one-sport':        'ONE SPORT',
   };
 
-  // Résoudre le vrai nom d'un segment dynamique depuis les données de la page
-  function getDynamicLabel(data) {
-    if (data.spectacle?.titre)  return data.spectacle.titre;
-    if (data.humoriste) {
-      return data.humoriste.nom_artiste ||
-             `${data.humoriste.prenom || ''} ${data.humoriste.nom || ''}`.trim() ||
-             'Détails';
-    }
-    if (data.detailevents) {
-      const ev = Array.isArray(data.detailevents) ? data.detailevents[0] : data.detailevents;
-      return ev?.titre || 'Détails';
-    }
-    return 'Détails';
+  function humNom(h) {
+    return h.nom_artiste || `${h.prenom || ''} ${h.nom || ''}`.trim() || 'Humoriste';
   }
 
   // Construire les breadcrumbs à partir de l'URL et du pattern de route SvelteKit
   let breadcrumbs = $derived.by(() => {
     const pathname  = $page.url.pathname;
-    const routeId   = $page.route?.id ?? '';   // ex: /events/one-comedy-club/spectacles/[spectacleId]
+    const routeId   = $page.route?.id ?? '';
     const data      = $page.data ?? {};
 
     if (pathname === '/') return [];
@@ -45,16 +34,31 @@
     const routeSegments = routeId.split('/').filter(Boolean);
 
     return segments.map((segment, index) => {
-      const path         = '/' + segments.slice(0, index + 1).join('/');
-      const isLast       = index === segments.length - 1;
-      const routeSeg     = routeSegments[index] ?? segment;
-      const isParam      = routeSeg.startsWith('[');   // paramètre SvelteKit [id]
+      const isLast   = index === segments.length - 1;
+      const routeSeg = routeSegments[index] ?? segment;
+      const isParam  = routeSeg.startsWith('[');
+
+      // Cas spécial : segment 'spectacles' sur une page de détail de spectacle
+      // → remplacer par le nom de l'humoriste et pointer vers sa page
+      if (segment === 'spectacles' && data.spectacle?.humoriste) {
+        const hum      = data.spectacle.humoriste;
+        const humPath  = '/' + segments.slice(0, index).join('/') + '/' + hum.id;
+        return { label: humNom(hum), path: humPath, isLast };
+      }
+
+      const path = '/' + segments.slice(0, index + 1).join('/');
 
       let label;
       if (!isParam) {
         label = routeLabels[segment] ?? decodeURIComponent(segment);
       } else if (isLast) {
-        label = getDynamicLabel(data);
+        // Dernier segment dynamique : récupérer le vrai nom
+        if (data.spectacle?.titre)  label = data.spectacle.titre;
+        else if (data.humoriste)    label = humNom(data.humoriste);
+        else if (data.detailevents) {
+          const ev = Array.isArray(data.detailevents) ? data.detailevents[0] : data.detailevents;
+          label = ev?.titre || 'Détails';
+        } else label = 'Détails';
       } else {
         label = 'Détails';
       }
