@@ -411,7 +411,8 @@
   }
   .occ-activity-card {
     background:#fff; border-radius:var(--occ-radius); padding:1.5rem;
-    box-shadow:0 2px 12px rgba(0,0,0,.07); border-top:4px solid var(--occ-yellow);
+    box-shadow:0 2px 12px rgba(0,0,0,.07); 
+    /* border-top:4px solid var(--occ-yellow); */
     transition:transform .25s, box-shadow .25s;
   }
   .occ-activity-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(0,0,0,.11); }
