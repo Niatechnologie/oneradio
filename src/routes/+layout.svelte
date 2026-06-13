@@ -1163,6 +1163,7 @@
     align-items: center;
     margin-top: 0.25rem;
     position: absolute;
+    background: orange;
     opacity: 0;
   }
 
