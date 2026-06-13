@@ -69,7 +69,6 @@
         <!-- ORMA -->
         <article class="ih-card ih-card--orma">
           <div class="ih-card-bg">
-            <div class="ih-card-icon"><i class="bi bi-trophy-fill"></i></div>
           </div>
           <div class="ih-card-body">
             <h3>ONE RADIO MUSIC AWARD</h3>
@@ -97,7 +96,7 @@
         <!-- ONE COMEDY CLUB -->
         <article class="ih-card ih-card--occ">
           <div class="ih-card-bg">
-            <div class="ih-card-icon"><i class="bi bi-emoji-laughing-fill"></i></div>
+            
           </div>
           <div class="ih-card-body">
             <h3>ONE COMEDY CLUB</h3>
@@ -125,7 +124,6 @@
         <!-- ONE SPORT -->
         <article class="ih-card ih-card--sport">
           <div class="ih-card-bg">
-            <div class="ih-card-icon"><i class="bi bi-dribbble"></i></div>
           </div>
           <div class="ih-card-body">
             <h3>ONE SPORT</h3>
@@ -286,17 +284,14 @@
   }
   .ih-card--orma .ih-card-bg {
     background:
-      linear-gradient(135deg, rgba(26,0,0,.72) 0%, rgba(180,0,0,.55) 100%),
       url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=700&q=80') center/cover no-repeat;
   }
   .ih-card--occ .ih-card-bg {
     background:
-      linear-gradient(135deg, rgba(15,0,32,.72) 0%, rgba(80,0,160,.55) 100%),
       url('https://images.unsplash.com/photo-1527224538127-2104bb71c51b?auto=format&fit=crop&w=700&q=80') center/cover no-repeat;
   }
   .ih-card--sport .ih-card-bg {
     background:
-      linear-gradient(135deg, rgba(0,30,0,.72) 0%, rgba(0,100,0,.55) 100%),
       url('https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=700&q=80') center/cover no-repeat;
   }
   .ih-card-icon { font-size: 3.5rem; opacity: .85; }
