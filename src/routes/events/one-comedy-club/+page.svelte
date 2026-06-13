@@ -341,7 +341,7 @@
 
   .spec-btn {
     display:inline-flex; align-items:center; gap:.3rem;
-    background:var(--occ-yellow); color:var(--occ-dark);
+    background:var(--occ-yellow); color:var(--occ-white);
     font-size:.82rem; font-weight:700; padding:.45rem 1rem;
     border-radius:8px; text-decoration:none; width:fit-content; margin-top:auto;
     transition:background .18s;
