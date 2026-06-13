@@ -2192,9 +2192,7 @@
       {/each}
     </div>
 
-    <div class="voir-plus">
-      <a class="events-load-more-button" href="/events">Voir Plus <i class="bi bi-chevron-double-right"></i></a>
-    </div>
+   
   </section>
  
 </div>
