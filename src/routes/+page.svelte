@@ -1507,6 +1507,10 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
+    :global(.owl-pub-promo .owl-dots) {
+        display: none !important;
+    }
+
     :global(.owl-carousel .owl-dots) {
         text-align: center;
         margin-top: 20px;
@@ -1612,7 +1616,7 @@
 
   .pub-slide-item img {
     width: 100%;
-    height: clamp(200px, 20vw, 480px);
+    height: clamp(200px, 22vw, 480px);
     object-fit: contain;
     display: block;
   }
