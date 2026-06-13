@@ -45,7 +45,7 @@
 
 <div class="ev-page">
 
-  <!-- Hero -->
+  <!-- Hero
   <div class="ev-hero">
     <div class="ev-hero-glow"></div>
     <div class="ev-hero-content">
@@ -53,7 +53,7 @@
       <h1>Événements</h1>
       <p>Retrouvez tous nos événements, spectacles et soirées exclusives.</p>
     </div>
-  </div>
+  </div> -->
 
   <main class="ev-main">
 
