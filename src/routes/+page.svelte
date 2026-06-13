@@ -1554,7 +1554,7 @@
   }
 
   .pub-text-side {
-    flex: 0 0 38%;
+    flex: 1 1 50%;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -1596,7 +1596,7 @@
   }
 
   .pub-carousel-side {
-    flex: 1;
+    flex: 1 1 50%;
     min-width: 0;
     border-radius: 10px;
     overflow: hidden;
