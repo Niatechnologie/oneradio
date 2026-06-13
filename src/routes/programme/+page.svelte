@@ -149,6 +149,12 @@
     flex-wrap: wrap; gap: 1rem;
     position: relative; overflow: hidden;
   }
+  .pg-hero::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #ff1919 25%, #ff4444 50%, #ff1919 75%, transparent 100%);
+  }
   .pg-hero-glow {
     position: absolute; top: -60px; left: 30%; transform: translateX(-50%);
     width: 400px; height: 200px;

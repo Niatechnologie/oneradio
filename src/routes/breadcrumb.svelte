@@ -93,9 +93,15 @@
   .breadcrumb {
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     padding: 0.75rem 1.5rem;
-    border-bottom: 2px solid #ff1919;
     font-family: 'Roboto', sans-serif;
     margin-top: 78px;
+    position: relative;
+  }
+  .breadcrumb::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, #ff1919 25%, #ff4444 50%, #ff1919 75%, transparent 100%);
   }
 
   .breadcrumb-container {
