@@ -73,7 +73,13 @@
     padding: 2rem 1.25rem 0;
     position: relative;
     overflow: hidden;
-    border-top: 3px solid #ff1919;
+  }
+  footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #ff1919 25%, #ff4444 50%, #ff1919 75%, transparent 100%);
   }
 
   /* Layout principal */
