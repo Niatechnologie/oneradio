@@ -292,7 +292,7 @@
   }
   .ih-card--sport .ih-card-bg {
     background:
-      url('https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=700&q=80') center/cover no-repeat;
+      url('https://rockytopsportsworld.com/wp-content/uploads/2019/07/sports-balls.jpg') center/cover no-repeat;
   }
   .ih-card-icon { font-size: 3.5rem; opacity: .85; }
   .ih-card--orma  .ih-card-icon { color: #ffd700; }
