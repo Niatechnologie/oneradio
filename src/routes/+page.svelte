@@ -512,7 +512,7 @@
             autoplayTimeout: 4000,
             autoplayHoverPause: true,
             nav: false,
-            dots: true,
+            dots: false,
             animateIn: 'fadeIn',
             animateOut: 'fadeOut'
         });
