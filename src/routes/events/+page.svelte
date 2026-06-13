@@ -79,10 +79,10 @@
               la valorisation et la reconnaissance des talents musicaux en Côte d'Ivoire et en Afrique.
             </p>
             <div class="ih-chips">
-              <span><i class="bi bi-trophy-fill"></i> Trophées</span>
-              <span><i class="bi bi-mic-fill"></i> Live</span>
-              <span><i class="bi bi-music-note-beamed"></i> Concert</span>
-              <span><i class="bi bi-star-fill"></i> Tapis rouge</span>
+              <span>Trophées</span>
+              <span>Live</span>
+              <span>Concert</span>
+              <span>Tapis rouge</span>
             </div>
             <div class="ih-meta">
               <span><i class="bi bi-calendar3"></i> Vendredi 04 Décembre</span>
@@ -107,10 +107,10 @@
               des talents du stand-up en Côte d'Ivoire et en Afrique.
             </p>
             <div class="ih-chips">
-              <span><i class="bi bi-mic-fill"></i> Open mic</span>
-              <span><i class="bi bi-camera-video-fill"></i> One man show</span>
-              <span><i class="bi bi-mortarboard-fill"></i> Academy</span>
-              <span><i class="bi bi-broadcast"></i> Radio</span>
+              <span>Open mic</span>
+              <span>One man show</span>
+              <span>Academy</span>
+              <span>Radio</span>
             </div>
             <div class="ih-meta">
               <span><i class="bi bi-calendar3"></i> Soirées régulières</span>
@@ -135,10 +135,10 @@
               et événements sportifs majeurs en Côte d'Ivoire et dans la sous-région.
             </p>
             <div class="ih-chips">
-              <span><i class="bi bi-ticket-perforated-fill"></i> Tickets en ligne</span>
-              <span><i class="bi bi-people-fill"></i> Accès rapide</span>
-              <span><i class="bi bi-trophy"></i> Grands événements</span>
-              <span><i class="bi bi-credit-card"></i> Paiement sécurisé</span>
+              <span>Tickets en ligne</span>
+              <span>Accès rapide</span>
+              <span>Grands événements</span>
+              <span>Paiement sécurisé</span>
             </div>
             <div class="ih-meta">
               <span><i class="bi bi-calendar3"></i> Prochains matchs</span>
