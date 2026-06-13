@@ -80,6 +80,7 @@
           <div><span>Télécharger sur</span><strong>App Store</strong></div>
         </a>
       </div>
+
     </div>
 
   </div>
@@ -173,7 +174,7 @@
   .contact-list li a:hover { color:#fff; }
 
   /* App buttons */
-  .app-row { display:flex; flex-direction:column; gap:.5rem; }
+  .app-row { display:flex; flex-direction:row; flex-wrap:wrap; gap:.5rem; }
   .app-btn {
     display:inline-flex; align-items:center; gap:.55rem;
     padding:.45rem .85rem; border:1px solid #444; border-radius:8px;
