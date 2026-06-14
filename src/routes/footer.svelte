@@ -111,11 +111,11 @@
     transition: transform .18s, background .18s, border-color .18s;
   }
   .soc:hover { transform:translateY(-3px) scale(1.1); }
-  .soc-wa { color:#25d366; } .soc-wa:hover { background:#25d366; color:#fff; border-color:#25d366; }
-  .soc-fb { color:#1877f2; } .soc-fb:hover { background:#1877f2; color:#fff; border-color:#1877f2; }
-  .soc-yt { color:#ff0000; } .soc-yt:hover { background:#ff0000; color:#fff; border-color:#ff0000; }
+  .soc-wa { color:#fff; } .soc-wa:hover { background:#25d366; color:#fff; border-color:#25d366; }
+  .soc-fb { color:#fff; } .soc-fb:hover { background:#1877f2; color:#fff; border-color:#1877f2; }
+  .soc-yt { color:#fff; } .soc-yt:hover { background:#ff0000; color:#fff; border-color:#ff0000; }
   .soc-tt { color:#fff;    } .soc-tt:hover { background:#333;    color:#fff; border-color:#555;    }
-  .soc-ig { color:#e1306c; } .soc-ig:hover { background:#e1306c; color:#fff; border-color:#e1306c; }
+  .soc-ig { color:#fff; } .soc-ig:hover { background:#e1306c; color:#fff; border-color:#e1306c; }
 
   /* Colonnes */
   .footer-col h4 {
