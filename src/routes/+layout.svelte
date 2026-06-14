@@ -1164,14 +1164,13 @@
     align-items: center;
     margin-top: 0.25rem;
     position: absolute;
-    background: orange;
     opacity: 0;
-    left:-30px
+    left:0px
   }
 
   .time {
-    font-size: 1.25rem;
-    color: var(--muted-foreground);
+    font-size: 1.3rem;
+    color: var(--muted-dark);
     transition: color 0.3s ease;
   }
 
