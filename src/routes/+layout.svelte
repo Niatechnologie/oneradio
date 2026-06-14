@@ -1128,6 +1128,7 @@
     align-items: center;
     justify-content: center;
     flex: 1;
+    position:relative;
     padding: 0 1rem;
   }
 
