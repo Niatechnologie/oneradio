@@ -1031,18 +1031,19 @@
   /* Audio Player */
   .audio-player {
     position: fixed;
-    bottom: 1.5rem;
+    bottom: 1.2rem;
     left: 0;
     right: 0;
     margin: 0 auto;
     width: 40%;
     max-width: 64rem;
     height: 4rem;
-    background-color: rgba(255, 255, 255, 0.784) !important;
+    background-color: rgba(255, 255, 255, 0.89) !important;
     backdrop-filter: blur(15px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border-radius: 0.75rem;
     padding: 0.5rem;
+    border:1px solid red;
     z-index: 50;
     display: flex;
     align-items: center;
