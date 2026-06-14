@@ -998,7 +998,7 @@
     opacity: 0;
     transition: opacity 0.3s ease;
     position: absolute;
-    right: 5px;
+    right: -25px;
   }
   .active_equalier { opacity: 1 !important; }
 
