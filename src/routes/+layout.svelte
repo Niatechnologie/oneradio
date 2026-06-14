@@ -989,7 +989,7 @@
     z-index: 2;
   }
 
-  /* Égaliseur */
+  /* Égaliseur jjjj*/
   .equalizer-container {
     display: inline-flex !important;
     align-items: center;
@@ -998,7 +998,7 @@
     opacity: 0;
     transition: opacity 0.3s ease;
     position: absolute;
-    right: 75px;
+    right: 60px;
   }
   .active_equalier { opacity: 1 !important; }
 
