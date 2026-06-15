@@ -1549,7 +1549,7 @@
 }
 
   /* ── Section pub promo ── */
-  .pub-promo-section { padding: 1.5rem 0;}
+  .pub-promo-section { padding: 3rem 0;}
 
   .pub-content {
     display: flex;
@@ -1645,6 +1645,7 @@
     grid-template-columns: 1fr 310px;
     gap: 1.5rem;
     align-items: start;
+    margin-bottom: 3.5rem;
   }
   .news-col { margin: 0; }
 
@@ -1759,6 +1760,8 @@
     .news-wc-row { grid-template-columns: 1fr; }
     .wc-widget { position: static; }
   }
+
+  .artists-section { margin-bottom: 3.5rem; }
 
   /* ── Section events (home) ── */
   .ev-section-head {
@@ -1928,7 +1931,7 @@
           ></div>
       {/each}
     </div>
-   <div style="padding-top:20px" class="container">
+   <div style="padding-top:40px" class="container">
   <section class="artists-section">
   
     <div class="section">
