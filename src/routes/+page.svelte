@@ -1602,7 +1602,7 @@
   .pub-carousel-side {
     flex: 1 1 50%;
     min-width: 0;
-    border-radius: 10px;
+    border-radius: 0;
     overflow: hidden;
   }
 
@@ -1626,7 +1626,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    /* background: linear-gradient(transparent, rgba(0,0,0,0.7)); */
     color: #fff;
     padding: 20px 14px 12px;
     font-size: 0.9rem;
