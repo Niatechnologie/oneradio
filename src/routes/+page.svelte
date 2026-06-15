@@ -1609,7 +1609,7 @@
   .pub-slide-item {
     position: relative;
     border-radius: 10px;
-    background: #000;
+    background: #fff;
   }
 
   .pub-slide-item a { display: block; }
