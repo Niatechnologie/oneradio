@@ -1620,6 +1620,7 @@
     width: 100%;
     height: clamp(200px, 24vw, 480px);
     object-fit: contain;
+    border-radius:10px;
     display: block;
   }
 
