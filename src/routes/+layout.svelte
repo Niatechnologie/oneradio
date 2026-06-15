@@ -750,6 +750,7 @@
     // ────────────────────────────────────────────────────────────────────
 
     // ── GSAP Player Animations ──────────────────────────────────────────
+    (async () => {
     try {
       const { gsap } = await import('https://cdn.jsdelivr.net/npm/gsap@3.12.5/+esm');
       const player = document.querySelector('.audio-player');
@@ -844,6 +845,7 @@
         player.querySelectorAll('.equalizer-bar').forEach(b => animBar(b));
       }
     } catch(e) { console.warn('GSAP init error:', e); }
+    })();
     // ────────────────────────────────────────────────────────────────────
 
     return () => {
