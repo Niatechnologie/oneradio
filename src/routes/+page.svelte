@@ -1487,25 +1487,26 @@
     }
 
     :global(.owl-carousel .owl-nav button) {
-        background: rgba(255, 255, 255, 0.9) !important;
+        background: #fff !important;
         border-radius: 50% !important;
-        width: 40px;
-        height: 40px;
+        width: 46px;
+        height: 46px;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        border: none !important;
+        transition: all 0.2s ease;
         outline: none;
         pointer-events: auto;
         margin: 0 10px;
         font-size: 1.5rem !important;
-        color: #ff7f2a !important;
+        color: #fa0000 !important;
     }
 
     :global(.owl-carousel .owl-nav button:hover) {
-        background: white !important;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background: #f5f5f7 !important;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
     }
 
     :global(.owl-pub-promo .owl-dots) {
