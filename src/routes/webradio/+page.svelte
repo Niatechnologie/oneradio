@@ -139,7 +139,6 @@
   .wr-hero-glow {
     position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
     width: 400px; height: 200px;
-    background: radial-gradient(ellipse, rgba(255,25,25,.12) 0%, transparent 70%);
     pointer-events: none;
   }
   .wr-hero-inner {
