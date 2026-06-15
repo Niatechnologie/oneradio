@@ -72,15 +72,9 @@
   <div class="wr-hero">
     <div class="wr-hero-glow"></div>
     <div class="wr-hero-inner">
-      <div class="wr-bars">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-        <span class="bar"></span><span class="bar"></span>
-      </div>
+    
       <h1>Nos Webradios</h1>
-      <div class="wr-bars wr-bars--flip">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-        <span class="bar"></span><span class="bar"></span>
-      </div>
+   
     </div>
     <p class="wr-subtitle">Écoutez les belles sonorités du monde, sélectionnées selon vos goûts du moment.</p>
   </div>
@@ -128,24 +122,24 @@
 <style>
   .wr-page {
     min-height: 60vh;
-    background: #0d0d0d;
-    color: #ccc;
+    background: #f8f8f8;
+    color: #222;
     font-family: 'Roboto', sans-serif;
   }
 
   /* Hero */
   .wr-hero {
-    background: linear-gradient(180deg, #1a0000 0%, #0d0d0d 100%);
+    background: linear-gradient(180deg, #fff0f0 0%, #f8f8f8 100%);
     padding: 2.5rem 1.25rem 2rem;
     text-align: center;
     position: relative;
     overflow: hidden;
-    border-bottom: 1px solid #1f1f1f;
+    border-bottom: 1px solid #e8e8e8;
   }
   .wr-hero-glow {
     position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
     width: 400px; height: 200px;
-    background: radial-gradient(ellipse, rgba(255,25,25,.18) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(255,25,25,.12) 0%, transparent 70%);
     pointer-events: none;
   }
   .wr-hero-inner {
@@ -155,12 +149,12 @@
   }
   .wr-hero h1 {
     font-size: clamp(1.5rem, 4vw, 2.2rem);
-    font-weight: 800; color: #fff; margin: 0;
+    font-weight: 800; color: #111; margin: 0;
     letter-spacing: .03em;
   }
   .wr-subtitle {
     position: relative; z-index: 1;
-    font-size: .9rem; color: #777; line-height: 1.6; max-width: 420px; margin: 0 auto;
+    font-size: .9rem; color: #666; line-height: 1.6; max-width: 420px; margin: 0 auto;
   }
 
   /* Animated bars */
@@ -196,11 +190,11 @@
   /* Loading */
   .wr-loading {
     display: flex; flex-direction: column; align-items: center;
-    gap: 1rem; padding: 4rem; color: #555;
+    gap: 1rem; padding: 4rem; color: #888;
   }
   .wr-spinner {
     width: 44px; height: 44px; border-radius: 50%;
-    border: 3px solid #222; border-top-color: #ff1919;
+    border: 3px solid #ddd; border-top-color: #ff1919;
     animation: spin .7s linear infinite; display: block;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -208,7 +202,7 @@
   /* Error */
   .wr-error {
     display: flex; flex-direction: column; align-items: center;
-    gap: 1rem; padding: 4rem; text-align: center; color: #666;
+    gap: 1rem; padding: 4rem; text-align: center; color: #888;
   }
   .wr-error i { font-size: 2.5rem; color: #ff1919; }
   .wr-retry {
@@ -221,14 +215,14 @@
   /* CTA */
   .wr-cta {
     display: flex; align-items: center; gap: 1.25rem;
-    background: linear-gradient(135deg, #1a0000, #2a0000);
-    border: 1px solid #3a0000; border-radius: 14px;
+    background: linear-gradient(135deg, #fff0f0, #ffe8e8);
+    border: 1px solid #ffcccc; border-radius: 14px;
     padding: 1.5rem 1.75rem; margin-top: 2.5rem;
   }
   .wr-cta-icon { font-size: 2.2rem; color: #ff1919; flex-shrink: 0; }
   .wr-cta-body { display: flex; flex-direction: column; gap: .75rem; }
-  .wr-cta-body p { font-size: .9rem; color: #aaa; line-height: 1.6; margin: 0; }
-  .wr-cta-body strong { color: #fff; }
+  .wr-cta-body p { font-size: .9rem; color: #555; line-height: 1.6; margin: 0; }
+  .wr-cta-body strong { color: #111; }
   .wr-cta-btn {
     display: inline-flex; align-items: center; gap: .45rem;
     background: #ff1919; color: #fff; font-weight: 700; font-size: .9rem;

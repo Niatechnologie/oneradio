@@ -749,6 +749,103 @@
     }
     // ────────────────────────────────────────────────────────────────────
 
+    // ── GSAP Player Animations ──────────────────────────────────────────
+    try {
+      const { gsap } = await import('https://cdn.jsdelivr.net/npm/gsap@3.12.5/+esm');
+      const player = document.querySelector('.audio-player');
+      if (player && gsap) {
+
+        // 1. Entrance
+        gsap.from(player, { y: 90, opacity: 0, duration: 1, ease: 'back.out(1.7)', delay: 0.2 });
+
+        // 2. Float doux en boucle
+        gsap.to(player, { y: -5, duration: 3, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+
+        // 3. Glow pulsé
+        gsap.to(player, {
+          boxShadow: '0 16px 48px rgba(255,25,25,0.32), 0 4px 16px rgba(0,0,0,0.14)',
+          duration: 2, yoyo: true, repeat: -1, ease: 'sine.inOut'
+        });
+
+        // 4. SVG border animé (dash flowing + morph des coins)
+        const svgEl = player.querySelector('.player-svg-border');
+        const r1    = player.querySelector('.player-border-r1');
+        const r2    = player.querySelector('.player-border-r2');
+        if (svgEl && r1 && r2) {
+          const setupBorder = () => {
+            const w = player.offsetWidth;
+            const h = player.offsetHeight;
+            const perim = 2 * (w + h);
+            svgEl.setAttribute('viewBox', `0 0 ${w} ${h}`);
+            [r1, r2].forEach(r => {
+              r.setAttribute('width', w - 2); r.setAttribute('height', h - 2);
+              r.setAttribute('x', '1'); r.setAttribute('y', '1');
+            });
+            // r1 : dash rapide sens horaire
+            const d1 = perim * 0.28;
+            r1.setAttribute('stroke-dasharray', `${d1} ${perim - d1}`);
+            gsap.killTweensOf(r1);
+            gsap.fromTo(r1, { strokeDashoffset: 0 }, { strokeDashoffset: -perim, duration: 4, repeat: -1, ease: 'none' });
+            gsap.to(r1, { attr: { rx: 24, ry: 24 }, duration: 2.5, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+            // r2 : dash lent sens anti-horaire
+            const d2 = perim * 0.14;
+            r2.setAttribute('stroke-dasharray', `${d2} ${perim - d2}`);
+            gsap.killTweensOf(r2);
+            gsap.fromTo(r2, { strokeDashoffset: 0 }, { strokeDashoffset: perim, duration: 6.5, repeat: -1, ease: 'none' });
+            gsap.to(r2, { attr: { rx: 28, ry: 28 }, duration: 3.5, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 0.8 });
+          };
+          setupBorder();
+          const ro = new ResizeObserver(setupBorder);
+          ro.observe(player);
+        }
+
+        // 5. Bouton play : pulse idle + burst au clic
+        const playBtn = player.querySelector('.play-pause-btn');
+        if (playBtn) {
+          gsap.to(playBtn, { scale: 1.07, duration: 1.3, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+          playBtn.addEventListener('click', () => {
+            gsap.timeline()
+              .to(playBtn, { scale: 0.88, duration: 0.08, ease: 'power3.in' })
+              .to(playBtn, { scale: 1.2,  duration: 0.22, ease: 'back.out(3)' })
+              .to(playBtn, { scale: 1,    duration: 0.18, ease: 'power2.out' });
+          }, true);
+        }
+
+        // 6. Image pochette : spin au hover
+        const songImg = player.querySelector('.current-song-image');
+        let imgSpin;
+        if (songImg) {
+          player.addEventListener('mouseenter', () => {
+            imgSpin = gsap.to(songImg, { rotation: 360, duration: 4, ease: 'linear', repeat: -1 });
+          });
+          player.addEventListener('mouseleave', () => {
+            imgSpin?.pause();
+            gsap.to(songImg, { rotation: 0, duration: 0.4, ease: 'power2.out' });
+            imgSpin = null;
+          });
+        }
+
+        // 7. On-air dot : GSAP glow pulse
+        const dot = player.querySelector('.on-air-dot');
+        if (dot) {
+          gsap.to(dot, { scale: 1.7, opacity: 0.2, duration: 0.75, yoyo: true, repeat: -1, ease: 'power2.inOut' });
+        }
+
+        // 8. Barres égaliseur : GSAP aléatoire
+        function animBar(bar) {
+          gsap.to(bar, {
+            scaleY: 0.15 + Math.random() * 0.85,
+            duration: 0.12 + Math.random() * 0.22,
+            ease: 'power1.inOut',
+            transformOrigin: 'bottom center',
+            onComplete: () => animBar(bar)
+          });
+        }
+        player.querySelectorAll('.equalizer-bar').forEach(b => animBar(b));
+      }
+    } catch(e) { console.warn('GSAP init error:', e); }
+    // ────────────────────────────────────────────────────────────────────
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       clearInterval(emissionInterval);
@@ -1038,22 +1135,21 @@
     width: 40%;
     max-width: 64rem;
     height: 4rem;
-    background-color: rgba(255, 255, 255, 0.89) !important;
-    backdrop-filter: blur(15px);
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(18px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border-radius: 0.75rem;
     padding: 0.5rem;
-    border:1px solid red;
+    border: 1px solid rgba(255, 25, 25, 0.18);
     z-index: 50;
     display: flex;
     align-items: center;
-    animation: slide-up 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-    transition: all 0.3s ease;
+    overflow: visible;
+    transition: border-color 0.3s ease;
   }
 
   .audio-player:hover {
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
-    transform: translateY(-3px);
+    border-color: rgba(255, 25, 25, 0.35);
   }
 
   @media (min-width: 768px) {
@@ -1459,6 +1555,24 @@
     transform-origin: left;
     transition: transform linear;
   }
+
+  /* ── SVG border animé GSAP ── */
+  .player-svg-border {
+    position: absolute;
+    top: -2px; left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    pointer-events: none;
+    z-index: 0;
+    overflow: visible;
+  }
+  .player-border-r1,
+  .player-border-r2 {
+    stroke-dasharray: 80 1000;
+    stroke-dashoffset: 0;
+    opacity: 0.85;
+  }
+  .player-border-r2 { opacity: 0.45; }
 </style>
 
 <!-- Navbar -->
@@ -1513,6 +1627,11 @@
 
 <!-- Lecteur audio -->
 <div class="audio-player">
+  <!-- SVG border animé GSAP -->
+  <svg class="player-svg-border" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <rect class="player-border-r1" rx="12" ry="12" fill="none" stroke="#ff1919" stroke-width="2.5"/>
+    <rect class="player-border-r2" rx="12" ry="12" fill="none" stroke="#ff6644" stroke-width="1.5"/>
+  </svg>
   <div class="player-left">
     <img src="{freq}" alt="Current Song" class="current-song-image">
     <div class="current-song-info">
