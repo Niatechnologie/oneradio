@@ -768,38 +768,6 @@
           duration: 2, yoyo: true, repeat: -1, ease: 'sine.inOut'
         });
 
-        // 4. SVG border animé (dash flowing + morph des coins)
-        const svgEl = player.querySelector('.player-svg-border');
-        const r1    = player.querySelector('.player-border-r1');
-        const r2    = player.querySelector('.player-border-r2');
-        if (svgEl && r1 && r2) {
-          const setupBorder = () => {
-            const w = player.offsetWidth;
-            const h = player.offsetHeight;
-            const perim = 2 * (w + h);
-            svgEl.setAttribute('viewBox', `0 0 ${w} ${h}`);
-            [r1, r2].forEach(r => {
-              r.setAttribute('width', w - 2); r.setAttribute('height', h - 2);
-              r.setAttribute('x', '1'); r.setAttribute('y', '1');
-            });
-            // r1 : dash rapide sens horaire
-            const d1 = perim * 0.28;
-            r1.setAttribute('stroke-dasharray', `${d1} ${perim - d1}`);
-            gsap.killTweensOf(r1);
-            gsap.fromTo(r1, { strokeDashoffset: 0 }, { strokeDashoffset: -perim, duration: 4, repeat: -1, ease: 'none' });
-            gsap.to(r1, { attr: { rx: 24, ry: 24 }, duration: 2.5, yoyo: true, repeat: -1, ease: 'sine.inOut' });
-            // r2 : dash lent sens anti-horaire
-            const d2 = perim * 0.14;
-            r2.setAttribute('stroke-dasharray', `${d2} ${perim - d2}`);
-            gsap.killTweensOf(r2);
-            gsap.fromTo(r2, { strokeDashoffset: 0 }, { strokeDashoffset: perim, duration: 6.5, repeat: -1, ease: 'none' });
-            gsap.to(r2, { attr: { rx: 28, ry: 28 }, duration: 3.5, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 0.8 });
-          };
-          setupBorder();
-          const ro = new ResizeObserver(setupBorder);
-          ro.observe(player);
-        }
-
         // 5. Bouton play : pulse idle + burst au clic
         const playBtn = player.querySelector('.play-pause-btn');
         if (playBtn) {
