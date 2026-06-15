@@ -129,7 +129,7 @@
 
   /* Hero */
   .wr-hero {
-    background: linear-gradient(180deg, #fff0f0 0%, #f8f8f8 100%);
+    background: #fff;
     padding: 2.5rem 1.25rem 2rem;
     text-align: center;
     position: relative;
