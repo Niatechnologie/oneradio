@@ -1499,7 +1499,8 @@
         outline: none;
         pointer-events: auto;
         margin: 0 10px;
-        color: #ff7f2a !important; /* Navigation arrow color */
+        font-size: 1.5rem !important;
+        color: #ff7f2a !important;
     }
 
     :global(.owl-carousel .owl-nav button:hover) {
