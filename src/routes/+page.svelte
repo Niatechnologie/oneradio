@@ -1608,7 +1608,7 @@
 
   .pub-slide-item {
     position: relative;
-    border-radius: 10px;
+    border-radius: 0;
     background: #fff;
   }
 
