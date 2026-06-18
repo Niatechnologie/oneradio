@@ -1559,6 +1559,11 @@ async function fetchNowPlaying() {
     </div>
   </div>
 
+  <div class="player-right">
+    <button class="volume-btn" aria-label="Mute/Unmute">
+      <i class="bi bi-volume-up-fill"></i>
+    </button>
+  </div>
 </div>
 
 <!-- Fil d'Ariane -->
