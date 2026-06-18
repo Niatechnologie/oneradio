@@ -60,6 +60,12 @@
   let nowPlayingCurrent = $state('');
   let nowPlayingNext = $state('');
 
+  let nowPlayingMarqueeText = $derived(
+    nowPlayingNext
+      ? `⏭&nbsp;NEXT&nbsp;:&nbsp;<strong style="color:#ff2a2a;font-weight:700">${nowPlayingNext}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${nowPlayingCurrent}`
+      : (nowPlayingCurrent || 'One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci')
+  );
+
 async function fetchNowPlaying() {
     try {
       const res = await fetch('/api/nowplaying');
@@ -1521,6 +1527,8 @@ async function fetchNowPlaying() {
       <span class="song-title">
         {nowPlayingCurrent || 'One Radio'}
       </span>
+      <!-- svelte-ignore a11y_distracting_elements -->
+      <span class="song-artist"><marquee scrollamount="4">{@html nowPlayingMarqueeText}</marquee></span>
     </div>
   </div>
 
