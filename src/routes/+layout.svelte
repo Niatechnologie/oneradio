@@ -1524,9 +1524,9 @@ async function fetchNowPlaying() {
   <div class="player-left">
     <img src="{freq}" alt="Current Song" class="current-song-image">
     <div class="current-song-info">
-      <span class="song-title">
+      <!-- <span class="song-title">
         {nowPlayingCurrent || 'One Radio'}
-      </span>
+      </span> -->
       <!-- svelte-ignore a11y_distracting_elements -->
       <span class="song-artist"><marquee scrollamount="4">{@html nowPlayingMarqueeText}</marquee></span>
     </div>
