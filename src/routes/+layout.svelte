@@ -62,12 +62,11 @@
 
 async function fetchNowPlaying() {
     try {
-      const res = await fetch('https://oneradiomobile.oneradio.ci/oneradiomobile/nowplaying.txt');
+      const res = await fetch('/api/nowplaying');
       if (!res.ok) return;
-      const text = await res.text();
-      const lines = text.trim().split(/\r?\n/);
-      nowPlayingCurrent = lines[0]?.trim() || '';
-      nowPlayingNext = lines[1]?.trim() || '';
+      const data = await res.json();
+      nowPlayingCurrent = data.current;
+      nowPlayingNext = data.next;
     } catch (_) {}
   }
 
