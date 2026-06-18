@@ -61,9 +61,7 @@
   let nowPlayingNext = $state('');
 
   let nowPlayingMarqueeText = $derived(
-    nowPlayingNext
-      ? `⏭&nbsp;NEXT&nbsp;:&nbsp;<strong style="color:#ff2a2a;font-weight:700">${nowPlayingNext}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${nowPlayingCurrent}`
-      : (nowPlayingCurrent || 'One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci')
+    nowPlayingCurrent || 'One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci'
   );
 
 async function fetchNowPlaying() {
@@ -1524,11 +1522,11 @@ async function fetchNowPlaying() {
   <div class="player-left">
     <img src="{freq}" alt="Current Song" class="current-song-image">
     <div class="current-song-info">
-      <!-- <span class="song-title">
-        {nowPlayingCurrent || 'One Radio'}
-      </span> -->
       <!-- svelte-ignore a11y_distracting_elements -->
       <span class="song-artist"><marquee scrollamount="4">{@html nowPlayingMarqueeText}</marquee></span>
+      {#if nowPlayingNext}
+        <span class="song-next">⏭ NEXT : {nowPlayingNext}</span>
+      {/if}
     </div>
   </div>
 

@@ -771,7 +771,7 @@ body {
 
 .song-artist {
   font-size: 0.75rem;
-  color: var(--muted-foreground);
+  color: var(--foreground);
 }
 
 .player-center {
