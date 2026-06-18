@@ -60,13 +60,7 @@
   let nowPlayingCurrent = $state('');
   let nowPlayingNext = $state('');
 
-  let nowPlayingMarqueeText = $derived(
-    nowPlayingNext
-      ? `⏭&nbsp;NEXT&nbsp;:&nbsp;<strong style="color:#ff2a2a;font-weight:700">${nowPlayingNext}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${nowPlayingCurrent}`
-      : (nowPlayingCurrent || 'One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci')
-  );
-
-  async function fetchNowPlaying() {
+async function fetchNowPlaying() {
     try {
       const res = await fetch('https://oneradiomobile.oneradio.ci/oneradiomobile/nowplaying.txt');
       if (!res.ok) return;
@@ -1109,12 +1103,7 @@
     gap: 0.35rem;
   }
 
-.song-artist {
-    font-size: 0.75rem;
-    color: var(--muted-foreground);
-  }
-
-  .player-center {
+.player-center {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1533,8 +1522,6 @@
       <span class="song-title">
         {nowPlayingCurrent || 'One Radio'}
       </span>
-      <!-- svelte-ignore a11y_distracting_elements -->
-      <span class="song-artist"><marquee scrollamount="4">{@html nowPlayingMarqueeText}</marquee></span>
     </div>
   </div>
 
