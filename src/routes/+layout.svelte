@@ -1149,11 +1149,11 @@ async function fetchNowPlaying() {
     margin-top: 0.25rem;
     position: absolute;
     opacity: 0;
-    left:20px
+    right:20px
   }
 
   .time {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     color: var(--muted-dark);
     transition: color 0.3s ease;
   }
