@@ -56,85 +56,25 @@
   let currentTime = $state(0);
   let volume = 1;
 
-  // ── Émission en cours ──────────────────────────────────
-  let currentEmissionText = $state('One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci');
-  let isOnAir = $state(false);
+  // ── Now Playing (nowplaying.txt) ────────────────────────
+  let nowPlayingCurrent = $state('');
+  let nowPlayingNext = $state('');
 
-  function timeToMin(t) {
-    if (!t) return 0;
-    const parts = String(t).split(':').map(Number);
-    return (parts[0] || 0) * 60 + (parts[1] || 0);
-  }
+  let nowPlayingMarqueeText = $derived(
+    nowPlayingNext
+      ? `⏭&nbsp;NEXT&nbsp;:&nbsp;<strong style="color:#ff2a2a;font-weight:700">${nowPlayingNext}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${nowPlayingCurrent}`
+      : (nowPlayingCurrent || 'One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci')
+  );
 
-  // Décode les entités HTML retournées par l'API (ex: &amp; → &)
-  function decodeHtml(str) {
-    if (!str) return '';
-    const el = document.createElement('textarea');
-    el.innerHTML = str;
-    return el.value;
-  }
-
-  // Clé de la dernière émission connue — permet de détecter les changements
-  let lastEmissionKey = '';
-
-  function notifyNewEmission(prog) {
-    if (!('Notification' in window) || Notification.permission !== 'granted') return;
-    const name = decodeHtml(prog.designation);
-    const host = prog.presentateur ? decodeHtml(prog.presentateur) : '';
-    new Notification('🎙 One Radio — Nouvelle émission', {
-      body: name
-        + (host ? '\nPrésenté par ' + host : '')
-        + '\n⏱ ' + prog.hdebut + ' – ' + prog.hfin,
-      icon: logo,
-      tag: 'oneradio-emission',
-      renotify: true,
-    });
-  }
-
-  async function fetchCurrentEmission() {
+  async function fetchNowPlaying() {
     try {
-      const res = await fetch('https://adminradio.oneradio.ci/radio_one/programmes.php');
+      const res = await fetch('https://oneradiomobile.oneradio.ci/oneradiomobile/nowplaying.txt');
       if (!res.ok) return;
-      const data = await res.json();
-      const dayNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-      const today = dayNames[new Date().getDay()];
-      const now = new Date();
-      const nowMin = now.getHours() * 60 + now.getMinutes();
-      const programs = Array.isArray(data[today]) ? data[today] : [];
-      const current = programs.find(p =>
-        nowMin >= timeToMin(p.hdebut) && nowMin < timeToMin(p.hfin)
-      );
-      if (current) {
-        const emissionKey = `${current.designation}:${current.hdebut}`;
-        if (lastEmissionKey && emissionKey !== lastEmissionKey) {
-          notifyNewEmission(current);
-        }
-        lastEmissionKey = emissionKey;
-        isOnAir = true;
-        const name = decodeHtml(current.designation);
-        const host = current.presentateur ? decodeHtml(current.presentateur) : '';
-        currentEmissionText =
-          `🎙&nbsp;EN COURS&nbsp;:&nbsp;<strong style="color:#ff2a2a;font-weight:700">${name}</strong>` +
-          (host ? `&nbsp;&nbsp;•&nbsp;&nbsp;${host}` : '') +
-          `&nbsp;&nbsp;•&nbsp;&nbsp;${current.hdebut}&nbsp;–&nbsp;${current.hfin}` +
-          `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;
-      } else {
-        isOnAir = false;
-        const next = programs
-          .filter(p => timeToMin(p.hdebut) > nowMin)
-          .sort((a, b) => timeToMin(a.hdebut) - timeToMin(b.hdebut))[0];
-        if (next) {
-          const nextName = decodeHtml(next.designation);
-          currentEmissionText =
-            `⏱&nbsp;Prochaine&nbsp;:&nbsp;<strong style="color:#ff2a2a;font-weight:700">${nextName}</strong>` +
-            `&nbsp;&nbsp;•&nbsp;&nbsp;${next.hdebut}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`;
-        } else {
-          currentEmissionText = 'One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci';
-        }
-      }
-    } catch (_) {
-      // conserve le texte par défaut
-    }
+      const text = await res.text();
+      const lines = text.trim().split(/\r?\n/);
+      nowPlayingCurrent = lines[0]?.trim() || '';
+      nowPlayingNext = lines[1]?.trim() || '';
+    } catch (_) {}
   }
 
   // Formatage du temps
@@ -739,9 +679,9 @@
     setInterval(chargerPubs, 5 * 60 * 1000);
     // ────────────────────────────────────────────────────────────────────
 
-    // ── Émission en cours : fetch immédiat + refresh chaque minute ───────
-    fetchCurrentEmission();
-    const emissionInterval = setInterval(fetchCurrentEmission, 60 * 1000);
+    // ── Now Playing : fetch immédiat + refresh toutes les 15 secondes ───
+    fetchNowPlaying();
+    const nowPlayingInterval = setInterval(fetchNowPlaying, 15 * 1000);
 
     // ── Notifications de changement de programme ──────────────────────────
     if ('Notification' in window && Notification.permission === 'default') {
@@ -818,7 +758,7 @@
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      clearInterval(emissionInterval);
+      clearInterval(nowPlayingInterval);
     };
   });
 </script>
@@ -1169,22 +1109,7 @@
     gap: 0.35rem;
   }
 
-  .on-air-dot {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #ff2a2a;
-    flex-shrink: 0;
-    animation: pulse-dot 1.4s ease-in-out infinite;
-  }
-
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.4; transform: scale(0.7); }
-  }
-
-  .song-artist {
+.song-artist {
     font-size: 0.75rem;
     color: var(--muted-foreground);
   }
@@ -1606,14 +1531,10 @@
     <img src="{freq}" alt="Current Song" class="current-song-image">
     <div class="current-song-info">
       <span class="song-title">
-        {#if isOnAir}
-          <span class="on-air-dot"></span> En direct
-        {:else}
-          One Radio
-        {/if}
+        {nowPlayingCurrent || 'One Radio'}
       </span>
       <!-- svelte-ignore a11y_distracting_elements -->
-      <span class="song-artist"><marquee scrollamount="4">{@html currentEmissionText}</marquee></span>
+      <span class="song-artist"><marquee scrollamount="4">{@html nowPlayingMarqueeText}</marquee></span>
     </div>
   </div>
 
