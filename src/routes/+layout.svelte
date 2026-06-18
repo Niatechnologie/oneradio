@@ -1097,13 +1097,13 @@ async function fetchNowPlaying() {
     flex-direction: column;
   }
 
-  .song-title {
+  .song-next {
+    font-size: 0.7rem;
+    color: #ff2a2a;
     font-weight: 600;
-    font-size: 0.875rem;
-    color: var(--foreground);
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
 .player-center {
@@ -1525,7 +1525,7 @@ async function fetchNowPlaying() {
       <!-- svelte-ignore a11y_distracting_elements -->
       <span class="song-artist"><marquee scrollamount="4">{@html nowPlayingMarqueeText}</marquee></span>
       {#if nowPlayingNext}
-        <span class="song-next">⏭ NEXT : {nowPlayingNext}</span>
+        <span class="song-next">A suivre : {nowPlayingNext}</span>
       {/if}
     </div>
   </div>
@@ -1559,14 +1559,6 @@ async function fetchNowPlaying() {
     </div>
   </div>
 
-  <div class="player-right">
-    <button class="volume-btn">
-      <i class="bi bi-volume-up-fill"></i>
-    </button>
-    <div class="volume-slider">
-      <div class="volume-fill"></div>
-    </div>
-  </div>
 </div>
 
 <!-- Fil d'Ariane -->
