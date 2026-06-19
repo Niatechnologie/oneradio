@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #111827;
+  --black: #000000;
   --primary: #ff0000;
   --primary-light: #ff4949;
   --primary-dark: #fd1818 ;
@@ -771,7 +772,7 @@ body {
 
 .song-artist {
   font-size: 0.75rem;
-  color: var(--foreground);
+  color: var(--black);
 }
 
 .player-center {
