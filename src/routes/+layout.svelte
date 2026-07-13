@@ -792,12 +792,23 @@ async function fetchNowPlaying() {
     text-align: center;
   }
 
+  .nav-phone {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: absolute;
+    left: 20px;
+    background: rgba(255, 255, 255, 1);
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+
   nav #logo_bureau {
     position: absolute;
     left: 46%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: none;
-    top: 5px;
   }
 
   nav a:nth-child(4) {
@@ -948,6 +959,9 @@ async function fetchNowPlaying() {
     }
     .menu-mobile {
       display: block;
+    }
+    .nav-phone {
+      display: none;
     }
   }
 
@@ -1464,7 +1478,7 @@ async function fetchNowPlaying() {
 
 <!-- Navbar -->
 <nav id="navbar" class="navbar">
-    <div style="display: flex; align-items: center; gap: 5px; position: absolute; left: 20px;background: rgba(255, 255, 255, 1); padding: 5px 10px; border-radius: 20px;">
+    <div class="nav-phone">
       <i style="color:red" class="bi bi-telephone-fill"></i>
       <span style="color:red" >(+225) 27 223 054 75</span>
     </div>

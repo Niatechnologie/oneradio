@@ -1535,10 +1535,22 @@
  @media (max-width: 768px) {
   .main-content {
     /* padding: 2rem 1.5rem 9rem; */
-    padding: 0;  
+    padding: 0;
     margin-top: 0;
     margin-bottom: 0 !important;
-   
+
+  }
+  .container {
+    padding: 24px 16px;
+  }
+  .artists-section {
+    margin-bottom: 2rem;
+  }
+  .news-wc-row {
+    margin-bottom: 2rem;
+  }
+  .ev-section-head {
+    margin-bottom: 1rem;
   }
 }
 @media (max-width: 868px) {
