@@ -28,9 +28,9 @@
         <li><a href="/events"><i class="bi bi-calendar3"></i> Événements</a></li>
         <li><a href="/events/one-comedy-club"><i class="bi bi-mic-fill"></i> ONE COMEDY CLUB</a></li>
         <li><a href="/podcasts"><i class="bi bi-headphones"></i> Podcasts</a></li>
-        <li><a href="/webradio"><i class="bi bi-broadcast"></i> Webradios</a></li>
         <li><a href="/programme"><i class="bi bi-tv"></i> Nos Émissions</a></li>
         <li><a href="/contact"><i class="bi bi-chat-dots-fill"></i> Contact</a></li>
+        <li><a href="/webradio"><i class="bi bi-broadcast"></i> Webradios</a></li>
       </ul>
     </div>
 
@@ -45,14 +45,15 @@
 
       <h4 style="margin-top:1.25rem;">Applications</h4>
       <div class="app-row">
+       <a href="https://apps.apple.com" target="_blank" class="app-btn">
+          <i class="bi bi-apple"></i>
+          <div><span>Télécharger sur</span><strong>App Store</strong></div>
+        </a>
         <a href="https://play.google.com/store" target="_blank" class="app-btn">
           <i class="bi bi-google-play"></i>
           <div><span>Disponible sur</span><strong>Google Play</strong></div>
         </a>
-        <a href="https://apps.apple.com" target="_blank" class="app-btn">
-          <i class="bi bi-apple"></i>
-          <div><span>Télécharger sur</span><strong>App Store</strong></div>
-        </a>
+       
       </div>
 
     </div>
