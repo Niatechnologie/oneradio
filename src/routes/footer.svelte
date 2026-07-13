@@ -30,7 +30,6 @@
         <li><a href="/podcasts"><i class="bi bi-headphones"></i> Podcasts</a></li>
         <li><a href="/programme"><i class="bi bi-tv"></i> Nos Émissions</a></li>
         <li><a href="/contact"><i class="bi bi-chat-dots-fill"></i> Contact</a></li>
-        <li><a href="/webradio"><i class="bi bi-broadcast"></i> Webradios</a></li>
       </ul>
     </div>
 
