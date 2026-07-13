@@ -1802,8 +1802,8 @@
   .ev-grid-home {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1.25rem;
-    margin: 0 0 1.25rem;
+    gap: 0.85rem;
+    margin: 0 0 0.85rem;
   }
 
   .ev-card-home {
@@ -1829,7 +1829,7 @@
   }
 
   .ev-card-body {
-    padding: 1rem 1.1rem 1.25rem; display: flex; flex-direction: column; flex: 1; gap: .45rem;
+    padding: 0.75rem 0.85rem 0.9rem; display: flex; flex-direction: column; flex: 1; gap: .45rem;
   }
   .ev-card-meta {
     display: flex; align-items: center; gap: .35rem;
