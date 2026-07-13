@@ -1081,6 +1081,8 @@ async function fetchNowPlaying() {
   }
   @media (max-width: 767px) {
     .audio-player { height: 7rem; width: 80%; }
+    .equalizer-container { display: none !important; }
+    .progress-container { right: 4px; }
   }
   @media (max-width: 567px) {
     .audio-player { height: 5rem; width: 95%; }
