@@ -252,28 +252,30 @@
             {:else}
               <div class="comedy-avatar">{c.nom.charAt(0)}</div>
             {/if}
-            <div class="nom">{c.nom}</div>
-            {#if c.description}<div class="description">{c.description}</div>{/if}
+            <div class="comedy-card-body">
+              <div class="nom">{c.nom}</div>
+              {#if c.description}<div class="description">{c.description}</div>{/if}
 
-            {#if Object.values(c.reseaux).some(Boolean)}
-              <div class="social-links">
-                {#each RESEAUX as r}
-                  {#if c.reseaux[r.key]}
-                    <a href={c.reseaux[r.key]} target="_blank" rel="noopener" class="social-link" style="color:{r.color};" aria-label={r.key}>
-                      <i class="bi {r.icon}"></i>
-                    </a>
-                  {/if}
-                {/each}
-              </div>
-            {/if}
+              {#if Object.values(c.reseaux).some(Boolean)}
+                <div class="social-links">
+                  {#each RESEAUX as r}
+                    {#if c.reseaux[r.key]}
+                      <a href={c.reseaux[r.key]} target="_blank" rel="noopener" class="social-link" style="color:{r.color};" aria-label={r.key}>
+                        <i class="bi {r.icon}"></i>
+                      </a>
+                    {/if}
+                  {/each}
+                </div>
+              {/if}
 
-            {#if c.video}
-              <div class="footer">
-                <a href={c.video} target="_blank" rel="noopener" class="video-link">
-                  <i class="bi bi-play-circle-fill"></i> Voir la vidéo
-                </a>
-              </div>
-            {/if}
+              {#if c.video}
+                <div class="footer">
+                  <a href={c.video} target="_blank" rel="noopener" class="video-link">
+                    <i class="bi bi-play-circle-fill"></i> Voir la vidéo
+                  </a>
+                </div>
+              {/if}
+            </div>
           </div>
         {/each}
       </div>
@@ -473,21 +475,24 @@
     background: #fff; border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,.08);
     width: 300px; display: flex; flex-direction: column;
-    align-items: center; padding: 1.5rem 1rem 1rem;
+    align-items: center; overflow: hidden;
     text-decoration: none; color: inherit;
     transition: transform .22s, box-shadow .22s;
   }
   .comedy-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(0,0,0,.13); }
   .comedy-card img {
-    width:240px; height:360px; object-fit:cover;
-    border-radius:14px; margin-bottom:1rem;
-    box-shadow:0 4px 16px rgba(0,0,0,.10); background:#eee;
+    width:100%; height:360px; object-fit:cover;
+    display:block; background:#eee;
   }
   .comedy-avatar {
-    width:120px; height:120px; border-radius:50%;
+    width:100%; height:220px; border-radius:0;
     background:var(--occ-yellow-dark); color:#fff;
     display:flex; align-items:center; justify-content:center;
-    font-size:2.8rem; font-weight:700; margin-bottom:1rem;
+    font-size:2.8rem; font-weight:700;
+  }
+  .comedy-card-body {
+    width:100%; padding:1.25rem 1rem 1.5rem;
+    display:flex; flex-direction:column; align-items:center;
   }
   .comedy-card .nom { font-size:1.2rem; font-weight:700; margin-bottom:.4rem; text-align:center; }
   .comedy-card .description {
