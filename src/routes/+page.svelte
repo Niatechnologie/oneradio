@@ -4,6 +4,7 @@
   
   import pub1 from "$lib/img/pubspa.jpg";
   import pub2 from "$lib/img/pubspa2.png";
+  import pubNews from "$lib/img/pub_news.jpg";
   // import pubradio from "$lib/img/pub-radio.gif";
   import  "$lib/style_news.css";
   import  "$lib/style_events.css";
@@ -1972,7 +1973,7 @@
   <aside class="wc-widget">
     <a href="#" target="_blank" rel="noopener noreferrer">
       <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7gleLR2z7tXOQrcwWAQ06P9-fPUIwsjM4S4iuaUsByV39Ns0uAFRxFh90&s=10"
+        src="{pubNews}"
         alt="Publicité"
         style="width:100%;display:block;"
       />
