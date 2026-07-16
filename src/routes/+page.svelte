@@ -612,7 +612,7 @@
             }
         });
 
-        // ── 6. 000Events cards stagger + rotation morph ─────
+        // ── 6. Events cards stagger + rotation morph ─────
         gsap.from('.events-card', {
             scrollTrigger: { trigger: '.events-grid', start: 'top 82%', once: true },
             y: 65, opacity: 0, rotation: 4, duration: 0.7, stagger: 0.09, ease: 'back.out(1.5)'
@@ -1883,7 +1883,7 @@
     .carousel-item { flex: 0 0 20%; min-width: 20%; }
     .pub-text-side h2 { font-size: clamp(2.5rem, 1.2vw, 3.5rem); }
     .pub-text-side p  { font-size: clamp(1.2rem, 0.7vw, 1.6rem); }
-    .container-o  font-size: clamp(2.2rem, 1.1vw, 3rem); }
+    .container-owl h3 { font-size: clamp(2.2rem, 1.1vw, 3rem); }
     .inactive-title   { font-size: clamp(2rem, 1.2vw, 3.5rem); }
     .slide-content    { padding: 4rem; }
     .gallery-share-btn { width: clamp(36px, 2.5vw, 60px); height: clamp(36px, 2.5vw, 60px); font-size: clamp(15px, 1.2vw, 28px); }
@@ -2048,7 +2048,13 @@
 
   <div class="news-wc-row">
   <section class="section news-col">
-   
+    <div class="news-section-header">
+      <span class="section-badge"><i class="bi bi-newspaper"></i> Actualité Nationale et Internationale</span>
+
+        <a style="text-decoration:none" class="section-badge" href="/news"><i class="bi bi-plus"> Voir Plus <i class="bi bi-arrow-right"></i></a>
+
+    </div>
+
     {#if isLoading_news}
       <p style="text-align:center;padding:2rem 0;color:#999;">Chargement en cours…</p>
     {:else if error_news}
@@ -2056,7 +2062,7 @@
     {:else if datanews.length > 0}
       <div class="msn-layout">
 
-        <!-- ── ok Top row : Hero + Side stack ── -->
+        <!-- ── Top row : Hero + Side stack ── -->
         <div class="msn-top-row">
 
           <!-- Hero (1er article) -->
@@ -2074,7 +2080,6 @@
                 </div>
               </div>
             </a>
-            
           </article>
 
           <!-- Side stack (articles 2-4) -->
