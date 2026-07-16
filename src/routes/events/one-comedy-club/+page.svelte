@@ -171,15 +171,17 @@
     {/if}
   {/if}
 
-  <!-- ── Catalogue des spectacles ── -->
-  {#if !loadingSpec && spectacles.length > 0}
+  <!-- ── Catalogue des spectacles (ceux sans date à venir déjà listée ci-dessus) ── -->
+  {#if !loadingSpec}
+    {@const spectaclesSansDate = spectacles.filter(sp => !prochains.some(p => p.spectacle.id === sp.id))}
+    {#if spectaclesSansDate.length > 0}
     <section class="occ-section" class:visible={isVisible}>
       <div class="occ-section-header">
         <h2><i class="bi bi-collection-play-fill" style="color:var(--occ-yellow);margin-right:.4rem;"></i>Nos spectacles</h2>
       </div>
 
       <div class="spec-grid">
-        {#each spectacles as sp}
+        {#each spectaclesSansDate as sp}
           <a href="/events/one-comedy-club/spectacles/{sp.id}" class="spec-card">
             {#if sp.affiche}
               <div class="spec-affiche-wrap">
@@ -232,6 +234,7 @@
         {/each}
       </div>
     </section>
+    {/if}
   {/if}
 
   <!-- ── Comédiens ── -->
