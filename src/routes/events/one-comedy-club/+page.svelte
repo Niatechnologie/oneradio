@@ -4,7 +4,6 @@
   let isVisible     = $state(false);
   let comediens     = $state([]);
   let prochains     = $state([]);
-  let spectacles    = $state([]);
   let loadingHum    = $state(true);
   let loadingSpec   = $state(true);
 
@@ -47,15 +46,6 @@
       }
     } catch (e) { console.warn('Erreur spectacles:', e); }
     finally { loadingSpec = false; }
-
-    // Tous les spectacles (catalogue, indépendamment des dates à venir)
-    try {
-      const res  = await fetch(`${BASE}/spectacles.php`);
-      const data = await res.json();
-      if (data.success) {
-        spectacles = data.spectacles;
-      }
-    } catch (e) { console.warn('Erreur catalogue spectacles:', e); }
   });
 
   function fmtDate(str) {
@@ -162,72 +152,6 @@
                 </a>
               {:else if s.statut === 'complet'}
                 <span class="spec-btn spec-btn--disabled">Complet</span>
-              {/if}
-            </div>
-          </a>
-        {/each}
-      </div>
-    </section>
-    {/if}
-  {/if}
-
-  <!-- ── Catalogue des spectacles (ceux sans date à venir déjà listée ci-dessus) ── -->
-  {#if !loadingSpec}
-    {@const spectaclesSansDate = spectacles.filter(sp => !prochains.some(p => p.spectacle.id === sp.id))}
-    {#if spectaclesSansDate.length > 0}
-    <section class="occ-section" class:visible={isVisible}>
-      <div class="occ-section-header">
-        <h2><i class="bi bi-collection-play-fill" style="color:var(--occ-yellow);margin-right:.4rem;"></i>Nos spectacles</h2>
-      </div>
-
-      <div class="spec-grid">
-        {#each spectaclesSansDate as sp}
-          <a href="/events/one-comedy-club/spectacles/{sp.id}" class="spec-card">
-            {#if sp.affiche}
-              <div class="spec-affiche-wrap">
-                <img src={sp.affiche} alt={sp.titre} class="spec-affiche" />
-              </div>
-            {:else}
-              <div class="spec-affiche-placeholder">
-                <i class="bi bi-ticket-perforated"></i>
-              </div>
-            {/if}
-
-            <div class="spec-body">
-              <div class="spec-humoriste">
-                {#if sp.humoriste?.photo}
-                  <img src={sp.humoriste.photo} alt={sp.humoriste.nom_artiste} class="spec-hum-avatar" />
-                {/if}
-                <span>{sp.humoriste?.nom_artiste || `${sp.humoriste?.prenom ?? ''} ${sp.humoriste?.nom ?? ''}`.trim()}</span>
-              </div>
-
-              <h3 class="spec-titre">{sp.titre}</h3>
-
-              <div class="spec-info">
-                {#if sp.prochaine_date}
-                  <div class="spec-info-item">
-                    <i class="bi bi-calendar3"></i>
-                    <span>{fmtDate(sp.prochaine_date)} à {fmtHeure(sp.prochaine_date)}</span>
-                  </div>
-                  {#if sp.prochaine_lieu || sp.prochaine_ville}
-                  <div class="spec-info-item">
-                    <i class="bi bi-geo-alt-fill"></i>
-                    <span>{[sp.prochaine_lieu, sp.prochaine_ville].filter(Boolean).join(' — ')}</span>
-                  </div>
-                  {/if}
-                {:else}
-                  <div class="spec-info-item">
-                    <i class="bi bi-calendar3"></i>
-                    <span>{sp.nb_dates} date{sp.nb_dates > 1 ? 's' : ''} programmée{sp.nb_dates > 1 ? 's' : ''}</span>
-                  </div>
-                {/if}
-              </div>
-
-              {#if sp.lien_billet}
-                <a href={sp.lien_billet} target="_blank" rel="noopener"
-                   class="spec-btn" onclick={(e) => e.stopPropagation()}>
-                  Réserver <i class="bi bi-arrow-right-short"></i>
-                </a>
               {/if}
             </div>
           </a>
