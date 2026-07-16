@@ -612,7 +612,7 @@
             }
         });
 
-        // ── 6. Events cards stagger + rotation morph ─────
+        // ── 6. 000Events cards stagger + rotation morph ─────
         gsap.from('.events-card', {
             scrollTrigger: { trigger: '.events-grid', start: 'top 82%', once: true },
             y: 65, opacity: 0, rotation: 4, duration: 0.7, stagger: 0.09, ease: 'back.out(1.5)'
