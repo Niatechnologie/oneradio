@@ -7,7 +7,6 @@
     import ShareButtons from './shareButtons.svelte';
     import '$lib/styles.css';
     import logo from '$lib/img/logo.svg';
-    import freq from '$lib/img/freq.svg';
     import Footer from './footer.svelte';
     import Breadcrumb from './breadcrumb.svelte';
 
@@ -59,6 +58,7 @@
   // ── Now Playing (nowplaying.txt) ────────────────────────
   let nowPlayingCurrent = $state('');
   let nowPlayingNext = $state('');
+  let nowPlayingArtworkUrl = $state('/api/artwork.jpg');
 
   let nowPlayingMarqueeText = $derived.by(() => {
     if (!nowPlayingCurrent) {
@@ -80,6 +80,7 @@ async function fetchNowPlaying() {
       const data = await res.json();
       nowPlayingCurrent = data.current;
       nowPlayingNext = data.next;
+      nowPlayingArtworkUrl = `/api/artwork.jpg?t=${Date.now()}`;
     } catch (_) {}
   }
 
@@ -1546,7 +1547,7 @@ async function fetchNowPlaying() {
     <rect class="player-border-r2" rx="12" ry="12" fill="none" stroke="#ff6644" stroke-width="1.5"/>
   </svg>
   <div class="player-left">
-    <img src="{freq}" alt="Current Song" class="current-song-image">
+    <img src="{nowPlayingArtworkUrl}" alt="Current Song" class="current-song-image">
     <div class="current-song-info">
       <!-- svelte-ignore a11y_distracting_elements -->
       <span class="song-artist"><marquee scrollamount="4">{@html nowPlayingMarqueeText}</marquee></span>
