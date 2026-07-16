@@ -1505,6 +1505,7 @@ async function fetchNowPlaying() {
     <a class="logo" href="/" id="logo"><img style="border-radius: 10px;" width="120" src="{logo}" alt=""></a>
     <a class:active={isActiveRoute('/webradio')} href="/webradio">Webradios</a>
     <a class:active={isActiveRoute('/programme')} href="/programme">Nos Emissions</a>
+    <a class:active={isActiveRoute('/events')} href="/events">Events</a>
     <a class:active={isActiveRoute('/parieur')} href="/parieur">Super Parieur</a>
   </div>
   <div class="bars" id="bars">
@@ -1523,6 +1524,7 @@ async function fetchNowPlaying() {
   <a href="https://shop.oneradio.ci" target="_blank"><i class="bi bi-bag-fill"></i> Boutique <i class="bi bi-chevron-right"></i></a>
   <a href="/webradio"><i class="bi bi-broadcast"></i> Webradios <i class="bi bi-chevron-right"></i></a>
   <a href="/programme"><i class="bi bi-mic-fill"></i> Nos Emissions <i class="bi bi-chevron-right"></i></a>
+  <a href="/events"><i class="bi bi-calendar-event-fill"></i> Events <i class="bi bi-chevron-right"></i></a>
   <a href="/parieur"><i class="bi bi-trophy-fill"></i> Super Parieur <i class="bi bi-chevron-right"></i></a>
 </div>
 
