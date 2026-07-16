@@ -60,9 +60,18 @@
   let nowPlayingCurrent = $state('');
   let nowPlayingNext = $state('');
 
-  let nowPlayingMarqueeText = $derived(
-    nowPlayingCurrent || 'One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci'
-  );
+  let nowPlayingMarqueeText = $derived.by(() => {
+    if (!nowPlayingCurrent) {
+      return 'One People, One Radio&nbsp;&nbsp;•&nbsp;&nbsp;oneradio.ci';
+    }
+    const separatorIndex = nowPlayingCurrent.indexOf(' - ');
+    if (separatorIndex === -1) {
+      return `<strong>${nowPlayingCurrent}</strong>`;
+    }
+    const artist = nowPlayingCurrent.slice(0, separatorIndex);
+    const rest = nowPlayingCurrent.slice(separatorIndex);
+    return `<strong>${artist}</strong>${rest}`;
+  });
 
 async function fetchNowPlaying() {
     try {
@@ -191,6 +200,7 @@ async function fetchNowPlaying() {
     console.log("Tentative de lecture automatique...");
     isBuffering = true;
 
+    audio.muted = false;
     audio.load();
 
     // Stratégie 1 : lecture normale
