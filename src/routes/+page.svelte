@@ -3,7 +3,7 @@
   import { onMount, tick } from 'svelte';
   
   import pub1 from "$lib/img/pubspa.jpg";
-  import pubNews from "$lib/img/pub_news.jpg";
+  import pubNews from "$lib/img/pub_infos.jpg";
   // import pubradio from "$lib/img/pub-radio.gif";
   import  "$lib/style_news.css";
   import  "$lib/style_events.css";
