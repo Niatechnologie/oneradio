@@ -399,7 +399,7 @@
     background: #fff; border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,.08);
     width: 300px; display: flex; flex-direction: column;
-    align-items: center; overflow: hidden;
+    align-items: stretch; overflow: hidden;
     text-decoration: none; color: inherit;
     transition: transform .22s, box-shadow .22s;
   }
@@ -416,17 +416,17 @@
   }
   .comedy-card-body {
     width:100%; padding:1.25rem 1rem 1.5rem;
-    display:flex; flex-direction:column; align-items:center;
+    display:flex; flex-direction:column; align-items:flex-start;
   }
-  .comedy-card .nom { font-size:1.2rem; font-weight:700; margin-bottom:.4rem; text-align:center; }
+  .comedy-card .nom { font-size:1.2rem; font-weight:700; margin-bottom:.4rem; text-align:left; }
   .comedy-card .description {
     font-size:.9rem; color:var(--occ-muted); margin-bottom:.9rem;
-    text-align:center; line-height:1.5;
+    text-align:left; line-height:1.5;
   }
 
   /* Réseaux sociaux */
   .social-links {
-    display:flex; gap:.6rem; margin-bottom:.85rem; flex-wrap:wrap; justify-content:center;
+    display:flex; gap:.6rem; margin-bottom:.85rem; flex-wrap:wrap; justify-content:flex-start;
   }
   .social-link {
     width:34px; height:34px; border-radius:50%; background:#f5f5f5;
@@ -436,7 +436,7 @@
   }
   .social-link:hover { background:#ebebeb; transform:scale(1.1); }
 
-  .footer { width:100%; border-top:1px solid #eee; padding-top:.7rem; margin-top:auto; text-align:center; }
+  .footer { width:100%; border-top:1px solid #eee; padding-top:.7rem; margin-top:auto; text-align:left; }
   .video-link {
     color:var(--occ-yellow-dark); font-size:.88rem; font-weight:600;
     text-decoration:none; display:inline-flex; align-items:center; gap:.35rem;
