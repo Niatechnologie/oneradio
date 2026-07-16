@@ -3,7 +3,6 @@
   import { onMount, tick } from 'svelte';
   
   import pub1 from "$lib/img/pubspa.jpg";
-  import pub2 from "$lib/img/pubspa2.png";
   import pubNews from "$lib/img/pub_news.jpg";
   // import pubradio from "$lib/img/pub-radio.gif";
   import  "$lib/style_news.css";
@@ -1749,11 +1748,6 @@
             <img src="{slide.url}" alt="Publicité" />
           </a>
         {/each}
-        {#if pub1Slides.length === 0}
-          <a href="#" class="pub-bar-slide active">
-            <img src="{pub2}" alt="Publicité" />
-          </a>
-        {/if}
       </div>
     </div>
 
