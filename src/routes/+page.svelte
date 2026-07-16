@@ -270,7 +270,9 @@
     function startAutoplay() {
         if (isPlaying) {
             interval = setInterval(() => {
-                activeIndex = (activeIndex + 1) % slides.length;
+                if (slides.length > 0) {
+                    activeIndex = (activeIndex + 1) % slides.length;
+                }
             }, 3000);
         }
     }
@@ -2048,11 +2050,9 @@
 
   <div class="news-wc-row">
   <section class="section news-col">
-    <div class="news-section-header">
-      <span class="section-badge"><i class="bi bi-newspaper"></i> Actualité Nationale et Internationale</span>
-
-        <a style="text-decoration:none" class="section-badge" href="/news"><i class="bi bi-plus"> Voir Plus <i class="bi bi-arrow-right"></i></a>
-
+    <div class="ev-section-head">
+      <h2><i class="bi bi-newspaper"></i> Actualité Nationale et Internationale</h2>
+      <a class="ev-section-badge-link" href="/news">Voir tout <i class="bi bi-arrow-right-short"></i></a>
     </div>
 
     {#if isLoading_news}
