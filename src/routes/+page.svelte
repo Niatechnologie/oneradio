@@ -1972,7 +1972,7 @@
   <aside class="wc-widget">
     <a href="#" target="_blank" rel="noopener noreferrer">
       <img
-        src="https://images.unsplash.com/photo-1493225457124-a3eaa4be07ca?w=500&h=800&fit=crop&q=80"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7gleLR2z7tXOQrcwWAQ06P9-fPUIwsjM4S4iuaUsByV39Ns0uAFRxFh90&s=10"
         alt="Publicité"
         style="width:100%;display:block;"
       />
