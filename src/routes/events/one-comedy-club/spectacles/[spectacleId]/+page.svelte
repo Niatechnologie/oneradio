@@ -337,9 +337,9 @@
 
   .date-card {
     background:#fff; border-radius:12px; padding:1.1rem 1.25rem;
-    box-shadow:0 2px 12px rgba(0,0,0,.07); border-left:4px solid #ff0000;
+    box-shadow:0 2px 12px rgba(0,0,0,.07);
   }
-  .date-card--past { border-left-color:#ddd; opacity:.7; }
+  .date-card--past { opacity:.7; }
 
   .date-card-top {
     display:flex; align-items:flex-start; justify-content:space-between;
