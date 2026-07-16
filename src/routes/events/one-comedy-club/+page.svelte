@@ -393,7 +393,7 @@
 
   /* ── Comédiens ── */
   .comedy-program {
-    display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;
+    display: flex; flex-wrap: wrap; gap: 2rem; justify-content: flex-start;
   }
   .comedy-card {
     background: #fff; border-radius: 12px;
