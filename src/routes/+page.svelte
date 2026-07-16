@@ -360,70 +360,6 @@
      
     })
 
-    // ─────────────────────────────────────────────
-    // World Cup 2026 — matchs & scores live
-    // ─────────────────────────────────────────────
-    let wcDate = $state(new Date());
-    let wcMatches = $state([]);
-    let wcLoading = $state(false);
-    let wcDateLabel = $derived(
-        wcDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
-    );
-
-    function wcDateStr(d) {
-        const y = d.getFullYear();
-        const m = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${y}${m}${day}`;
-    }
-
-    async function fetchWCMatches() {
-        wcLoading = true;
-        try {
-            const res = await fetch(
-                `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${wcDateStr(wcDate)}`
-            );
-            const data = await res.json();
-            wcMatches = (data.events || []).map(ev => {
-                const comp = ev.competitions?.[0];
-                const home = comp?.competitors?.find(c => c.homeAway === 'home');
-                const away = comp?.competitors?.find(c => c.homeAway === 'away');
-                const sn = comp?.status?.type?.name || '';
-                const isLive = sn === 'STATUS_IN_PROGRESS';
-                const isFinal = sn === 'STATUS_FINAL';
-                const timeStr = ev.date
-                    ? new Date(ev.date).toLocaleTimeString('fr-FR', {
-                        hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Abidjan'
-                    })
-                    : '';
-                return {
-                    id: ev.id,
-                    homeTeam: home?.team?.displayName || '?',
-                    awayTeam:  away?.team?.displayName || '?',
-                    homeLogo:  home?.team?.logo || '',
-                    awayLogo:  away?.team?.logo || '',
-                    homeScore: home?.score ?? '',
-                    awayScore: away?.score ?? '',
-                    isLive, isFinal, timeStr,
-                    group: comp?.notes?.[0]?.headline || '',
-                };
-            });
-        } catch(_) {
-            wcMatches = [];
-        } finally {
-            wcLoading = false;
-        }
-    }
-
-    function wcPrevDay() { wcDate = new Date(wcDate.getTime() - 86400000); fetchWCMatches(); }
-    function wcNextDay() { wcDate = new Date(wcDate.getTime() + 86400000); fetchWCMatches(); }
-
-    onMount(() => {
-        fetchWCMatches();
-        const wcInt = setInterval(fetchWCMatches, 60000);
-        return () => clearInterval(wcInt);
-    });
-
     // State for gallery items
     let galleryItems = $state([]);
     let isLoading = true;
@@ -1666,7 +1602,7 @@
   }
   .news-col { margin: 0; }
 
-  /* ── World Cup 2026 Widget ── */
+  /* ── Pub Sidebar Widget ── */
   .wc-widget {
     background: #fff;
     border-radius: 12px;
@@ -1676,102 +1612,6 @@
     top: 90px;
     box-shadow: 0 2px 14px rgba(0,0,0,0.07);
   }
-  .wc-header {
-    background: linear-gradient(135deg, #0a0a0a 0%, #0b0e16 100%);
-    padding: 0.85rem 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-  .wc-header h3 {
-    color: #fff;
-    font-size: 0.88rem;
-    font-weight: 800;
-    margin: 0;
-    letter-spacing: 0.03em;
-  }
-  .wc-header-trophy { font-size: 1.2rem; }
-  .wc-date-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0.85rem;
-    background: #f1f5fd;
-    border-bottom: 1px solid #dce6f7;
-    gap: 0.5rem;
-  }
-  .wc-date-nav span {
-    font-size: 0.73rem;
-    font-weight: 600;
-    color: #b90000;
-    text-transform: capitalize;
-    text-align: center;
-    flex: 1;
-  }
-  .wc-nav-btn {
-    width: 24px; height: 24px;
-    border: 1px solid #c5d3ef; border-radius: 50%;
-    background: #fff; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.95rem; color: #ee0f0f; flex-shrink: 0;
-    transition: background 0.18s, border-color 0.18s, color 0.18s;
-  }
-  .wc-nav-btn:hover { background: #ff0000; border-color: #ff0000; color: #fff; }
-  .wc-matches-list { max-height: 490px; overflow-y: auto; }
-  .wc-match-group {
-    padding: 0.38rem 0.9rem;
-    font-size: 0.62rem; font-weight: 700;
-    color: #eb0000; letter-spacing: 0.09em; text-transform: uppercase;
-    background: #eef2fb;
-    border-bottom: 1px solid #d8e3f7;
-    border-top: 1px solid #d8e3f7;
-  }
-  .wc-match {
-    display: flex; align-items: center;
-    padding: 0.6rem 0.9rem;
-    border-bottom: 1px solid #f4f6fb;
-    gap: 0.4rem;
-  }
-  .wc-match:last-child { border-bottom: none; }
-  .wc-team {
-    flex: 1; display: flex; align-items: center;
-    gap: 0.32rem; min-width: 0;
-  }
-  .wc-team--away { flex-direction: row-reverse; text-align: right; }
-  .wc-team-logo {
-    width: 20px; height: 20px;
-    object-fit: contain; flex-shrink: 0; border-radius: 2px;
-  }
-  .wc-team-name {
-    font-size: 0.73rem; font-weight: 600; color: #111;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .wc-score-box { flex-shrink: 0; text-align: center; min-width: 50px; }
-  .wc-score {
-    font-size: 0.92rem; font-weight: 800; color: #111; letter-spacing: 0.04em; line-height: 1.2;
-  }
-  .wc-score-live { color: #e53e3e; }
-  .wc-score-time { font-size: 0.76rem !important; font-weight: 700 !important; color: #444 !important; }
-  .wc-time { font-size: 0.62rem; color: #aaa; margin-top: 1px; }
-  .wc-live-badge {
-    display: inline-block; background: #e53e3e; color: #fff;
-    font-size: 0.53rem; font-weight: 700; letter-spacing: 0.1em;
-    padding: 1px 4px; border-radius: 3px; text-transform: uppercase;
-    animation: wc-blink 1.2s ease-in-out infinite;
-  }
-  @keyframes wc-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.38; } }
-  .wc-no-matches, .wc-loading {
-    padding: 2rem 1rem; text-align: center; color: #bbb;
-    font-size: 0.78rem; line-height: 1.7;
-  }
-  .wc-footer {
-    padding: 0.5rem 0.9rem; text-align: center;
-    border-top: 1px solid #e8eef9; background: #f7faff;
-  }
-  .wc-footer a {
-    font-size: 0.68rem; color: #1a56db; text-decoration: none; font-weight: 600;
-  }
-  .wc-footer a:hover { text-decoration: underline; }
 
   @media (max-width: 1060px) {
     .news-wc-row { grid-template-columns: 1fr; }
@@ -2128,59 +1968,15 @@
   
   </section>
 
-  <!-- ── Coupe du Monde 2026 Sidebar ── -->
+  <!-- ── Pub Sidebar ── -->
   <aside class="wc-widget">
-    <div class="wc-header">
-      <span class="wc-header-trophy">🏆</span>
-      <h3>Coupe du Monde 2026</h3>
-    </div>
-    <div class="wc-date-nav">
-      <!-- svelte-ignore a11y_no_static_element_interactions -->
-      <!-- svelte-ignore a11y_click_events_have_key_events -->
-      <button class="wc-nav-btn" onclick={wcPrevDay} aria-label="Jour précédent">‹</button>
-      <span>{wcDateLabel}</span>
-      <!-- svelte-ignore a11y_no_static_element_interactions -->
-      <!-- svelte-ignore a11y_click_events_have_key_events -->
-      <button class="wc-nav-btn" onclick={wcNextDay} aria-label="Jour suivant">›</button>
-    </div>
-    <div class="wc-matches-list">
-      {#if wcLoading}
-        <div class="wc-loading"><i class="bi bi-hourglass-split"></i> Chargement…</div>
-      {:else if wcMatches.length === 0}
-        <div class="wc-no-matches">
-          <i class="bi bi-calendar-x" style="font-size:1.5rem;color:#ddd;display:block;margin-bottom:0.5rem;"></i>
-          Aucun match ce jour
-        </div>
-      {:else}
-        {#each wcMatches as match}
-          {#if match.group}
-            <div class="wc-match-group">{match.group}</div>
-          {/if}
-          <div class="wc-match">
-            <div class="wc-team">
-              {#if match.homeLogo}<img src={match.homeLogo} alt="" class="wc-team-logo">{/if}
-              <span class="wc-team-name">{match.homeTeam}</span>
-            </div>
-            <div class="wc-score-box">
-              {#if match.isLive || match.isFinal}
-                <div class="wc-score{match.isLive ? ' wc-score-live' : ''}">{match.homeScore} – {match.awayScore}</div>
-                <div class="wc-time">{#if match.isLive}<span class="wc-live-badge">Live</span>{:else}Terminé{/if}</div>
-              {:else}
-                <div class="wc-score wc-score-time">{match.timeStr}</div>
-                <div class="wc-time">À venir</div>
-              {/if}
-            </div>
-            <div class="wc-team wc-team--away">
-              <span class="wc-team-name">{match.awayTeam}</span>
-              {#if match.awayLogo}<img src={match.awayLogo} alt="" class="wc-team-logo">{/if}
-            </div>
-          </div>
-        {/each}
-      {/if}
-    </div>
-    <div class="wc-footer">
-      <a href="https://www.espn.com/soccer/competition/_/id/fifa.world" target="_blank" rel="noopener noreferrer">Voir tout sur ESPN</a>
-    </div>
+    <a href="#" target="_blank" rel="noopener noreferrer">
+      <img
+        src="https://images.unsplash.com/photo-1493225457124-a3eaa4be07ca?w=500&h=800&fit=crop&q=80"
+        alt="Publicité"
+        style="width:100%;display:block;"
+      />
+    </a>
   </aside>
   </div>
 
