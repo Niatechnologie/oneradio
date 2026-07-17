@@ -81,7 +81,26 @@ async function fetchNowPlaying() {
       nowPlayingCurrent = data.current;
       nowPlayingNext = data.next;
       nowPlayingArtworkUrl = `/api/artwork.jpg?t=${Date.now()}`;
+      restartTitleMarquee();
     } catch (_) {}
+  }
+
+  // ── Défilement de l'artiste en cours dans le titre de l'onglet ───────
+  let titleMarqueeInterval;
+  let titleMarqueePos = 0;
+
+  function restartTitleMarquee() {
+    const base = nowPlayingCurrent
+      ? `🔴 EN DIRECT — ${nowPlayingCurrent}`
+      : 'One Radio — oneradio.ci';
+    const text = `${base}   •   `;
+    titleMarqueePos = 0;
+
+    if (titleMarqueeInterval) clearInterval(titleMarqueeInterval);
+    titleMarqueeInterval = setInterval(() => {
+      document.title = text.slice(titleMarqueePos) + text.slice(0, titleMarqueePos);
+      titleMarqueePos = (titleMarqueePos + 1) % text.length;
+    }, 300);
   }
 
   // Formatage du temps
@@ -688,6 +707,7 @@ async function fetchNowPlaying() {
     // ────────────────────────────────────────────────────────────────────
 
     // ── Now Playing : fetch immédiat + refresh toutes les 15 secondes ───
+    restartTitleMarquee();
     fetchNowPlaying();
     const nowPlayingInterval = setInterval(fetchNowPlaying, 15 * 1000);
 
