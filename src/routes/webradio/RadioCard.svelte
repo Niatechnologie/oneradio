@@ -2,11 +2,10 @@
   import { onMount, onDestroy } from 'svelte';
   import logo from '$lib/img/logo.svg';
 
-  let { radio, audio, isPlaying, onTogglePlay, onVolumeChange } = $props();
+  let { radio, audio, isPlaying, onTogglePlay } = $props();
 
   let status      = $state('ready');
   let statusText  = $state('Prêt');
-  let volume      = $state(70);
   let isLoading   = $state(false);
   let errorMsg    = $state('');
   let imgError    = $state(false);
@@ -46,8 +45,6 @@
   function handleEnded()     { status = 'ready';  statusText = 'Terminé'; }
   function handleWaiting()   { status = 'loading'; statusText = 'Mise en mémoire…'; }
   function handleError(e)    { isLoading = false; status = 'error'; statusText = 'Erreur'; errorMsg = 'Impossible de charger le flux'; console.error(e); }
-
-  function handleVolumeInput(e) { volume = +e.target.value; onVolumeChange(volume); }
 
   onMount(setupAudioEvents);
   onDestroy(() => {
@@ -91,29 +88,24 @@
 
     <div class="rc-desc">{radio.description}</div>
 
-    <div class="rc-vol">
-      <i class="bi bi-volume-{volume === 0 ? 'mute' : volume < 50 ? 'down' : 'up'}-fill"></i>
-      <input type="range" min="0" max="100" bind:value={volume} oninput={handleVolumeInput} class="rc-slider" aria-label="Volume" />
-    </div>
-
     {#if errorMsg}<p class="rc-err">{errorMsg}</p>{/if}
   </div>
 </div>
 
 <style>
   .rc {
-    background: #1a1a1a;
-    border: 1px solid #2a2a2a;
+    background: #fff;
+    border: 1px solid #f0f0f0;
     border-radius: 14px;
     display: flex;
     flex-direction: column;
     width: 230px;
     overflow: hidden;
     transition: transform .22s, box-shadow .22s, border-color .22s;
-    box-shadow: 0 2px 12px rgba(0,0,0,.35);
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
   }
-  .rc:hover    { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.5); }
-  .rc--playing { border-color: #ff1919; box-shadow: 0 0 0 2px rgba(255,25,25,.2), 0 8px 24px rgba(0,0,0,.5); }
+  .rc:hover    { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.1); }
+  .rc--playing { border-color: #ff1919; box-shadow: 0 0 0 2px rgba(255,25,25,.15), 0 8px 20px rgba(0,0,0,.1); }
 
   /* Pochette */
   .rc-art {
@@ -161,7 +153,7 @@
     display: flex; flex-direction: column; gap: .4rem;
   }
   .rc-top { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
-  .rc-name { font-size: .9rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rc-name { font-size: .9rem; font-weight: 700; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .rc-desc {
     font-size: .72rem; color: #888; font-style: italic; line-height: 1.4;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
@@ -199,19 +191,6 @@
     animation: spin .7s linear infinite; display: block;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Volume */
-  .rc-vol { display: flex; align-items: center; gap: .35rem; color: #555; font-size: .8rem; }
-  .rc-slider {
-    flex: 1; height: 3px; border-radius: 4px;
-    background: #333; outline: none; -webkit-appearance: none; cursor: pointer;
-    accent-color: #ff1919;
-  }
-  .rc-slider::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 11px; height: 11px; border-radius: 50%;
-    background: #ff1919; cursor: pointer;
-  }
-  .rc-slider::-moz-range-thumb { width: 11px; height: 11px; border-radius: 50%; background: #ff1919; cursor: pointer; border: none; }
 
   .rc-err { font-size: .7rem; color: #f44336; margin: 0; }
 </style>

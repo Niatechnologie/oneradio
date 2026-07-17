@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
   import RadioCard from './RadioCard.svelte';
+  import { externalAudioPlaying } from '$lib/mainPlayerBus.js';
 
   const API_URL = 'https://adminradio.oneradio.ci/liste_webradio.php';
 
@@ -21,6 +22,11 @@
         const audio = new Audio();
         audio.preload = 'none';
         audio.volume  = 0.7;
+        const clearIfCurrent = () => {
+          if (currentPlayingId === radio.id) currentPlayingId = null;
+        };
+        audio.addEventListener('ended', clearIfCurrent);
+        audio.addEventListener('error', clearIfCurrent);
         audioPlayers[radio.id] = { audio, url: radio.lien };
       });
     } catch (err) {
@@ -50,14 +56,14 @@
     if (p?.audio) { p.audio.pause(); p.audio.currentTime = 0; }
   }
 
-  function handleVolumeChange(radioId, volume) {
-    const p = audioPlayers[radioId];
-    if (p?.audio) p.audio.volume = volume / 100;
-  }
+  $effect(() => {
+    externalAudioPlaying.set(currentPlayingId !== null);
+  });
 
   onMount(loadRadios);
   onDestroy(() => {
     Object.values(audioPlayers).forEach(p => { if (p.audio) { p.audio.pause(); p.audio.src = ''; } });
+    externalAudioPlaying.set(false);
   });
 </script>
 
@@ -100,7 +106,6 @@
             audio={audioPlayers[radio.id]?.audio}
             isPlaying={currentPlayingId === radio.id}
             onTogglePlay={() => handleTogglePlay(radio.id)}
-            onVolumeChange={(v) => handleVolumeChange(radio.id, v)}
           />
         {/each}
       </div>

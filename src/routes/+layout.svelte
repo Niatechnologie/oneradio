@@ -4,6 +4,7 @@
     import { onMount } from 'svelte';
     import { fade, fly } from 'svelte/transition';
     import { page } from '$app/stores';
+    import { externalAudioPlaying } from '$lib/mainPlayerBus.js';
     import ShareButtons from './shareButtons.svelte';
     import '$lib/styles.css';
     import logo from '$lib/img/logo.svg';
@@ -452,6 +453,21 @@ async function fetchNowPlaying() {
         startAutoPlay();
       }, { once: true });
     }
+
+    // Mettre en pause le player principal quand une webradio joue, et le reprendre à l'arrêt
+    let pausedByExternal = false;
+    externalAudioPlaying.subscribe((isExternalPlaying) => {
+      if (!audio) return;
+      if (isExternalPlaying) {
+        if (playing) {
+          pausedByExternal = true;
+          togglePlay();
+        }
+      } else if (pausedByExternal) {
+        pausedByExternal = false;
+        if (!playing) togglePlay();
+      }
+    });
 
     // Bouton play/pause
     if (playPauseBtn) {
